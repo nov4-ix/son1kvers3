@@ -5,6 +5,17 @@ import crypto from 'crypto';
 
 puppeteer.use(StealthPlugin());
 
+// Helper para encriptar tokens (compatible con TokenPoolService)
+function encryptTokenForPool(token: string): string {
+    const encryptionKey = process.env.TOKEN_ENCRYPTION_KEY || 'default-secret-key-change-this';
+    const iv = crypto.randomBytes(16);
+    const key = crypto.scryptSync(encryptionKey, 'salt', 32);
+    const cipher = crypto.createCipheriv('aes-256-cbc', key, iv);
+    let encrypted = cipher.update(token, 'utf8', 'hex');
+    encrypted += cipher.final('hex');
+    return iv.toString('hex') + ':' + encrypted;
+}
+
 /**
  * Generador COMPLETAMENTE AUTOMÁTICO de tokens
  * El usuario NUNCA sabe que Suno existe
@@ -48,14 +59,16 @@ export class StealthTokenGenerator {
     async start() {
         console.log('🕵️ Iniciando Sistema Stealth de Tokens...');
 
-        // 1. Generar pool inicial si está vacío
-        const tokenCount = await this.prisma.token.count({
+        // 1. Generar pool inicial si está vacío (verificar en TokenPool - sistema principal)
+        const tokenCount = await this.prisma.tokenPool.count({
             where: { source: 'stealth_auto', isActive: true }
         });
 
         if (tokenCount < 10) {
-            console.log('📦 Pool vacío, generando 10 cuentas iniciales...');
+            console.log(`📦 Pool vacío (${tokenCount} tokens), generando 10 cuentas iniciales...`);
             await this.generateInitialPool(10);
+        } else {
+            console.log(`✅ Pool inicial tiene ${tokenCount} tokens activos`);
         }
 
         // 2. Iniciar ciclo de harvesting
@@ -348,16 +361,21 @@ export class StealthTokenGenerator {
             }
         });
 
-        // Guardar tokens
+        // Guardar tokens en ambas tablas: Token (legacy) y TokenPool (nuevo sistema)
         for (const token of data.tokens) {
+            const tokenHash = `stealth_${Date.now()}_${this.randomString(8)}`;
+            const encryptedTokenLegacy = Buffer.from(token).toString('base64');
+            const encryptedTokenPool = encryptTokenForPool(token);
+            
+            // 1. Guardar en Token (legacy)
             await this.prisma.token.create({
                 data: {
-                    hash: `stealth_${Date.now()}_${this.randomString(8)}`,
-                    encryptedToken: Buffer.from(token).toString('base64'),
+                    hash: tokenHash,
+                    encryptedToken: encryptedTokenLegacy,
                     email: data.email,
                     source: 'stealth_auto',
                     tier: 'SYSTEM',
-                    poolPriority: 2, // Prioridad media
+                    poolPriority: 2,
                     isActive: true,
                     isValid: true,
                     metadata: JSON.stringify({
@@ -367,6 +385,31 @@ export class StealthTokenGenerator {
                     })
                 }
             });
+
+            // 2. ✅ CRÍTICO: Guardar en TokenPool (sistema autosustentable)
+            try {
+                await this.prisma.tokenPool.create({
+                    data: {
+                        token: tokenHash, // Unique identifier
+                        encryptedToken: encryptedTokenPool,
+                        source: 'stealth_auto',
+                        tier: 'free', // Sistema tokens son free tier
+                        isActive: true,
+                        healthScore: 100, // Nuevo token, salud perfecta
+                        priority: 2, // Prioridad media
+                        dailyLimit: 50,
+                        currentDailyUsage: 0,
+                        resetAt: new Date(Date.now() + 24 * 60 * 60 * 1000), // Reset en 24h
+                        successCount: 0,
+                        failureCount: 0,
+                        avgResponseTime: 0
+                    }
+                });
+                console.log(`✅ Token agregado al TokenPool: ${tokenHash.substring(0, 20)}...`);
+            } catch (poolError: any) {
+                // Si falla (ej: token duplicado), solo loguear, no fallar
+                console.warn(`⚠️ No se pudo agregar token al TokenPool: ${poolError.message}`);
+            }
         }
     }
 
@@ -410,12 +453,17 @@ export class StealthTokenGenerator {
             const tokens = await this.captureTokens(page);
 
             if (tokens.length > 0) {
-                // Guardar en pool
+                // Guardar en ambas tablas: Token y TokenPool
                 for (const token of tokens) {
+                    const tokenHash = `harvest_${Date.now()}_${this.randomString(8)}`;
+                    const encryptedTokenLegacy = Buffer.from(token).toString('base64');
+                    const encryptedTokenPool = encryptTokenForPool(token);
+                    
+                    // 1. Guardar en Token (legacy)
                     await this.prisma.token.create({
                         data: {
-                            hash: `harvest_${Date.now()}_${this.randomString(8)}`,
-                            encryptedToken: Buffer.from(token).toString('base64'),
+                            hash: tokenHash,
+                            encryptedToken: encryptedTokenLegacy,
                             source: 'stealth_auto',
                             tier: 'SYSTEM',
                             poolPriority: 2,
@@ -423,9 +471,32 @@ export class StealthTokenGenerator {
                             isValid: true
                         }
                     });
+
+                    // 2. ✅ CRÍTICO: Guardar en TokenPool (sistema autosustentable)
+                    try {
+                        await this.prisma.tokenPool.create({
+                            data: {
+                                token: tokenHash,
+                                encryptedToken: encryptedTokenPool,
+                                source: 'stealth_auto',
+                                tier: 'free',
+                                isActive: true,
+                                healthScore: 100,
+                                priority: 2,
+                                dailyLimit: 50,
+                                currentDailyUsage: 0,
+                                resetAt: new Date(Date.now() + 24 * 60 * 60 * 1000),
+                                successCount: 0,
+                                failureCount: 0,
+                                avgResponseTime: 0
+                            }
+                        });
+                    } catch (poolError: any) {
+                        console.warn(`⚠️ No se pudo agregar token harvest al TokenPool: ${poolError.message}`);
+                    }
                 }
 
-                console.log(`✅ [${account.email}] ${tokens.length} tokens harvested`);
+                console.log(`✅ [${account.email}] ${tokens.length} tokens harvested y agregados al pool`);
             }
 
             await page.close();
@@ -481,7 +552,19 @@ export class StealthTokenGenerator {
      * Encripta texto
      */
     private encrypt(text: string): string {
-        const key = Buffer.from(process.env.ENCRYPTION_KEY || '', 'hex');
+        const encryptionKey = process.env.ENCRYPTION_KEY;
+        if (!encryptionKey) {
+            // Fallback: usar TOKEN_ENCRYPTION_KEY o generar una clave temporal
+            const fallbackKey = process.env.TOKEN_ENCRYPTION_KEY || 'default-temp-key-change-in-production';
+            const key = crypto.scryptSync(fallbackKey, 'salt', 32);
+            const iv = crypto.randomBytes(16);
+            const cipher = crypto.createCipheriv('aes-256-cbc', key, iv);
+            let encrypted = cipher.update(text, 'utf8', 'hex');
+            encrypted += cipher.final('hex');
+            return iv.toString('hex') + ':' + encrypted;
+        }
+        
+        const key = Buffer.from(encryptionKey, 'hex');
         const iv = crypto.randomBytes(16);
         const cipher = crypto.createCipheriv('aes-256-gcm', key, iv);
 
@@ -508,15 +591,22 @@ export class StealthTokenGenerator {
             where: { isActive: true }
         });
 
-        const tokens = await this.prisma.token.count({
+        // Contar tokens en TokenPool (sistema principal)
+        const tokensInPool = await this.prisma.tokenPool.count({
+            where: { source: 'stealth_auto', isActive: true }
+        });
+
+        // También contar en Token (legacy) para referencia
+        const tokensLegacy = await this.prisma.token.count({
             where: { source: 'stealth_auto', isActive: true }
         });
 
         return {
             totalStealthAccounts: accounts,
-            tokensInPool: tokens,
+            tokensInPool: tokensInPool, // Tokens en TokenPool (sistema autosustentable)
+            tokensLegacy: tokensLegacy, // Tokens en tabla Token (legacy)
             activeBrowsers: this.activeBrowsers.size,
-            systemStatus: 'operational'
+            systemStatus: tokensInPool > 0 ? 'operational' : 'initializing'
         };
     }
 }

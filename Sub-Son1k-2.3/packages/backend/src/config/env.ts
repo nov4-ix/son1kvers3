@@ -10,6 +10,10 @@ const envSchema = z.object({
   SUNO_API_KEY: z.string().min(1),
   GROQ_API_KEY: z.string().min(1).optional(),
 
+  // Neural Engine (optional)
+  NEURAL_ENGINE_POLLING_URL: z.string().url().optional(),
+  NEURAL_ENGINE_API_URL: z.string().url().optional(),
+
   // Server
   PORT: z.coerce.number().default(3001),
   NODE_ENV: z.enum(['development', 'production', 'test']).default('development'),
@@ -26,6 +30,11 @@ const envSchema = z.object({
   // Stripe (optional)
   STRIPE_SECRET_KEY: z.string().optional(),
   STRIPE_WEBHOOK_SECRET: z.string().optional(),
+
+  // Stealth Token Generator (optional)
+  ENCRYPTION_KEY: z.string().optional(),
+  CATCH_ALL_EMAIL_DOMAIN: z.string().optional(),
+  TOKEN_ENCRYPTION_KEY: z.string().optional(),
 })
 
 export type Env = z.infer<typeof envSchema>

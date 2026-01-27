@@ -596,12 +596,38 @@ export class MusicGenerationService {
           });
         }
 
+        // ✅ Actualizar health del token después de uso exitoso
+        if (this.tokenPoolService) {
+          try {
+            await this.tokenPoolService.updateTokenHealth(tokenId, true, response.data.responseTime || 30000);
+          } catch (healthError) {
+            console.warn('[MusicGenerationService] Failed to update token health:', healthError);
+          }
+        }
+
         console.log(`[MusicGenerationService] Direct processing started: ${taskId}`);
       } else {
+        // ✅ Actualizar health del token (fallo)
+        if (this.tokenPoolService) {
+          try {
+            await this.tokenPoolService.updateTokenHealth(tokenId, false, 0);
+          } catch (healthError) {
+            console.warn('[MusicGenerationService] Failed to update token health:', healthError);
+          }
+        }
         throw new Error(`API returned status ${response.status}`);
       }
     } catch (error: any) {
       console.error(`[MusicGenerationService] Direct processing error:`, error);
+      
+      // ✅ Actualizar health del token (error)
+      if (this.tokenPoolService && tokenId) {
+        try {
+          await this.tokenPoolService.updateTokenHealth(tokenId, false, 0);
+        } catch (healthError) {
+          console.warn('[MusicGenerationService] Failed to update token health:', healthError);
+        }
+      }
 
       await this.prisma.generationQueue.update({
         where: { id: queueId },

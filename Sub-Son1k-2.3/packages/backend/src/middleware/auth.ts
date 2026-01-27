@@ -29,6 +29,8 @@ export interface AuthenticatedRequest extends FastifyRequest {
   user: AuthenticatedUser;
 }
 
+export type UserTier = 'FREE' | 'BASIC' | 'PRO' | 'PREMIUM' | 'ENTERPRISE';
+
 /**
  * Authentication middleware
  */
