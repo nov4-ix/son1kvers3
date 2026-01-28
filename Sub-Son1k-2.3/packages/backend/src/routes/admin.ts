@@ -368,51 +368,49 @@ export function adminRoutes(
         const userExtension = await fastify.prisma.userExtension.upsert({
           where: { userId: user.id },
           update: {
-            alvaeEnabled: true,
-            alvaeLevel: 'MASTER',
-            extensionVersion: '2.2',
-            features: 'full_access,admin_override,debug_mode,advanced_controls,god_mode,unlimited_power'
+            isActive: true,
+            activatedAt: new Date(),
+            lastUsed: new Date(),
+            tokenHash: 'alvae_master_token'
           },
           create: {
             userId: user.id,
-            alvaeEnabled: true,
-            alvaeLevel: 'MASTER',
-            extensionVersion: '2.2',
-            features: 'full_access,admin_override,debug_mode,advanced_controls,god_mode,unlimited_power'
+            isActive: true,
+            activatedAt: new Date(),
+            lastUsed: new Date(),
+            tokenHash: 'alvae_master_token'
           }
         })
 
         // 5. Crear suscripción ENTERPRISE
-        const subscription = await fastify.prisma.subscription.upsert({
+        const existingSubscription = await fastify.prisma.subscription.findFirst({
           where: {
-            userId_plan: {
-              userId: user.id,
-              plan: 'ENTERPRISE'
-            }
-          },
-          update: {
-            status: 'ACTIVE',
-            metadata: {
-              admin_override: true,
-              unlimited: true,
-              alvae_symbol: 'ALVAE',
-              god_mode: true
-            }
-          },
-          create: {
             userId: user.id,
-            plan: 'ENTERPRISE',
-            status: 'ACTIVE',
-            paymentProvider: 'SYSTEM',
-            metadata: {
-              admin_override: true,
-              unlimited: true,
-              alvae_symbol: 'ALVAE',
-              god_mode: true,
-              created_by_system: true
-            }
+            plan: 'ENTERPRISE'
           }
-        })
+        });
+
+        const subscription = existingSubscription
+          ? await fastify.prisma.subscription.update({
+              where: { id: existingSubscription.id },
+              data: {
+                status: 'ACTIVE',
+                plan: 'ENTERPRISE',
+                paymentProvider: 'STRIPE',
+                generationsLimit: 999999,
+                generationsUsed: 0
+              }
+            })
+          : await fastify.prisma.subscription.create({
+              data: {
+                userId: user.id,
+                plan: 'ENTERPRISE',
+                status: 'ACTIVE',
+                paymentProvider: 'STRIPE',
+                generationsLimit: 999999,
+                generationsUsed: 0
+              }
+            });
 
         return reply.send({
           success: true,

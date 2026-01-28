@@ -133,22 +133,22 @@ See [PRE_LAUNCH_CHECKLIST.md](./PRE_LAUNCH_CHECKLIST.md) for complete checklist.
 
 ---
 
-## 🎉 BETA LIVE (Launched October 2024)
+## 🎉 Beta & Estado 2026
 
-### Applications Now Live:
+### Applications Now Live (estado 2026):
 
 -   **🌐 Landing Page** - [Visit Landing](https://son1kverse.vercel.app)
 -   **📱 Nova Post Pilot** - [Visit App](https://nova-post-pilot.vercel.app) - Marketing Intelligence Platform
 -   **🎵 The Generator** - [Visit App](https://the-generator.vercel.app) - AI Music Generation
 -   **🎛️ Ghost Studio** - [Visit App](https://ghost-studio.vercel.app) - AI Music Covers & Mini DAW
 
-### Status:
--   ✅ Auth system functional
--   ✅ Music generation with real Suno API
+### Status (estado 2026):
+-   ✅ Auth system funcional (Beta estable)
+-   ✅ Music generation with Suno API (Beta estable)
 -   ✅ Responsive design
--   ✅ Backend fully operational and secure
+-   ✅ Backend robusto y seguro
 
-**Note:** This is a beta release. Some features may be limited.
+**Nota:** Esta es una beta en curso para 2026. Algunas características pueden estar en pruebas o sujetas a cambios.
 
 ---
 
@@ -370,23 +370,20 @@ pnpm clean              # Clean all build artifacts
 
 ## 🚀 Deployment
 
-### Production Setup
+### Deployment (Beta 2026) - Local/CI
 
-```bash
-# Build for production
-pnpm build
-
-# Start production server (example for a single app or backend)
-# For backend:
-cd packages/backend
-pnpm start
-# For Next.js frontend:
-cd apps/the-generator-nextjs
-pnpm start
-
-# Or use PM2 for process management
-pm2 start ecosystem.config.js
-```
+- Prerequisites: Node.js 18+, pnpm 8+, PostgreSQL, Redis
+- Install dependencies: `pnpm install`
+- Environment: Copy and configure environment files
+  - Root: `cp env.example .env.local`
+  - Per-app: check each app's env.local.example and create if needed
+- Build: `pnpm build`
+- Run (development): `pnpm dev` (or targeted)
+  - Backend: `pnpm --filter @super-son1k/backend dev`
+  - Frontend: `pnpm --filter @super-son1k/web-classic dev`
+- Run (production): `pnpm start`
+- Observability: ensure Sentry, PostHog, and logs are collecting
+- Optional: use PM2 or Docker in CI as needed
 
 ### Docker Deployment
 

@@ -3,6 +3,8 @@
  * This file will be removed when symlinks are fixed
  */
 
+import crypto from 'crypto';
+
 export function generateSecureToken(length: number = 32): string {
   return crypto.randomBytes(length).toString('hex');
 }
@@ -77,5 +79,12 @@ export class ErrorFactory {
     const error = new Error(message);
     (error as any).code = 'UNAUTHORIZED';
     return error;
+  }
+  
+  static fromUnknown(error: unknown, defaultMessage: string = 'An error occurred'): Error {
+    if (error instanceof Error) {
+      return error;
+    }
+    return new Error(defaultMessage);
   }
 }

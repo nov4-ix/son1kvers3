@@ -171,6 +171,31 @@ export const sunoApiErrors = new promClient.Counter({
 })
 
 // ========================================
+// MÉTRICAS HTTP
+// ========================================
+export const httpRequestDuration = new promClient.Histogram({
+  name: 'son1k_http_request_duration_seconds',
+  help: 'HTTP request duration in seconds',
+  labelNames: ['method', 'route', 'status_code'],
+  buckets: [0.1, 0.5, 1, 2, 5, 10],
+  registers: [register]
+})
+
+export const httpRequestTotal = new promClient.Counter({
+  name: 'son1k_http_requests_total',
+  help: 'Total HTTP requests',
+  labelNames: ['method', 'route', 'status_code'],
+  registers: [register]
+})
+
+export const httpRequestErrors = new promClient.Counter({
+  name: 'son1k_http_request_errors_total',
+  help: 'Total HTTP request errors',
+  labelNames: ['method', 'route', 'error_type'],
+  registers: [register]
+})
+
+// ========================================
 // FUNCIONES HELPER
 // ========================================
 export async function getMetrics() {

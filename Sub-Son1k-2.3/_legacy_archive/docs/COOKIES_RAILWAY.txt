@@ -1,0 +1,78 @@
+# 🍪 COOKIES EXTRAÍDAS - LISTAS PARA RAILWAY
+
+**Status:** ✅ Cookies obtenidas
+
+---
+
+## 📋 TUS COOKIES (2 CUENTAS DETECTADAS)
+
+### **Cuenta 1:**
+```
+Email: soypepejaimes@gmail.com
+SessionID: sess_34sUGSJiOraKOjoFsBkyeZAEvKZ
+```
+
+### **Cuenta 2:**
+```
+Email: nov4.ix@gmail.com  
+SessionID: session_6362698560b1a63f876065
+```
+
+---
+
+## 🔧 CONFIGURACIÓN EN RAILWAY
+
+### **Variable Name:**
+```
+SUNO_COOKIES
+```
+
+### **Value (copiar esto):**
+```
+ajs_anonymous_id=1d29570d-f2ec-4454-92e5-e61f885ccf47; singular_device_id=2d3d32ea-3c8f-404c-a8ba-5c9be0c601d0; __stripe_mid=170afb96-23ab-43c4-8e3f-0de8a5411568b40432; _ga=GA1.1.1230117726.1761371103; _axwrt=7e12414d-f901-438e-96fc-1a41202628ce; _fbp=fb.1.1761371106994.577571412753231192; _tt_enable_cookie=1; _ttp=01K8CYCC9R5TXYH2J13TQ2H5C5_.tt.1; afUserId=20329121-2af1-424c-a9bc-04c4f9ce0a1b-p; _clck=33w6n1%5E2%5Eg0n%5E0%5E2124; has_logged_in_before=true; _scid=CpumFim9n3RbXZg_Oq2PBA6gYpi2XQ6n; __session_U9tcbTPE=eyJhbGciOiJSUzI1NiIsImNhdCI6ImNsX0I3ZDRQRDExMUFBQSIsImtpZCI6Imluc18yT1o2eU1EZzhscWRKRWloMXJvemY4T3ptZG4iLCJ0eXAiOiJKV1QifQ.eyJhdWQiOiJzdW5vLWFwaSIsImF6cCI6Imh0dHBzOi8vc3Vuby5jb20iLCJleHAiOjE3NjY4ODYwODIsImZ2YSI6WzgxMzQ2LC0xXSwiaHR0cHM6Ly9zdW5vLmFpL2NsYWltcy9jbGVya19pZCI6InVzZXJfMnFwWkhYdVNOU2tLdmVBaGtmekVTMTRkZ1RIIiwiaHR0cHM6Ly9zdW5vLmFpL2NsYWltcy9lbWFpbCI6InNveXBlcGVqYWltZXNAZ21haWwuY29tIiwiaHR0cHM6Ly9zdW5vLmFpL2NsYWltcy9waG9uZSI6bnVsbCwiaWF0IjoxNzY2ODgyNDgyLCJpc3MiOiJodHRwczovL2NsZXJrLnN1bm8uY29tIiwianRpIjoiNjQwODFkMDE2NTE3NzcxZDdhMzUiLCJuYmYiOjE3NjY4ODI0NzIsInNpZCI6InNlc3NfMzRzVUdTSmlPcmFLT2pvRnNCa3llWkFFdktaIiwic3RzIjoiYWN0aXZlIiwic3ViIjoidXNlcl8ycXBaSFh1U05Ta0t2ZUFoa2Z6RVMxNGRnVEgifQ.vn65msB2_HUU_XVYwYCpfHkbESUB40_ZcY3e0bBXU7jy35uUWywxdMVEM0FS0nPQSZWXq4OsciAOWYclN5cNj3IXYDKLpJodUNjWMFWGeZh8yL8R8823ddHoaW-5l7pFONn3KUUhXx3ayktKLQ46yImgzAuUgLkbtnHuDwgC4eGtv9bnWo-RAV7WbcuIZ_K9zwlvOaH6qbmeaDrBXaqEgETGimJxpgg85GrOW78Nf675SSsh451_bg35gOrBgK4jdkzzerL6EpCqUdMdbq_4gA6AYkcGSwaiPTBONjh2i0eJdrINSs0IFmcC9WSXw6wXvmAOX4DUmOxxhAY-ckZjjA; _ScCbts=%5B%5D; suno_auth=pk_live_YXV0aC5zdW5vLmNvbSQ; _sctr=1%7C1766815200000; __client_uat_U9tcbTPE=0; _sp_ses.e685=*; __stripe_sid=38af06e0-3b17-4203-a006-06d6ddfb0cd25bdb9e; __client_uat=1767392765; _scid_r=GhumFim9n3RbXZg_Oq2PBA6gYpi2XQ6n9ZWcSg; __client_uat_Jnxw-muT=1767392765; _uetsid=5d94ff40e82711f092918bed0296b748|8ejjpt|2|g2d|0|2193; clerk_active_context=session_6362698560b1a63f876065:; IR_gbd=suno.com; IR_46384=1767392784458%7C0%7C1767392784458%7C%7C; IR_PI=19c581fc-e82a-11f0-89d0-9d6a124247b9%7C1767479184458; ax_visitor=%7B%22firstVisitTs%22%3A1761371102858%2C%22lastVisitTs%22%3A1766900611088%2C%22currentVisitStartTs%22%3A1767391594783%2C%22ts%22%3A1767392942489%2C%22visitCount%22%3A11%7D; _sp_id.e685=dbd44b52-851f-444e-a436-7f6d805238f6.1761371106.12.1767392942.1766900891.5d9f90b9-b4da-4c30-9076-efd7d6c20463.2378790b-ee10-4f4e-952d-3036c6c874b2.263a1507-e732-446b-8a80-c05353b9c6be.1767391625435.4; _ga_7B0KEDD7XP=GS2.1.s1767391594$o12$g1$t1767392942$j60$l0$h0$dak3gZSvoWSC3EaQa9QVMLgQhEvDHaMa_MA; _gcl_au=1.1.297886868.1761371068.45437316.1767392846.1767392943; _uetvid=c28defd0b16511f0b33999bdd4b2249e|wj7age|1767392943444|5|1|bat.bing.com/p/conversions/c/d; _dd_s=aid=710de28e-8292-4e51-9969-645728ac714f&rum=0&expire=1767393956706; ttcsid=1767391627235::qIaJFLc9KiKt_Ssn29Dg.14.1767393056747.0; ttcsid_CT67HURC77UB52N3JFBG=1767391627232::MhT3kS669b4JoVA6A0Wa.14.1767393056748.1; __session=eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdW5vLmNvbS9jbGFpbXMvdXNlcl9pZCI6IjRmMGI2NzBjLTNiMmMtNGI3YS05NDM5LTVlZGNjMmI3ZTJjMyIsImh0dHBzOi8vc3Vuby5haS9jbGFpbXMvY2xlcmtfaWQiOiJ1c2VyXzJyVzQ4bGVFU1FIUFJ6Z3FkMzNzNHJSNzVReCIsInN1bm8uY29tL2NsYWltcy90b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzY3Mzk2MzgxLCJhdWQiOiJzdW5vLWFwaSIsInN1YiI6InVzZXJfMnJXNDhsZUVTUUhQUnpncWQzM3M0clI3NVF4IiwiYXpwIjoiaHR0cHM6Ly9zdW5vLmNvbSIsImZ2YSI6WzAsLTFdLCJpYXQiOjE3NjczOTI3ODEsImlzcyI6Imh0dHBzOi8vYXV0aC5zdW5vLmNvbSIsImppdCI6ImI2OGIxMGUwLWE4ZGEtNDNhMC1iZjgxLTk2OTMxMmZjOWUyZSIsInZpeiI6ZmFsc2UsInNpZCI6InNlc3Npb25fNjM2MjY5ODU2MGIxYTYzZjg3NjA2NSIsInN1bm8uY29tL2NsYWltcy9lbWFpbCI6Im5vdjQuaXhAZ21haWwuY29tIiwiaHR0cHM6Ly9zdW5vLmFpL2NsYWltcy9lbWFpbCI6Im5vdjQuaXhAZ21haWwuY29tIn0.OeSrytyRkyS7UGP5aitaagMRwBZ6OYRlQVOdc6guBbArgT-kt6sWV8yE7KNdXBZ2N3Dcy_59Vio1ZeIe-cQZ6cco1ZJ7UZSl7T8eSojDkXlnTLEJaARoK8gfDdYW2IGcvFreQDfmJ_8F2gfu3DIB1WnTcCohVQ4tEal5WtIAHHnbGu__8oGXlh6Hq0PvV9LqqXpPMu9q3TbWcHsOsSDk8mQMBvxGsorOxABNhg5GJieJfjSv8EmZwZgXkqPiNYGlXOv1uPPaDGXFZ_J7VXZMt3YWlscUbVaEV82LkwOatjxVFDvfqHanO6vNrxSwZ6lwxTfRHPAMCwO2b2YLc-RIxQ; __session_Jnxw-muT=eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdW5vLmNvbS9jbGFpbXMvdXNlcl9pZCI6IjRmMGI2NzBjLTNiMmMtNGI3YS05NDM5LTVlZGNjMmI3ZTJjMyIsImh0dHBzOi8vc3Vuby5haS9jbGFpbXMvY2xlcmtfaWQiOiJ1c2VyXzJyVzQ4bGVFU1FIUFJ6Z3FkMzNzNHJSNzVReCIsInN1bm8uY29tL2NsYWltcy90b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzY3Mzk2MzgxLCJhdWQiOiJzdW5vLWFwaSIsInN1YiI6InVzZXJfMnJXNDhsZUVTUUhQUnpncWQzM3M0clI3NVF4IiwiYXpwIjoiaHR0cHM6Ly9zdW5vLmNvbSIsImZ2YSI6WzAsLTFdLCJpYXQiOjE3NjczOTI3ODEsImlzcyI6Imh0dHBzOi8vYXV0aC5zdW5vLmNvbSIsImppdCI6ImI2OGIxMGUwLWE4ZGEtNDNhMC1iZjgxLTk2OTMxMmZjOWUyZSIsInZpeiI6ZmFsc2UsInNpZCI6InNlc3Npb25fNjM2MjY5ODU2MGIxYTYzZjg3NjA2NSIsInN1bm8uY29tL2NsYWltcy9lbWFpbCI6Im5vdjQuaXhAZ21haWwuY29tIiwiaHR0cHM6Ly9zdW5vLmFpL2NsYWltcy9lbWFpbCI6Im5vdjQuaXhAZ21haWwuY29tIn0.OeSrytyRkyS7UGP5aitaagMRwBZ6OYRlQVOdc6guBbArgT-kt6sWV8yE7KNdXBZ2N3Dcy_59Vio1ZeIe-cQZ6cco1ZJ7UZSl7T8eSojDkXlnTLEJaARoK8gfDdYW2IGcvFreQDfmJ_8F2gfu3DIB1WnTcCohVQ4tEal5WtIAHHnbGu__8oGXlh6Hq0PvV9LqqXpPMu9q3TbWcHsOsSDk8mQMBvxGsorOxABNhg5GJieJfjSv8EmZwZgXkqPiNYGlXOv1uPPaDGXFZ_J7VXZMt3YWlscUbVaEV82LkwOatjxVFDvfqHanO6vNrxSwZ6lwxTfRHPAMCwO2b2YLc-RIxQ
+```
+
+---
+
+## 📝 PRÓXIMOS PASOS
+
+### **1. Ir a Railway:**
+```
+→ https://railway.app
+→ Login
+→ Tu proyecto backend
+→ Variables tab
+→ + New Variable
+```
+
+### **2. Pegar los datos:**
+```
+Name: SUNO_COOKIES
+Value: [copiar el bloque de arriba]
+```
+
+### **3. Save**
+```
+→ Click "Add"  
+→ Railway redeploy automático
+```
+
+### **4. Verificar Logs**
+Buscar en Railway logs:
+```
+✅ Token pool initialized with 2 valid tokens
+```
+
+---
+
+## ⚠️ NOTA IMPORTANTE
+
+Tienes **2 cuentas** en esta sesión:
+- soypepejaimes@gmail.com
+- nov4.ix@gmail.com
+
+El backend detectará ambas automáticamente y las usará en rotación.
+
+---
+
+**¿Listo? Copia el valor de arriba y configúralo en Railway ahora** 🚀

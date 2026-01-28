@@ -1,5 +1,6 @@
-import puppeteer, { Browser, Page } from 'puppeteer-extra';
+import puppeteer from 'puppeteer-extra';
 import StealthPlugin from 'puppeteer-extra-plugin-stealth';
+import { Browser, Page } from 'puppeteer';
 import { PrismaClient } from '@prisma/client';
 import crypto from 'crypto';
 
@@ -216,7 +217,7 @@ export class StealthTokenGenerator {
             });
 
             if (response.ok) {
-                const data = await response.json();
+                const data = await response.json() as { address?: string };
                 return data.address;
             }
         } catch (error) {
@@ -267,7 +268,7 @@ export class StealthTokenGenerator {
 
         // Timezone y locale
         await page.evaluateOnNewDocument(() => {
-            Object.defineProperty(navigator, 'webdriver', { get: () => undefined });
+            Object.defineProperty((globalThis as any).navigator, 'webdriver', { get: () => undefined });
         });
     }
 
@@ -277,7 +278,11 @@ export class StealthTokenGenerator {
     private async simulateHumanBehavior(page: Page) {
         // Scroll aleatorio
         await page.evaluate(() => {
-            (window as any).scrollBy(0, Math.random() * 500);
+            // @ts-ignore - window is available in browser context
+            if (typeof window !== 'undefined') {
+                // @ts-ignore
+                window.scrollBy(0, Math.random() * 500);
+            }
         });
         await this.sleep(1000 + Math.random() * 2000);
 

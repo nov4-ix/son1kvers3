@@ -1,0 +1,223 @@
+/* Mobile Optimizations for The Generator */
+
+/* Touch-friendly buttons and controls */
+@media (max-width: 768px) {
+  /* Aumentar área táctil de botones */
+  button, .button, [role="button"] {
+    min-height: 44px;
+    min-width: 44px;
+    padding: 12px 20px;
+  }
+
+  /* Aumentar área táctil de sliders */
+  input[type="range"] {
+    height: 44px;
+    -webkit-appearance: none;
+    appearance: none;
+  }
+
+  input[type="range"]::-webkit-slider-thumb {
+    width: 28px;
+    height: 28px;
+    cursor: pointer;
+  }
+
+  input[type="range"]::-moz-range-thumb {
+    width: 28px;
+    height: 28px;
+    cursor: pointer;
+  }
+
+  /* Mejorar inputs de texto en móviles */
+  input[type="text"],
+  input[type="email"],
+  textarea {
+    font-size: 16px !important; /* Previene zoom en iOS */
+    min-height: 44px;
+    padding: 12px;
+  }
+
+  /* Scrollable containers con mejor scroll en móvil */
+  .scrollable-mobile {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scroll-snap-type: x mandatory;
+  }
+
+  .scrollable-mobile > * {
+    scroll-snap-align: start;
+  }
+
+  /* Grid responsive más compacto */
+  .grid {
+    gap: 12px !important;
+  }
+
+  /* Reducir padding en móviles */
+  .container {
+    padding-left: 16px !important;
+    padding-right: 16px !important;
+  }
+
+  /* Títulos más pequeños en móvil */
+  h1 {
+    font-size: 2rem !important;
+  }
+
+  h2 {
+    font-size: 1.5rem !important;
+  }
+
+  h3 {
+    font-size: 1.25rem !important;
+  }
+
+  /* Knobs más pequeños en móvil */
+  .knob-container {
+    width: 80px !important;
+    height: 80px !important;
+  }
+
+  /* Player controls más grandes */
+  .player-control {
+    min-width: 48px;
+    min-height: 48px;
+  }
+
+  /* Modal full-screen en móvil */
+  .modal-mobile {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border-radius: 0 !important;
+    max-width: 100% !important;
+    max-height: 100% !important;
+  }
+
+  /* Mejorar contraste en móvil (outdoor viewing) */
+  .text-primary {
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+  }
+
+  /* Prevenir zoom en double-tap */
+  * {
+    touch-action: manipulation;
+  }
+
+  /* Optimizar animaciones en móvil */
+  @media (prefers-reduced-motion: no-preference) {
+    .animate-fast {
+      animation-duration: 0.2s !important;
+    }
+  }
+
+  /* Reducir motion en low-power mode */
+  @media (prefers-reduced-motion: reduce) {
+    * {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+}
+
+/* Tablet optimizations */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .container {
+    padding-left: 24px !important;
+    padding-right: 24px !important;
+  }
+
+  h1 {
+    font-size: 2.5rem !important;
+  }
+
+  .knob-container {
+    width: 100px !important;
+    height: 100px !important;
+  }
+}
+
+/* Small phones (320px - 375px) */
+@media (max-width: 375px) {
+  h1 {
+    font-size: 1.75rem !important;
+  }
+
+  .knob-container {
+    width: 70px !important;
+    height: 70px !important;
+  }
+
+  button, .button {
+    font-size: 14px;
+    padding: 10px 16px;
+  }
+}
+
+/* Landscape mobile */
+@media (max-height: 500px) and (orientation: landscape) {
+  .h-screen {
+    height: auto !important;
+    min-height: 100vh;
+  }
+
+  .modal-mobile {
+    max-height: 90vh;
+    overflow-y: auto;
+  }
+}
+
+/* Safe area insets for notched devices */
+@supports (padding: max(0px)) {
+  .safe-area-top {
+    padding-top: max(env(safe-area-inset-top), 16px);
+  }
+
+  .safe-area-bottom {
+    padding-bottom: max(env(safe-area-inset-bottom), 16px);
+  }
+
+  .safe-area-left {
+    padding-left: max(env(safe-area-inset-left), 16px);
+  }
+
+  .safe-area-right {
+    padding-right: max(env(safe-area-inset-right), 16px);
+  }
+}
+
+/* PWA viewport optimizations */
+@media (display-mode: standalone) {
+  body {
+    -webkit-user-select: none;
+    user-select: none;
+  }
+
+  input, textarea {
+    -webkit-user-select: text;
+    user-select: text;
+  }
+}
+
+/* Dark mode optimizations */
+@media (prefers-color-scheme: dark) {
+  /* Ya está optimizado pero añadir más contraste si es necesario */
+  .text-muted {
+    color: #9ca3af !important;
+  }
+}
+
+/* High contrast mode */
+@media (prefers-contrast: high) {
+  button {
+    border-width: 2px !important;
+  }
+
+  .border {
+    border-width: 2px !important;
+  }
+}
+

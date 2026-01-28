@@ -1,0 +1,29 @@
+# Build artifacts (excluir del upload, pero no los generados por nosotros)
+.next/**
+
+# Environment files
+.env*
+
+# Documentation (mantener optimización)
+*.md
+
+# Testing files
+test*
+*.test.ts
+*.spec.ts
+
+# OS files
+.DS_Store
+*.swp
+*.swo
+
+# IDE files
+.vscode/**
+.idea/**
+
+# Build cache (opcional)
+tsconfig.tsbuildinfo
+
+# NO excluir node_modules o scripts - son necesarios para el runtime
+# NO excluir app/api/** - los endpoints son críticos
+packages_temp/**/node_modules

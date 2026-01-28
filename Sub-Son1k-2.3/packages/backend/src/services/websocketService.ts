@@ -51,7 +51,7 @@ export function setupWebSocket(
         // Track connection event
         await analyticsService.trackEvent({
           userId: data.userId,
-          event: 'websocket_connected',
+          eventType: 'websocket_connected',
           properties: { socketId: socket.id },
           timestamp: new Date()
         });
@@ -99,7 +99,7 @@ export function setupWebSocket(
           // Track room join event
           await analyticsService.trackEvent({
             userId: user.id,
-            event: 'room_joined',
+            eventType: 'room_joined',
             properties: { roomId: data.roomId },
             timestamp: new Date()
           });
@@ -145,7 +145,7 @@ export function setupWebSocket(
         // Track room leave event
         await analyticsService.trackEvent({
           userId: user.id,
-          event: 'room_left',
+          eventType: 'room_left',
           properties: { roomId: data.roomId },
           timestamp: new Date()
         });
@@ -186,7 +186,7 @@ export function setupWebSocket(
         // Track message event
         await analyticsService.trackEvent({
           userId: user.id,
-          event: 'collaboration_message',
+          eventType: 'collaboration_message',
           properties: { 
             roomId: data.roomId, 
             messageType: data.type,
@@ -234,7 +234,7 @@ export function setupWebSocket(
         // Track generation update event
         await analyticsService.trackEvent({
           userId: user.id,
-          event: 'generation_update',
+          eventType: 'generation_update',
           properties: { 
             generationId: data.generationId,
             status: data.status,
@@ -300,7 +300,7 @@ export function setupWebSocket(
           // Track disconnection event
           await analyticsService.trackEvent({
             userId: user.id,
-            event: 'websocket_disconnected',
+            eventType: 'websocket_disconnected',
             properties: { socketId: socket.id },
             timestamp: new Date()
           });

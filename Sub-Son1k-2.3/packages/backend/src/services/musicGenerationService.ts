@@ -521,14 +521,14 @@ export class MusicGenerationService {
     queueId: string,
     request: { userId: string; prompt: string; style: string; duration: number; quality: string }
   ): Promise<void> {
+    // Get Token (declared outside try for catch block access)
+    let tokenStr: string | undefined;
+    let tokenId: string | undefined;
+    
     try {
       // Get User Tier
       const user = await this.prisma.user.findUnique({ where: { id: request.userId } });
       const userTier = (user?.tier || 'free').toLowerCase() as 'free' | 'basic' | 'pro' | 'enterprise';
-
-      // Get Token
-      let tokenStr: string;
-      let tokenId: string;
 
       if (this.tokenPoolService) {
         const selection = await this.tokenPoolService.selectOptimalToken(userTier, request.userId);

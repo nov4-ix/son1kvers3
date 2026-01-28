@@ -1,0 +1,43 @@
+{
+  "name": "Son1kvers3 - The Generator",
+  "short_name": "The Generator",
+  "description": "Crea música profesional con IA",
+  "start_url": "/generator",
+  "display": "standalone",
+  "background_color": "#0A0C10",
+  "theme_color": "#0A0C10",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "/screenshot-mobile.png",
+      "sizes": "390x844",
+      "type": "image/png",
+      "form_factor": "narrow"
+    }
+  ],
+  "categories": ["music", "entertainment", "productivity"],
+  "shortcuts": [
+    {
+      "name": "Generar Música",
+      "short_name": "Generar",
+      "description": "Generar nueva música con IA",
+      "url": "/generator",
+      "icons": [{ "src": "/icon-192.png", "sizes": "192x192" }]
+    }
+  ]
+}
+

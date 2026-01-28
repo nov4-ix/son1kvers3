@@ -1,0 +1,7 @@
+
+> the-generator@0.1.0 build C:\Users\qrrom\Downloads\Sub-Son1k-2.3\Sub-Son1k-2.3\apps\the-generator-nextjs
+> TURBOPACK=0 next build
+
+"TURBOPACK" no se reconoce como un comando interno o externo,
+programa o archivo por lotes ejecutable.
+ ELIFECYCLE  Command failed with exit code 1.

@@ -1,0 +1,17 @@
+
+> @super-son1k/nexus-visual@1.0.0 build C:\Users\qrrom\Downloads\Sub-Son1k-2.3\Sub-Son1k-2.3\apps\nexus-visual
+> tsc && vite build
+
+[36mvite v7.3.0 [32mbuilding client environment for production...[36m[39m
+transforming...
+
+/grid.svg referenced in /grid.svg didn't resolve at build time, it will remain unchanged to be resolved at runtime
+[32m✓[39m 2020 modules transformed.
+rendering chunks...
+computing gzip size...
+[2mdist/[22m[32mindex.html                          [39m[1m[2m  0.47 kB[22m[1m[22m[2m │ gzip:   0.31 kB[22m
+[2mdist/[22m[32massets/analyzer.worker-BjkYLI4g.js  [39m[1m[2m  1.30 kB[22m[1m[22m
+[2mdist/[22m[32massets/genre.worker-Dhga3MnU.js     [39m[1m[2m  1.54 kB[22m[1m[22m
+[2mdist/[22m[35massets/index-BlerajE0.css           [39m[1m[2m 30.15 kB[22m[1m[22m[2m │ gzip:   5.85 kB[22m
+[2mdist/[22m[36massets/index-CDH44U1J.js            [39m[1m[2m349.14 kB[22m[1m[22m[2m │ gzip: 112.11 kB[22m
+[32m✓ built in 38.27s[39m

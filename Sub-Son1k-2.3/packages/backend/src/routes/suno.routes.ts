@@ -3,8 +3,6 @@ import { SunoService } from '../services/suno.service';
 import { tokenPool } from '../services/token-pool-manager';
 import { env } from '../lib/config';
 
-import { FastifyInstance } from 'fastify';
-
 export async function sunoRoutes(fastify: FastifyInstance) {
     const sunoService = new SunoService();
 

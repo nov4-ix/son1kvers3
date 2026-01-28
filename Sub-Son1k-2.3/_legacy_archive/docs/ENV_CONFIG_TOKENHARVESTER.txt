@@ -1,0 +1,35 @@
+# ========================================
+# TOKENHARVESTER - CONFIGURACIÓN COMPLETA
+# ========================================
+
+# 🔐 SEGURIDAD - Encriptación de Credenciales
+# Esta clave se usa para encriptar las contraseñas de las cuentas Suno vinculadas
+# IMPORTANTE: Debe ser exactamente 32 bytes (64 caracteres hexadecimales)
+# NO COMPARTIR - Guardar en secreto en producción
+ENCRYPTION_KEY=2861ee7d7ac6180c805b71806108e57d4588bc6bdccd226fe939ab3cc55dc5bb
+
+# 🌾 HARVESTER - Configuración
+# Intervalo de recolección automática de tokens (en minutos)
+# Recomendado: 5 minutos para FREE, 3 minutos para PRO
+HARVEST_INTERVAL_MINUTES=5
+
+# 📊 ESTADO DEL SISTEMA
+# ✅ TokenHarvester Service: IMPLEMENTADO
+# ✅ Routes /api/suno-accounts/*: IMPLEMENTADO  
+# ✅ Componente LinkSunoAccount: IMPLEMENTADO
+# ✅ Hook usePolling: IMPLEMENTADO
+# ✅ Schema Prisma: ACTUALIZADO
+# ✅ Migraciones: APLICADAS
+# ✅ Dependencias: INSTALADAS
+
+# 🚀 CÓMO USAR:
+# 1. Copiar estas variables al archivo .env principal
+# 2. Iniciar backend: cd packages/backend && pnpm dev
+# 3. Iniciar frontend: cd apps/the-generator && pnpm dev
+# 4. Vincular cuentas Suno desde la UI
+# 5. El harvester recolectará tokens automáticamente cada 5 min
+
+# 📈 CAPACIDAD ESPERADA:
+# - 1 cuenta FREE: ~14,400 tokens/día
+# - 3 cuentas PRO: ~43,200 tokens/día
+# - 5 cuentas STUDIO: ~72,000 tokens/día

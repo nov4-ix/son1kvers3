@@ -15,7 +15,7 @@
     "start": "turbo start",
     "preview": "turbo preview",
     "lint": "turbo lint",
-    "test": "turbo test",
+    "test": "turbo run test",
     "test:ui": "vitest --ui",
     "db:generate": "turbo db:generate",
     "db:migrate": "turbo db:migrate",

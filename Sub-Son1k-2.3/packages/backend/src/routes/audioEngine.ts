@@ -91,7 +91,7 @@ async function handleEngineInit(userId: string, version: string) {
     try {
         await prisma.analyticsEvent.create({
             data: {
-                event: 'engine_initialized',
+                eventType: 'engine_initialized',
                 userId: userId || 'anonymous',
                 properties: JSON.stringify({ version })
             }

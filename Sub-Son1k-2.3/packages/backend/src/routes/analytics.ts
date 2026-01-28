@@ -387,7 +387,7 @@ export function analyticsRoutes(analyticsService: AnalyticsService) {
 
         await analyticsService.trackEvent({
           userId: user.id,
-          event,
+          eventType: event,
           properties: properties || {},
           timestamp: new Date()
         });

@@ -14,7 +14,9 @@ import { tokenRoutes } from './routes/tokens';
 import { audioEngineRoutes } from './routes/audioEngine';
 import neuralEngineRoutes from './routes/neural-engine';
 import sunoAccountsRoutes from './routes/suno-accounts';
+import { generationRoutes } from './routes/generation';
 import { paypalWebhookRoutes } from './routes/webhooks/paypal';
+import { startGenerationWorker } from './workers/generation.worker';
 import { globalRateLimit, generationRateLimit, authRateLimit } from './middleware/rateLimiter';
 import { validateEnv, getEnv } from './config/env';
 import { healthRoutes } from './routes/health';
@@ -153,9 +155,9 @@ async function start() {
     fastify.log.info('Suno Accounts Routes registered');
 
     // Register Generation Routes with specific rate limiting
-    await fastify.register(async (instance) => {
+    await fastify.register(async function (instance: any) {
       // Rate limit específico para generación
-      instance.addHook('preHandler', async (req, reply) => {
+      instance.addHook('preHandler', async (req: any, reply: any) => {
         await instance.rateLimit({
           ...generationRateLimit
         })(req, reply)

@@ -237,7 +237,7 @@ export class TokenManager extends EventEmitter {
 
         // Check rate limit
         const rateLimiter = this.rateLimiters.get(tokenInfo.id);
-        if (rateLimiter && !rateLimiter.isAllowed(`token:${tokenInfo.id}`)) {
+        if (rateLimiter && !rateLimiter.tryConsume(`token:${tokenInfo.id}`)) {
           continue;
         }
 
@@ -327,7 +327,7 @@ export class TokenManager extends EventEmitter {
 
         // 2. Check local rate limit
         const rateLimiter = this.rateLimiters.get(tokenInfo.id);
-        if (rateLimiter && !rateLimiter.isAllowed(`token:${tokenInfo.id}`)) {
+        if (rateLimiter && !rateLimiter.tryConsume(`token:${tokenInfo.id}`)) {
           continue;
         }
 

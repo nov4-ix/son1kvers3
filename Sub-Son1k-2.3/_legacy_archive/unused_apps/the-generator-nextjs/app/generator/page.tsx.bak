@@ -1,0 +1,777 @@
+'use client'
+
+import React, { useState, useEffect } from 'react'
+import { motion } from 'framer-motion'
+import { Music, Sparkles, Play, Download, Loader2, Mic2, User, Users, Shuffle, Wand2, Settings, BookOpen, Heart, Zap, Palette, Pause, Volume2, VolumeX, SkipForward, SkipBack } from 'lucide-react'
+import { useGeneratorStore } from '../../lib/store/generatorStore'
+import { Knob } from '../../lib/components/ui/Knob'
+import { TwoTrackPlayer } from '../../lib/components/TwoTrackPlayer'
+
+export default function GeneratorPage() {
+  const { knobs, setKnobs } = useGeneratorStore()
+  
+  // Estados básicos
+  const [lyricsInput, setLyricsInput] = useState('')
+  const [generatedLyrics, setGeneratedLyrics] = useState('')
+  const [musicPrompt, setMusicPrompt] = useState('')
+  const [voice, setVoice] = useState<'male'|'female'|'random'|'duet'>('male')
+  const [instrumental, setInstrumental] = useState(false)
+  const [isGeneratingLyrics, setIsGeneratingLyrics] = useState(false)
+  const [isGeneratingPrompt, setIsGeneratingPrompt] = useState(false)
+  const [isGeneratingMusic, setIsGeneratingMusic] = useState(false)
+  const [trackUrls, setTrackUrls] = useState<string[]>([])
+  const [error, setError] = useState('')
+  const [generationProgress, setGenerationProgress] = useState(0)
+  const [generationMessage, setGenerationMessage] = useState('')
+  const [cancelGeneration, setCancelGeneration] = useState(false)
+  
+  // Estados del reproductor
+  const [isPlaying, setIsPlaying] = useState(false)
+  const [currentTrack, setCurrentTrack] = useState<string | null>(null)
+  const [volume, setVolume] = useState(75)
+  const [position, setPosition] = useState(0)
+  const [duration, setDuration] = useState(180)
+  const audioRef = React.useRef<HTMLAudioElement>(null)
+  
+  // URLs de prueba para demostrar el reproductor
+  const [demoUrls, setDemoUrls] = useState<string[]>([
+    'https://www.soundjay.com/misc/sounds/bell-ringing-05.wav',
+    'https://www.soundjay.com/misc/sounds/bell-ringing-05.wav'
+  ])
+
+  // Tracks para el reproductor
+  const tracks = [
+    {
+      id: 'track1',
+      name: 'Track A',
+      url: trackUrls[0] || '',
+      duration: 180
+    },
+    {
+      id: 'track2', 
+      name: 'Track B',
+      url: trackUrls[1] || '',
+      duration: 180
+    }
+  ]
+
+  const handleGenerateLyrics = async () => {
+    if (!lyricsInput?.trim()) {
+      setError('Escribe algunas palabras o ideas')
+      setTimeout(() => setError(''), 3000)
+      return
+    }
+    setIsGeneratingLyrics(true)
+    setError('')
+    try {
+      const literaryPrompt = getLiteraryPrompt()
+      const fullPrompt = `${lyricsInput.trim()}\n\nConfiguración literaria: ${literaryPrompt}`
+      
+      const res = await fetch('/api/generate-lyrics', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({input: fullPrompt})
+      })
+      const data = await res.json()
+      if (!res.ok) throw new Error(data.error)
+      setGeneratedLyrics(data.lyrics)
+    } catch (err: any) {
+      setError(err.message)
+      setTimeout(() => setError(''), 5000)
+    } finally {
+      setIsGeneratingLyrics(false)
+    }
+  }
+
+  const handleGeneratePrompt = async () => {
+    if (!musicPrompt?.trim()) {
+      setError('Describe el estilo musical')
+      setTimeout(() => setError(''), 3000)
+      return
+    }
+    setIsGeneratingPrompt(true)
+    setError('')
+    
+    // ✅ Construir prompt con knobs literarios
+    const knobsDescription = getLiteraryPrompt()
+    const fullInput = `${musicPrompt.trim()}\n\nConfiguración literaria: ${knobsDescription}`
+    
+    try {
+      const res = await fetch('/api/generator-prompt', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({input: fullInput})
+      })
+      const data = await res.json()
+      if (!res.ok) throw new Error(data.error)
+      
+      let prompt = data.prompt.trim()
+      
+      // ✅ LIMITAR A 180 CARACTERES
+      if (prompt.length > 180) {
+        console.log(`⚠️ Prompt truncado: ${prompt.length} → 180 caracteres`)
+        prompt = prompt.substring(0, 180)
+      }
+      
+      setMusicPrompt(prompt)
+    } catch (err: any) {
+      setError(err.message)
+      setTimeout(() => setError(''), 5000)
+    } finally {
+      setIsGeneratingPrompt(false)
+    }
+  }
+
+  const handleGenerateMusic = async () => {
+    if (!instrumental && !generatedLyrics?.trim()) {
+      setError('Genera letra primero o activa instrumental')
+      setTimeout(() => setError(''), 3000)
+      return
+    }
+    if (!musicPrompt?.trim()) {
+      setError('Genera el prompt musical primero')
+      setTimeout(() => setError(''), 3000)
+      return
+    }
+    
+    console.log('🔍 DEBUG - Estados actuales:')
+    console.log('  generatedLyrics:', generatedLyrics?.substring(0, 50) || 'VACÍO')
+    console.log('  musicPrompt:', musicPrompt?.substring(0, 50) || 'VACÍO')
+    console.log('  instrumental:', instrumental)
+    
+    console.log('🎵 Iniciando generación de música...')
+    console.log('📝 Prompt:', musicPrompt.trim())
+    console.log('🎤 Voice:', voice)
+    console.log('🎼 Instrumental:', instrumental)
+    console.log('📄 Lyrics length:', generatedLyrics?.length || 0)
+    console.log('📄 Lyrics preview:', generatedLyrics?.substring(0, 100) || 'VACÍO')
+    
+    setIsGeneratingMusic(true)
+    setError('')
+    setTrackUrls([])
+    setGenerationProgress(0)
+    setGenerationMessage('🚀 Iniciando generación...')
+    
+    // INVERTIR: musicPrompt → lyrics, generatedLyrics → prompt
+    const requestBody = {
+      lyrics: instrumental ? '' : (musicPrompt.trim() || ''), // ESTILO musical
+      prompt: instrumental ? musicPrompt.trim() : (generatedLyrics?.trim() || ''), // LETRA
+      voice,
+      instrumental
+    }
+    
+    console.log('📦 Request body INVERTIDO que se enviará:')
+    console.log('  - lyrics (ESTILO) length:', requestBody.lyrics.length)
+    console.log('  - lyrics (ESTILO) preview:', requestBody.lyrics.substring(0, 100) || 'VACÍO')
+    console.log('  - prompt (LETRA) length:', requestBody.prompt.length)
+    console.log('  - prompt (LETRA) preview:', requestBody.prompt.substring(0, 100) || 'VACÍO')
+    console.log('  - instrumental:', requestBody.instrumental)
+    
+    try {
+      console.log('📡 Enviando request a /api/generate-music...')
+      const res = await fetch('/api/generate-music', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify(requestBody)
+      })
+      
+      console.log('📊 Response status:', res.status)
+      const data = await res.json()
+      console.log('📦 Response data:', data)
+      
+      if (!res.ok) throw new Error(data.error)
+      
+      // El servidor óptimo devuelve el resultado completo
+      if (data.success && data.audioUrls && data.audioUrls.length > 0) {
+        console.log('✅ Música generada exitosamente:', data.audioUrls)
+        setTrackUrls(data.audioUrls)
+        setGenerationProgress(100)
+        setGenerationMessage('¡Música generada exitosamente!')
+        
+        // Seleccionar el primer track automáticamente
+        if (data.audioUrls.length > 0) {
+          setCurrentTrack('track1')
+        }
+        
+        setTimeout(() => {
+          setGenerationMessage('')
+          setIsGeneratingMusic(false)
+        }, 3000)
+      } else if (data.trackId) {
+        console.log('🎯 TrackId recibido:', data.trackId)
+        console.log('🔄 Iniciando polling...')
+        // Fallback al polling si no hay resultado completo
+        pollTrackStatus(data.trackId)
+      } else {
+        throw new Error('No se generó música')
+      }
+    } catch (err: any) {
+      console.error('❌ Error en generación:', err)
+      setError(err.message)
+      setTimeout(() => setError(''), 5000)
+      setIsGeneratingMusic(false)
+    }
+  }
+
+  const pollTrackStatus = async (trackId: string) => {
+    let attempts = 0
+    const startTime = Date.now()
+    const maxTime = 3 * 60 * 1000 // ⚡ OPTIMIZADO: 3 minutos (antes: 5 minutos)
+    
+    console.log('🔄 Iniciando polling OPTIMIZADO para trackId:', trackId)
+    console.log('⚡ Estrategia: Intervalos progresivos (2s → 10s)')
+    
+    // ⚡ NUEVO: Función para calcular intervalo progresivo
+    const getNextInterval = (elapsed: number): number => {
+      if (elapsed < 10000) return 2000      // 0-10s: cada 2s (rápido)
+      if (elapsed < 30000) return 3000      // 10-30s: cada 3s
+      if (elapsed < 60000) return 5000      // 30-60s: cada 5s
+      return 10000                          // 60s+: cada 10s (espaciado)
+    }
+    
+    const checkStatus = async (): Promise<boolean> => {
+      try {
+        attempts++
+        const elapsed = Date.now() - startTime
+        const elapsedSeconds = Math.floor(elapsed / 1000)
+        
+        console.log(`🔍 Check #${attempts} (${elapsedSeconds}s) - trackId: ${trackId}`)
+        
+        // Verificar timeout
+        if (elapsed > maxTime) {
+          console.error('⏰ Timeout: 3 minutos alcanzados')
+          throw new Error('La generación tardó más de 3 minutos. Por favor, intenta de nuevo.')
+        }
+        
+        console.log('📡 Consultando status en /api/track-status...')
+        const res = await fetch(`/api/track-status?trackId=${trackId}`)
+        const data = await res.json()
+        
+        console.log('📊 Status response:', data)
+        
+        // Si hay error en la respuesta
+        if (data.error) {
+          console.error('❌ Error en respuesta:', data.error)
+          throw new Error(data.error)
+        }
+        
+        const progress = data.progress || 30
+        console.log(`📈 Progreso actualizado: ${progress}%`)
+        setGenerationProgress(progress)
+        
+        // Mensajes más específicos
+        if (progress < 20) setGenerationMessage('🎼 Analizando estructura musical...')
+        else if (progress < 40) setGenerationMessage('🎹 Creando instrumentación...')
+        else if (progress < 60) setGenerationMessage('🎤 Generando vocales...')
+        else if (progress < 80) setGenerationMessage('🎚️ Aplicando mezcla final...')
+        else if (progress < 100) setGenerationMessage('✨ Finalizando tu canción...')
+        else setGenerationMessage('🎉 ¡Completado!')
+        
+        // Verificar si al menos el primer track está listo (OPTIMIZACIÓN)
+        if (data.status === 'first_ready' && data.audioUrls && data.audioUrls.length > 0) {
+          console.log('⚡ PRIMER TRACK LISTO - Reproduciendo inmediatamente!')
+          setTrackUrls([data.audioUrls[0]]) // Solo el primero por ahora
+          setGenerationProgress(75)
+          setGenerationMessage('⚡ Primer track listo! Esperando segundo...')
+          setCurrentTrack('track1')
+          setIsPlaying(true) // Auto-reproducir
+          // Continuar polling para el segundo track
+          if (elapsed < maxTime) {
+            setTimeout(() => checkStatus(), getNextInterval(elapsed))
+          }
+          return
+        }
+        
+        // Verificar si la generación está completa
+        if (data.status === 'complete') {
+          console.log('✅ Generación completada!')
+          if (data.audioUrls && Array.isArray(data.audioUrls) && data.audioUrls.length > 0) {
+            console.log('🎵 URLs de audio recibidas:', data.audioUrls)
+            setTrackUrls(data.audioUrls)
+            setIsGeneratingMusic(false)
+            setGenerationProgress(100)
+            setGenerationMessage('🎉 ¡Ambos tracks listos!')
+            if (!isPlaying) { // Solo auto-reproducir si no está ya sonando
+              setCurrentTrack('track1')
+              setIsPlaying(true)
+            }
+            return
+          } else if (data.audioUrl) {
+            console.log('🎵 URL de audio recibida:', data.audioUrl)
+            setTrackUrls([data.audioUrl])
+            setIsGeneratingMusic(false)
+            setGenerationProgress(100)
+            setGenerationMessage('🎉 ¡Track listo!')
+            setCurrentTrack('track1')
+            setIsPlaying(true)
+            return
+          }
+        }
+        
+        if (data.status === 'error') {
+          console.error('❌ Error en generación reportado por API')
+          throw new Error('Error en la generación de música')
+        }
+        
+        // Continuar polling si no hemos excedido el tiempo máximo
+        if (elapsed < maxTime) {
+          const nextInterval = getNextInterval(elapsed)
+          console.log(`⏳ Esperando ${nextInterval/1000}s antes del siguiente intento...`)
+          setTimeout(() => checkStatus(), nextInterval)
+        } else {
+            console.error('⏰ Timeout: Se alcanzó el máximo de tiempo (3 min)')
+            throw new Error('La generación tardó más de 3 minutos. La música podría estar procesándose aún. Intenta de nuevo en unos momentos.')
+        }
+      } catch (err: any) {
+        console.error('❌ Error en polling:', err)
+        setError(err.message || 'Error desconocido en la generación')
+        setTimeout(() => setError(''), 8000)
+        setIsGeneratingMusic(false)
+        setGenerationProgress(0)
+        setGenerationMessage('')
+      }
+    }
+    checkStatus()
+  }
+
+  // Efecto para controlar el audio
+  useEffect(() => {
+    if (!audioRef.current) return
+    
+    const audio = audioRef.current
+    
+    if (isPlaying) {
+      audio.play().catch(err => console.error('Error playing:', err))
+    } else {
+      audio.pause()
+    }
+  }, [isPlaying])
+  
+  useEffect(() => {
+    if (!audioRef.current) return
+    audioRef.current.volume = volume / 100
+  }, [volume])
+  
+  useEffect(() => {
+    const audio = audioRef.current
+    if (!audio) return
+    
+    const updateTime = () => setPosition(audio.currentTime)
+    const updateDuration = () => setDuration(audio.duration || 180)
+    const handleEnded = () => setIsPlaying(false)
+    
+    audio.addEventListener('timeupdate', updateTime)
+    audio.addEventListener('loadedmetadata', updateDuration)
+    audio.addEventListener('ended', handleEnded)
+    
+    return () => {
+      audio.removeEventListener('timeupdate', updateTime)
+      audio.removeEventListener('loadedmetadata', updateDuration)
+      audio.removeEventListener('ended', handleEnded)
+    }
+  }, [currentTrack])
+  
+  const handleSeek = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const newPosition = parseFloat(e.target.value)
+    setPosition(newPosition)
+    if (audioRef.current) {
+      audioRef.current.currentTime = newPosition
+    }
+  }
+  
+  const currentTrackUrl = tracks.find(t => t.id === currentTrack)?.url || ''
+
+  const getLiteraryPrompt = () => {
+    const settings = knobs
+    let prompt = ''
+    
+    if (settings.emotionalIntensity >= 8) {
+      prompt += 'Usa emociones intensas y dramáticas. '
+    } else if (settings.emotionalIntensity <= 3) {
+      prompt += 'Mantén un tono emocional sutil y delicado. '
+    } else {
+      prompt += 'Usa emociones moderadas y equilibradas. '
+    }
+    
+    if (settings.poeticStyle >= 8) {
+      prompt += 'Emplea metáforas complejas y lenguaje poético sofisticado. '
+    } else if (settings.poeticStyle <= 3) {
+      prompt += 'Usa lenguaje directo y simple, sin metáforas complejas. '
+    } else {
+      prompt += 'Combina elementos poéticos con lenguaje accesible. '
+    }
+    
+    if (settings.rhymeComplexity >= 8) {
+      prompt += 'Crea patrones de rima complejos y variados. '
+    } else if (settings.rhymeComplexity <= 3) {
+      prompt += 'Usa rimas simples o evita rimas complejas. '
+    } else {
+      prompt += 'Incluye rimas moderadas y naturales. '
+    }
+    
+    if (settings.narrativeDepth >= 8) {
+      prompt += 'Desarrolla una historia profunda con múltiples capas. '
+    } else if (settings.narrativeDepth <= 3) {
+      prompt += 'Mantén la narrativa simple y directa. '
+    } else {
+      prompt += 'Incluye elementos narrativos moderados. '
+    }
+    
+    if (settings.languageStyle >= 8) {
+      prompt += 'Usa un lenguaje formal y elaborado. '
+    } else if (settings.languageStyle <= 3) {
+      prompt += 'Usa lenguaje coloquial y cotidiano. '
+    } else {
+      prompt += 'Combina lenguaje formal y coloquial. '
+    }
+    
+    if (settings.themeIntensity >= 8) {
+      prompt += 'Enfócate intensamente en el tema central. '
+    } else if (settings.themeIntensity <= 3) {
+      prompt += 'Trata el tema de manera sutil y secundaria. '
+    } else {
+      prompt += 'Desarrolla el tema de manera equilibrada. '
+    }
+    
+    return prompt.trim()
+  }
+
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-[#0A0C10] via-[#1a1d29] to-[#0A0C10] relative overflow-hidden">
+      <div className="absolute inset-0 opacity-20">
+        <div className="absolute top-20 left-20 w-96 h-96 bg-[#B84DFF] rounded-full blur-3xl animate-pulse"></div>
+        <div className="absolute bottom-20 right-20 w-96 h-96 bg-[#00FFE7] rounded-full blur-3xl animate-pulse" style={{animationDelay:'1s'}}></div>
+      </div>
+      <div className="relative z-10 container mx-auto px-4 py-8 max-w-7xl">
+        <div className="text-center mb-8 md:mb-12">
+          <div className="flex items-center justify-center gap-2 md:gap-3 mb-3 md:mb-4">
+            <Music className="w-8 h-8 md:w-12 md:h-12 text-[#00FFE7]"/>
+            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold bg-gradient-to-r from-[#00FFE7] via-[#B84DFF] to-[#9AF7EE] bg-clip-text text-transparent">The Generator</h1>
+          </div>
+          <p className="text-[#9AF7EE] text-sm md:text-base lg:text-lg px-4">Crea música profesional con IA</p>
+        </div>
+        {error && (
+          <div className="mb-6 bg-red-500/20 border-2 border-red-500 rounded-2xl p-4 backdrop-blur-sm">
+            <p className="text-red-200 text-center font-semibold">{error}</p>
+          </div>
+        )}
+
+        {/* Panel de Control Literario */}
+        <div className="bg-[#1a1d29]/50 backdrop-blur-xl rounded-3xl p-6 border-2 border-[#00FFE7]/20 shadow-2xl mb-6">
+          <div className="flex items-center gap-3 mb-6">
+            <div className="p-3 bg-gradient-to-br from-[#B84DFF] to-[#00FFE7] rounded-xl">
+              <Settings className="w-6 h-6 text-white" />
+            </div>
+            <h3 className="text-2xl font-bold text-white">Control Literario</h3>
+            <span className="text-sm text-[#9AF7EE]">Control total del estilo</span>
+          </div>
+
+          <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-3 md:gap-4">
+            <Knob
+              label="Intensidad Emocional"
+              value={knobs.emotionalIntensity}
+              onChange={(value) => setKnobs({ emotionalIntensity: value })}
+              icon={<Heart className="w-4 h-4" />}
+              color="text-[#FF1744]"
+              tooltip="Sutil → Dramático"
+            />
+            
+            <Knob
+              label="Estilo Poético"
+              value={knobs.poeticStyle}
+              onChange={(value) => setKnobs({ poeticStyle: value })}
+              icon={<BookOpen className="w-4 h-4" />}
+              color="text-[#B84DFF]"
+              tooltip="Simple → Sofisticado"
+            />
+            
+            <Knob
+              label="Complejidad de Rimas"
+              value={knobs.rhymeComplexity}
+              onChange={(value) => setKnobs({ rhymeComplexity: value })}
+              icon={<Zap className="w-4 h-4" />}
+              color="text-[#FFD700]"
+              tooltip="Libre → Complejo"
+            />
+            
+            <Knob
+              label="Profundidad Narrativa"
+              value={knobs.narrativeDepth}
+              onChange={(value) => setKnobs({ narrativeDepth: value })}
+              icon={<BookOpen className="w-4 h-4" />}
+              color="text-[#00FFE7]"
+              tooltip="Directo → Profundo"
+            />
+            
+            <Knob
+              label="Estilo de Lenguaje"
+              value={knobs.languageStyle}
+              onChange={(value) => setKnobs({ languageStyle: value })}
+              icon={<Palette className="w-4 h-4" />}
+              color="text-[#9AF7EE]"
+              tooltip="Coloquial → Formal"
+            />
+            
+            <Knob
+              label="Intensidad del Tema"
+              value={knobs.themeIntensity}
+              onChange={(value) => setKnobs({ themeIntensity: value })}
+              icon={<Zap className="w-4 h-4" />}
+              color="text-[#B84DFF]"
+              tooltip="Sutil → Intenso"
+            />
+          </div>
+        </div>
+
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 md:gap-6 mb-4 md:mb-6">
+          <div className="bg-[#1a1d29]/50 backdrop-blur-xl rounded-3xl p-6 border-2 border-[#00FFE7]/20 shadow-2xl hover:border-[#B84DFF]/50 transition-all">
+            <div className="flex items-center gap-3 mb-4">
+              <div className="p-3 bg-gradient-to-br from-[#B84DFF] to-[#00FFE7] rounded-xl">
+                <Mic2 className="w-6 h-6 text-white"/>
+              </div>
+              <h2 className="text-2xl font-bold text-white">Letra</h2>
+            </div>
+            <textarea value={lyricsInput} onChange={e=>setLyricsInput(e.target.value||'')} disabled={instrumental||isGeneratingLyrics} placeholder="Escribe palabras o ideas..." className="w-full h-40 px-4 py-3 bg-black/30 border-2 border-white/10 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:border-purple-500 disabled:opacity-50 resize-none mb-4"/>
+            {generatedLyrics && (
+              <div className="mb-4 p-4 bg-gradient-to-br from-purple-900/30 to-pink-900/30 rounded-xl border border-purple-500/30 max-h-60 overflow-y-auto">
+                <div className="flex items-center gap-2 mb-2">
+                  <Sparkles className="w-4 h-4 text-purple-400"/>
+                  <p className="text-sm font-semibold text-purple-300">Letra Generada</p>
+                </div>
+                <pre className="text-white whitespace-pre-wrap text-sm">{generatedLyrics}</pre>
+              </div>
+            )}
+            <button onClick={handleGenerateLyrics} disabled={isGeneratingLyrics||instrumental} className="w-full bg-gradient-to-r from-[#B84DFF] to-[#00FFE7] hover:from-[#B84DFF]/80 hover:to-[#00FFE7]/80 disabled:from-gray-600 disabled:to-gray-700 text-white font-bold py-4 rounded-xl transition-all transform hover:scale-105 disabled:hover:scale-100 flex items-center justify-center gap-2">
+              {isGeneratingLyrics ? <><Loader2 className="w-5 h-5 animate-spin"/><span>Generando...</span></> : <><Wand2 className="w-5 h-5"/><span>Generar Letra</span></>}
+            </button>
+          </div>
+          <div className="bg-[#1a1d29]/50 backdrop-blur-xl rounded-3xl p-6 border-2 border-[#00FFE7]/20 shadow-2xl hover:border-[#9AF7EE]/50 transition-all">
+            <div className="flex items-center gap-3 mb-4">
+              <div className="p-3 bg-gradient-to-br from-[#00FFE7] to-[#9AF7EE] rounded-xl">
+                <Music className="w-6 h-6 text-white"/>
+              </div>
+              <h2 className="text-2xl font-bold text-white">Estilo</h2>
+            </div>
+            <textarea 
+              value={musicPrompt} 
+              onChange={e=>setMusicPrompt(e.target.value||'')} 
+              disabled={isGeneratingPrompt} 
+              placeholder="Describe el estilo musical..." 
+              maxLength={180}
+              className="w-full h-40 px-4 py-3 bg-black/30 border-2 border-white/10 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:border-blue-500 disabled:opacity-50 resize-none mb-4"
+            />
+            <div className="text-right text-sm text-gray-400 mb-2">
+              {musicPrompt.length}/180 caracteres
+            </div>
+            <button onClick={handleGeneratePrompt} disabled={isGeneratingPrompt} className="w-full bg-gradient-to-r from-[#00FFE7] to-[#9AF7EE] hover:from-[#00FFE7]/80 hover:to-[#9AF7EE]/80 disabled:from-gray-600 disabled:to-gray-700 text-white font-bold py-4 rounded-xl transition-all transform hover:scale-105 flex items-center justify-center gap-2">
+              {isGeneratingPrompt ? <><Loader2 className="w-5 h-5 animate-spin"/><span>Generando...</span></> : <><Sparkles className="w-5 h-5"/><span>Prompt Creativo</span></>}
+            </button>
+          </div>
+        </div>
+        <div className="bg-[#1a1d29]/50 backdrop-blur-xl rounded-3xl p-6 border-2 border-[#00FFE7]/20 shadow-2xl mb-6">
+          <h3 className="text-xl font-bold text-white mb-4 flex items-center gap-2">
+            <Users className="w-6 h-6 text-[#B84DFF]"/>Configuración
+          </h3>
+          <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-5 gap-2 md:gap-4">
+            <button onClick={()=>setVoice('male')} disabled={instrumental} className={`p-3 md:p-4 rounded-xl text-sm md:text-base font-semibold border-2 flex items-center justify-center gap-2 ${voice==='male'&&!instrumental?'bg-gradient-to-br from-[#00FFE7] to-[#9AF7EE] border-[#00FFE7] text-white scale-105.*:.*} disabled:opacity-50`}>
+              <User className="w-5 h-5"/><span>Hombre</span>
+            </button>
+            <button onClick={()=>setVoice('female')} disabled={instrumental} className={`p-4 rounded-xl font-semibold border-2 flex items-center justify-center gap-2 ${voice==='female'&&!instrumental?'bg-gradient-to-br from-[#B84DFF] to-[#FF1744] border-[#B84DFF] text-white scale-105.*:.*} disabled:opacity-50`}>
+              <User className="w-5 h-5"/><span>Mujer</span>
+            </button>
+            <button onClick={()=>setVoice('random')} disabled={instrumental} className={`p-4 rounded-xl font-semibold border-2 flex items-center justify-center gap-2 ${voice==='random'&&!instrumental?'bg-gradient-to-br from-[#FFD700] to-[#B84DFF] border-[#FFD700] text-white scale-105.*:.*} disabled:opacity-50`}>
+              <Shuffle className="w-5 h-5"/><span>Random</span>
+            </button>
+            <button onClick={()=>setVoice('duet')} disabled={instrumental} className={`p-4 rounded-xl font-semibold border-2 flex items-center justify-center gap-2 ${voice==='duet'&&!instrumental?'bg-gradient-to-br from-[#B84DFF] to-[#00FFE7] border-[#B84DFF] text-white scale-105.*:.*} disabled:opacity-50`}>
+              <Users className="w-5 h-5"/><span>Dueto</span>
+            </button>
+            <button onClick={()=>{setInstrumental(!instrumental);if(!instrumental){setGeneratedLyrics('');setLyricsInput('')}}} className={`p-4 rounded-xl font-semibold border-2 flex items-center justify-center gap-2 ${instrumental?'bg-gradient-to-br from-[#FF1744] to-[#FFD700] border-[#FF1744] text-white scale-105':'bg-[#1a1d29]/30 border-[#00FFE7]/20 text-gray-300 hover:bg-[#1a1d29]/50'}`}>
+              <Music className="w-5 h-5"/><span>Instrumental</span>
+            </button>
+          </div>
+        </div>
+        <button onClick={handleGenerateMusic} disabled={isGeneratingMusic} className="w-full bg-gradient-to-r from-[#00FFE7] via-[#B84DFF] to-[#FF1744] hover:from-[#00FFE7]/80 hover:via-[#B84DFF]/80 hover:to-[#FF1744]/80 disabled:from-gray-600 disabled:to-gray-700 text-white text-xl font-black py-8 rounded-3xl transition-all transform hover:scale-105 disabled:hover:scale-100 shadow-2xl flex items-center justify-center gap-3 mb-6 font-mono">
+          {isGeneratingMusic ? <><Loader2 className="w-8 h-8 animate-spin"/><span>Generando {generationProgress}%</span></> : <><Play className="w-8 h-8"/><span>The Generator</span></>}
+        </button>
+        {isGeneratingMusic && (
+          <div className="mb-6 bg-[#1a1d29]/50 backdrop-blur-xl rounded-2xl p-6 border-2 border-[#B84DFF]/30">
+            <div className="flex items-center justify-between mb-3">
+              <div className="flex items-center gap-2">
+                <Loader2 className="w-5 h-5 text-[#B84DFF] animate-spin"/>
+                <span className="text-lg font-semibold text-[#9AF7EE]">{generationMessage}</span>
+              </div>
+              <div className="flex items-center gap-3">
+                <span className="text-xl font-bold text-white">{generationProgress}%</span>
+                <button 
+                  onClick={() => {
+                    setIsGeneratingMusic(false)
+                    setGenerationProgress(0)
+                    setGenerationMessage('')
+                    setError('Generación cancelada por el usuario')
+                    setTimeout(() => setError(''), 3000)
+                  }}
+                  className="px-4 py-2 bg-red-600 hover:bg-red-700 text-white text-sm font-semibold rounded-lg transition-all"
+                >
+                  Cancelar
+                </button>
+              </div>
+            </div>
+            <div className="w-full h-4 bg-black/30 rounded-full overflow-hidden">
+              <div className="h-full bg-gradient-to-r from-[#00FFE7] via-[#B84DFF] to-[#FF1744] transition-all duration-500 rounded-full" style={{width:`${generationProgress}%`}}/>
+            </div>
+            <p className="mt-3 text-center text-sm text-gray-400">
+              Tiempo estimado: {Math.max(0,Math.round((100-generationProgress)/100*120))}s
+              {generationProgress === 50 && (
+                <span className="block text-yellow-400 mt-1">
+                  ⚠️ Si se queda atascado en 50%, cancela e intenta de nuevo
+                </span>
+              )}
+            </p>
+          </div>
+        )}
+
+        {/* REPRODUCTOR PROFESIONAL PARA DOS TRACKS - SIEMPRE VISIBLE */}
+        <div className="bg-gradient-to-br from-[#1a1d29]/50 via-[#0A0C10]/30 to-[#1a1d29]/50 backdrop-blur-xl rounded-3xl p-8 border-2 border-[#00FFE7]/50 shadow-2xl">
+          <div className="flex items-center gap-3 mb-6">
+            <div className="p-4 bg-gradient-to-br from-[#00FFE7] to-[#B84DFF] rounded-xl">
+              <Play className="w-8 h-8 text-white" />
+            </div>
+            <h3 className="text-3xl font-bold text-white">🎉 Reproductor de Tracks</h3>
+            <span className="text-sm text-[#9AF7EE]">Escucha tus creaciones</span>
+          </div>
+
+          {/* Track Selection */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 md:gap-4 mb-4 md:mb-6">
+            {tracks.map((track, index) => (
+              <div
+                key={track.id}
+                onClick={() => setCurrentTrack(track.id)}
+                className={`p-4 rounded-xl border-2 cursor-pointer transition-all ${
+                  currentTrack === track.id
+                    ? 'bg-gradient-to-br from-[#B84DFF] to-[#00FFE7] border-[#B84DFF] text-white'
+                    : 'bg-[#1a1d29]/30 border-[#00FFE7]/20 text-gray-300 hover:bg-[#1a1d29]/50'
+                }`}
+              >
+                <div className="flex items-center gap-3">
+                  <div className="p-2 bg-gradient-to-br from-[#B84DFF] to-[#00FFE7] rounded-lg">
+                    <Play className="w-4 h-4 text-white" />
+                  </div>
+                  <div>
+                    <h4 className="text-lg font-semibold">{track.name}</h4>
+                    <p className="text-sm opacity-75">
+                      {track.url ? '✅ Listo para reproducir' : '⏳ Generando...'}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {/* Audio Controls */}
+          {currentTrack && (
+            <div className="space-y-4">
+              {/* Progress Bar */}
+              <div className="w-full">
+                <input
+                  type="range"
+                  min="0"
+                  max={duration}
+                  value={position}
+                  onChange={handleSeek}
+                  className="w-full h-2 rounded-lg appearance-none cursor-pointer"
+                  style={{
+                    background: `linear-gradient(to right, #00FFE7 0%, #00FFE7 ${(position / duration) * 100}%, rgba(255,255,255,0.2) ${(position / duration) * 100}%, rgba(255,255,255,0.2) 100%)`
+                  }}
+                />
+                <div className="flex justify-between text-sm text-gray-400 mt-1">
+                  <span>{Math.floor(position / 60)}:{(position % 60).toFixed(0).padStart(2, '0')}</span>
+                  <span>{Math.floor(duration / 60)}:{(duration % 60).toFixed(0).padStart(2, '0')}</span>
+                </div>
+              </div>
+
+              {/* Control Buttons */}
+              <div className="flex items-center justify-center gap-4">
+                <button
+                  onClick={() => setPosition(Math.max(0, position - 10))}
+                  className="p-3 bg-white/10 rounded-xl hover:bg-white/20 transition-all"
+                >
+                  <SkipBack className="w-5 h-5 text-white" />
+                </button>
+
+                <button
+                  onClick={() => setIsPlaying(!isPlaying)}
+                  disabled={!currentTrackUrl}
+                  className="p-4 bg-gradient-to-r from-[#B84DFF] to-[#00FFE7] rounded-xl hover:from-[#B84DFF]/80 hover:to-[#00FFE7]/80 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  {isPlaying ? (
+                    <Pause className="w-6 h-6 text-white" />
+                  ) : (
+                    <Play className="w-6 h-6 text-white" />
+                  )}
+                </button>
+
+                <button
+                  onClick={() => setPosition(Math.min(duration, position + 10))}
+                  className="p-3 bg-white/10 rounded-xl hover:bg-white/20 transition-all"
+                >
+                  <SkipForward className="w-5 h-5 text-white" />
+                </button>
+
+                <button
+                  onClick={() => setVolume(volume === 0 ? 75 : 0)}
+                  className="p-3 bg-white/10 rounded-xl hover:bg-white/20 transition-all"
+                >
+                  {volume === 0 ? (
+                    <VolumeX className="w-5 h-5 text-white" />
+                  ) : (
+                    <Volume2 className="w-5 h-5 text-white" />
+                  )}
+                </button>
+              </div>
+
+              {/* Download Button */}
+              <div className="flex justify-center">
+                <a 
+                  href={currentTrackUrl}
+                  download={`track-${currentTrack}.mp3`}
+                  className={`px-6 py-3 bg-gradient-to-r from-[#B84DFF] to-[#00FFE7] hover:from-[#B84DFF]/80 hover:to-[#00FFE7]/80 text-white font-bold rounded-xl transition-all flex items-center gap-2 ${!currentTrackUrl ? 'opacity-50 pointer-events-none' : ''}`}
+                >
+                  <Download className="w-4 h-4" />
+                  <span>Descargar Track</span>
+                </a>
+              </div>
+            </div>
+          )}
+
+          {/* Estado de los tracks */}
+          <div className="mt-6 p-4 bg-black/20 rounded-xl">
+            <h4 className="text-lg font-semibold text-white mb-2">Estado de Generación:</h4>
+            <div className="space-y-2">
+              {tracks.map((track, index) => (
+                <div key={track.id} className="flex items-center justify-between text-sm">
+                  <span className="text-gray-300">{track.name}:</span>
+                  <span className={track.url ? 'text-green-400' : 'text-yellow-400'}>
+                    {track.url ? '✅ Completado' : '⏳ Procesando...'}
+                  </span>
+                </div>
+              ))}
+            </div>
+            {trackUrls.length === 0 && (
+              <p className="text-gray-400 text-sm mt-2">
+                Genera música para ver los tracks aquí
+              </p>
+            )}
+          </div>
+        </div>
+      </div>
+      
+      {/* Audio Element Real - HTML5 */}
+      <audio 
+        ref={audioRef}
+        src={currentTrackUrl}
+        preload="metadata"
+        className="hidden"
+      />
+    </div>
+  )
+}

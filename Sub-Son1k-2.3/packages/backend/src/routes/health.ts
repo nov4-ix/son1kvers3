@@ -27,7 +27,7 @@ export async function healthRoutes(app: FastifyInstance) {
       await prisma.$queryRaw`SELECT 1`
       checks.database = true
     } catch (error) {
-      app.log.error('Database health check failed', error)
+      app.log.error({ error }, 'Database health check failed')
     }
 
     // Check Redis (si existe)
@@ -39,7 +39,7 @@ export async function healthRoutes(app: FastifyInstance) {
         checks.redis = true
         redis.disconnect()
       } catch (error) {
-        app.log.error('Redis health check failed', error)
+        app.log.error({ error }, 'Redis health check failed')
       }
     } else {
       checks.redis = true // No es crítico

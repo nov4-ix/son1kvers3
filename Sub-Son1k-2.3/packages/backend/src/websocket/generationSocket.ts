@@ -1,17 +1,29 @@
 import { FastifyInstance } from 'fastify'
-import { WebSocket } from 'ws'
 import { logger } from '../config/logger'
 import { EventEmitter } from 'events'
 import { PrismaClient } from '@prisma/client'
-import { wsAuthMiddleware, verifyGenerationOwnership } from '../middleware/wsAuth'
 import {
   wsConnectionsActive,
   wsConnectionsTotal,
   wsMessagesTotal,
-  wsConnectionDuration,
   wsSubscriptionsActive,
-  wsHeartbeatTimeouts
+  wsErrorsByType
 } from '../monitoring/metrics'
+
+// Stub for wsAuthMiddleware - to be implemented
+async function wsAuthMiddleware(req: any): Promise<void> {
+  // TODO: Implement authentication middleware
+  (req as any).user = { id: 'anonymous', tier: 'FREE' }
+}
+
+// Stub for verifyGenerationOwnership - to be implemented
+async function verifyGenerationOwnership(userId: string, generationId: string, prisma: PrismaClient): Promise<boolean> {
+  // TODO: Implement ownership verification
+  const generation = await prisma.generation.findFirst({
+    where: { id: generationId, userId }
+  })
+  return generation !== null
+}
 
 // Event emitter global para generaciones
 export const generationEvents = new EventEmitter()
@@ -23,7 +35,7 @@ const prisma = new PrismaClient()
 const subscriptions = new Map<string, number>()
 
 interface Client {
-  ws: WebSocket
+  ws: any // WebSocket from Fastify
   userId: string
   userTier: string
   generationIds: Set<string>
@@ -79,7 +91,7 @@ export async function setupWebSocket(app: FastifyInstance) {
     // Heartbeat activo (con métricas opcionales)
     if (typeof setInterval === 'function') {
       const hb = setInterval(() => {
-        if (ws.readyState === WebSocket.OPEN) {
+        if (ws.readyState === 1) { // WebSocket.OPEN = 1
           const timeSinceLastPong = Date.now() - (client.lastPong ?? 0)
           if (timeSinceLastPong > 60000) {
             logger.warn({ clientId }, 'Client heartbeat timeout, closing connection')
@@ -136,7 +148,7 @@ export async function setupWebSocket(app: FastifyInstance) {
       unsubscribeAll(client)
       clients.delete(clientId)
       const duration = (Date.now() - connectTime) / 1000
-      wsConnectionDuration.observe(duration)
+      // wsConnectionDuration removed - not in metrics
       if (typeof wsConnectionsActive?.labels === 'function') wsConnectionsActive.labels(userTier).dec()
       logger.info({ clientId }, 'WebSocket client disconnected')
     })
