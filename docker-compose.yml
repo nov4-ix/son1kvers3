@@ -1,0 +1,142 @@
+# SON1K Music Lab - Docker Compose
+# Version 3.0.0
+# Supports: Music Generation, Voice Cloning, Analysis, Remix
+
+services:
+  # ==========================================
+  # MUSIC LAB - Main Engine (Python)
+  # ==========================================
+  music-lab:
+    build:
+      context: ./music-lab
+      dockerfile: Dockerfile
+    container_name: son1k-music-lab
+    ports:
+      - "8001:8001"
+    environment:
+      - CUDA_VISIBLE_DEVICES=0
+      - MUSIC_LAB_MODE=production
+      - OUTPUT_DIR=/outputs
+    volumes:
+      - ./music-lab:/app
+      - musiclab_outputs:/outputs
+      - musiclab_models:/models
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8001/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    networks:
+      - son1k-network
+
+  # ==========================================
+  # BACKEND API - Node.js
+  # ==========================================
+  backend:
+    build:
+      context: .
+      dockerfile: packages/backend/Dockerfile
+    container_name: son1k-backend
+    ports:
+      - "3001:3001"
+    environment:
+      - NODE_ENV=production
+      - DATABASE_URL=${DATABASE_URL:-postgresql://postgres:postgres@postgres:5432/son1k}
+      - REDIS_URL=${REDIS_URL:-redis://redis:6379}
+      - MUSIC_LAB_URL=http://music-lab:8001
+      - ENABLE_MUSIC_LAB=true
+      - ENABLE_SUNO_FALLBACK=false
+      - JWT_SECRET=${JWT_SECRET:-change-this-in-production}
+    depends_on:
+      - postgres
+      - redis
+      - music-lab
+    restart: unless-stopped
+    networks:
+      - son1k-network
+
+  # ==========================================
+  # FRONTEND - React + Vite
+  # ==========================================
+  frontend:
+    build:
+      context: ./apps/the-generator
+      dockerfile: Dockerfile
+    container_name: son1k-frontend
+    ports:
+      - "5173:5173"
+    environment:
+      - VITE_API_URL=http://localhost:3001
+      - VITE_MUSIC_LAB_URL=http://localhost:8001
+    depends_on:
+      - backend
+    restart: unless-stopped
+    networks:
+      - son1k-network
+
+  # ==========================================
+  # POSTGRES DATABASE
+  # ==========================================
+  postgres:
+    image: postgres:15-alpine
+    container_name: son1k-postgres
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=son1k
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    restart: unless-stopped
+    networks:
+      - son1k-network
+
+  # ==========================================
+  # REDIS - Caching & Queue
+  # ==========================================
+  redis:
+    image: redis:7-alpine
+    container_name: son1k-redis
+    command: redis-server --appendonly yes
+    volumes:
+      - redis_data:/data
+    restart: unless-stopped
+    networks:
+      - son1k-network
+
+  # ==========================================
+  # MINIO - S3 Compatible Storage
+  # ==========================================
+  minio:
+    image: minio/minio:latest
+    container_name: son1k-minio
+    command: server /data --console-address ":9001"
+    environment:
+      - MINIO_ROOT_USER=minioadmin
+      - MINIO_ROOT_PASSWORD=minioadmin
+    volumes:
+      - minio_data:/data
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+    restart: unless-stopped
+    networks:
+      - son1k-network
+
+volumes:
+  musiclab_outputs:
+  musiclab_models:
+  postgres_data:
+  redis_data:
+  minio_data:
+
+networks:
+  son1k-network:
+    driver: bridge
