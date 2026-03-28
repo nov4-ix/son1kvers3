@@ -1,0 +1,17 @@
+
+> son1k-audio-engine@2.2.0 build C:\Users\qrrom\Downloads\Sub-Son1k-2.3\Sub-Son1k-2.3\extensions\son1k-audio-engine
+> node build.js
+
+🔨 Building Son1k Audio Engine...
+
+Processing background.js...
+✅ background.min.js created
+
+Processing content.js...
+✅ content.min.js created
+
+📋 Copied manifest.json
+📋 Copied options.html
+
+✨ Build completed successfully!
+📦 Extension ready in: C:\Users\qrrom\Downloads\Sub-Son1k-2.3\Sub-Son1k-2.3\extensions\son1k-audio-engine\build

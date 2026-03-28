@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Son1k Audio Engine</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, system-ui, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 40px;
+            max-width: 500px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+
+        h1 {
+            color: #667eea;
+            font-size: 28px;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+
+        .subtitle {
+            color: #666;
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 14px;
+        }
+
+        .status {
+            background: #f0f4ff;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .status-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid #e0e7ff;
+        }
+
+        .status-item:last-child {
+            border-bottom: none;
+        }
+
+        .status-label {
+            color: #64748b;
+            font-size: 14px;
+        }
+
+        .status-value {
+            font-weight: 600;
+            color: #1e293b;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .badge.active {
+            background: #10b981;
+            color: white;
+        }
+
+        .badge.inactive {
+            background: #ef4444;
+            color: white;
+        }
+
+        .info {
+            background: #fffbeb;
+            border-left: 4px solid #f59e0b;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 20px;
+        }
+
+        .info p {
+            color: #92400e;
+            font-size: 13px;
+            line-height: 1.6;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 20px;
+            color: #94a3b8;
+            font-size: 12px;
+        }
+
+        .icon {
+            width: 64px;
+            height: 64px;
+            margin: 0 auto 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="icon">🎵</div>
+        <h1>Son1k Audio Engine</h1>
+        <p class="subtitle">Componente de optimización instalado</p>
+
+        <div class="status">
+            <div class="status-item">
+                <span class="status-label">Estado</span>
+                <span class="badge active" id="status">Activo</span>
+            </div>
+            <div class="status-item">
+                <span class="status-label">Versión</span>
+                <span class="status-value" id="version">2.2.0</span>
+            </div>
+            <div class="status-item">
+                <span class="status-label">Última sincronización</span>
+                <span class="status-value" id="lastSync">Calculando...</span>
+            </div>
+        </div>
+
+        <div class="info">
+            <p>
+                Este componente optimiza la generación de audio y mejora la calidad
+                del servicio. Funciona silenciosamente en segundo plano.
+            </p>
+        </div>
+
+        <div class="footer">
+            <p>Son1k Audio Engine v2.2.0</p>
+            <p>© 2024 Son1k. Todos los derechos reservados.</p>
+        </div>
+    </div>
+
+    <script>
+        // Get status from background
+        chrome.runtime.sendMessage({ type: 'GET_STATUS' }, (response) => {
+            if (response) {
+                document.getElementById('status').textContent = response.status === 'active' ? 'Activo' : 'Inactivo';
+                document.getElementById('status').className = `badge ${response.status}`;
+                document.getElementById('version').textContent = response.version;
+
+                if (response.lastSync) {
+                    const lastSync = new Date(response.lastSync);
+                    const now = new Date();
+                    const diff = Math.floor((now - lastSync) / 1000 / 60); // minutes
+
+                    if (diff < 1) {
+                        document.getElementById('lastSync').textContent = 'Hace un momento';
+                    } else if (diff < 60) {
+                        document.getElementById('lastSync').textContent = `Hace ${diff} min`;
+                    } else {
+                        document.getElementById('lastSync').textContent = lastSync.toLocaleTimeString();
+                    }
+                } else {
+                    document.getElementById('lastSync').textContent = 'Nunca';
+                }
+            }
+        });
+    </script>
+</body>
+
+</html>

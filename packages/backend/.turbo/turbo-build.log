@@ -1,0 +1,351 @@
+
+> @super-son1k/backend@2.2.0 build C:\Users\qrrom\Downloads\Sub-Son1k-2.3\Sub-Son1k-2.3\packages\backend
+> npx pnpm install --filter backend --include-workspace-root && npx prisma generate && npx tsc
+
+../..                                    | Progress: resolved 1, reused 0, downloaded 0, added 0
+../..                                    | Progress: resolved 5, reused 1, downloaded 0, added 0
+../..                                    | Progress: resolved 7, reused 6, downloaded 0, added 0
+../..                                    | Progress: resolved 8, reused 7, downloaded 0, added 0
+../..                                    | Progress: resolved 8, reused 8, downloaded 0, added 0
+.                                        |  WARN  deprecated eslint@8.57.1
+../..                                    | Progress: resolved 10, reused 9, downloaded 0, added 0
+../..                                    | Progress: resolved 11, reused 10, downloaded 0, added 0
+../..                                    | Progress: resolved 12, reused 11, downloaded 0, added 0
+../..                                    | Progress: resolved 18, reused 17, downloaded 0, added 0
+.                                        |  WARN  deprecated @paypal/checkout-server-sdk@1.0.3
+../..                                    | Progress: resolved 20, reused 19, downloaded 0, added 0
+../..                                    | Progress: resolved 22, reused 21, downloaded 0, added 0
+../..                                    | Progress: resolved 22, reused 22, downloaded 0, added 0
+../..                                    | Progress: resolved 23, reused 22, downloaded 0, added 0
+.                                        |  WARN  deprecated fluent-ffmpeg@2.1.3
+.                                        |  WARN  deprecated multer@1.4.5-lts.2
+../..                                    | Progress: resolved 28, reused 27, downloaded 0, added 0
+../..                                    | Progress: resolved 36, reused 35, downloaded 0, added 0
+../..                                    | Progress: resolved 37, reused 36, downloaded 0, added 0
+../..                                    | Progress: resolved 37, reused 37, downloaded 0, added 0
+../..                                    | Progress: resolved 38, reused 37, downloaded 0, added 0
+../..                                    | Progress: resolved 38, reused 38, downloaded 0, added 0
+../..                                    | Progress: resolved 40, reused 39, downloaded 0, added 0
+../..                                    | Progress: resolved 43, reused 42, downloaded 0, added 0
+../..                                    | Progress: resolved 47, reused 46, downloaded 0, added 0
+../..                                    | Progress: resolved 47, reused 47, downloaded 0, added 0
+../..                                    | Progress: resolved 50, reused 49, downloaded 0, added 0
+../..                                    | Progress: resolved 52, reused 51, downloaded 0, added 0
+../..                                    | Progress: resolved 52, reused 52, downloaded 0, added 0
+../..                                    | Progress: resolved 55, reused 54, downloaded 0, added 0
+../..                                    | Progress: resolved 55, reused 55, downloaded 0, added 0
+../..                                    | Progress: resolved 60, reused 59, downloaded 0, added 0
+../..                                    | Progress: resolved 63, reused 62, downloaded 0, added 0
+../..                                    | Progress: resolved 64, reused 63, downloaded 0, added 0
+../..                                    | Progress: resolved 65, reused 64, downloaded 0, added 0
+../..                                    | Progress: resolved 67, reused 66, downloaded 0, added 0
+../..                                    | Progress: resolved 69, reused 68, downloaded 0, added 0
+../..                                    | Progress: resolved 69, reused 69, downloaded 0, added 0
+../..                                    | Progress: resolved 70, reused 69, downloaded 0, added 0
+../..                                    | Progress: resolved 70, reused 70, downloaded 0, added 0
+../..                                    | Progress: resolved 74, reused 73, downloaded 0, added 0
+../..                                    | Progress: resolved 76, reused 75, downloaded 0, added 0
+../..                                    | Progress: resolved 77, reused 76, downloaded 0, added 0
+../..                                    | Progress: resolved 78, reused 77, downloaded 0, added 0
+../..                                    | Progress: resolved 80, reused 79, downloaded 0, added 0
+../..                                    | Progress: resolved 80, reused 80, downloaded 0, added 0
+../..                                    | Progress: resolved 82, reused 81, downloaded 0, added 0
+../..                                    | Progress: resolved 83, reused 82, downloaded 0, added 0
+../..                                    | Progress: resolved 84, reused 83, downloaded 0, added 0
+../..                                    | Progress: resolved 87, reused 86, downloaded 0, added 0
+../..                                    | Progress: resolved 87, reused 87, downloaded 0, added 0
+../..                                    | Progress: resolved 88, reused 87, downloaded 0, added 0
+../..                                    | Progress: resolved 88, reused 88, downloaded 0, added 0
+../..                                    | Progress: resolved 130, reused 89, downloaded 0, added 0
+../..                                    | Progress: resolved 150, reused 92, downloaded 0, added 0
+../..                                    | Progress: resolved 157, reused 97, downloaded 0, added 0
+../..                                    | Progress: resolved 162, reused 102, downloaded 0, added 0
+../..                                    | Progress: resolved 175, reused 115, downloaded 0, added 0
+../..                                    | Progress: resolved 187, reused 127, downloaded 0, added 0
+../..                                    | Progress: resolved 188, reused 128, downloaded 0, added 0
+../..                                    | Progress: resolved 194, reused 134, downloaded 0, added 0
+../..                                    | Progress: resolved 195, reused 135, downloaded 0, added 0
+../..                                    | Progress: resolved 198, reused 138, downloaded 0, added 0
+../..                                    | Progress: resolved 223, reused 141, downloaded 0, added 0
+../..                                    | Progress: resolved 229, reused 147, downloaded 0, added 0
+../..                                    | Progress: resolved 231, reused 149, downloaded 0, added 0
+../..                                    | Progress: resolved 235, reused 153, downloaded 0, added 0
+../..                                    | Progress: resolved 239, reused 157, downloaded 0, added 0
+../..                                    | Progress: resolved 242, reused 160, downloaded 0, added 0
+../..                                    | Progress: resolved 245, reused 163, downloaded 0, added 0
+../..                                    | Progress: resolved 247, reused 165, downloaded 0, added 0
+../..                                    | Progress: resolved 250, reused 168, downloaded 0, added 0
+../..                                    | Progress: resolved 251, reused 169, downloaded 0, added 0
+../..                                    | Progress: resolved 253, reused 171, downloaded 0, added 0
+../..                                    | Progress: resolved 256, reused 174, downloaded 0, added 0
+../..                                    | Progress: resolved 263, reused 181, downloaded 0, added 0
+../..                                    | Progress: resolved 272, reused 183, downloaded 0, added 0
+../..                                    | Progress: resolved 282, reused 193, downloaded 0, added 0
+../..                                    | Progress: resolved 298, reused 209, downloaded 0, added 0
+../..                                    | Progress: resolved 314, reused 225, downloaded 0, added 0
+../..                                    | Progress: resolved 316, reused 227, downloaded 0, added 0
+../..                                    | Progress: resolved 317, reused 228, downloaded 0, added 0
+../..                                    | Progress: resolved 317, reused 229, downloaded 0, added 0
+../..                                    | Progress: resolved 322, reused 233, downloaded 0, added 0
+../..                                    | Progress: resolved 323, reused 234, downloaded 0, added 0
+../..                                    | Progress: resolved 324, reused 235, downloaded 0, added 0
+../..                                    | Progress: resolved 327, reused 238, downloaded 0, added 0
+../..                                    | Progress: resolved 331, reused 242, downloaded 0, added 0
+../..                                    | Progress: resolved 334, reused 245, downloaded 0, added 0
+../..                                    | Progress: resolved 335, reused 246, downloaded 0, added 0
+../..                                    | Progress: resolved 337, reused 248, downloaded 0, added 0
+../..                                    | Progress: resolved 338, reused 249, downloaded 0, added 0
+../..                                    | Progress: resolved 340, reused 251, downloaded 0, added 0
+../..                                    | Progress: resolved 341, reused 252, downloaded 0, added 0
+../..                                    | Progress: resolved 341, reused 253, downloaded 0, added 0
+../..                                    | Progress: resolved 344, reused 255, downloaded 0, added 0
+../..                                    | Progress: resolved 345, reused 256, downloaded 0, added 0
+../..                                    | Progress: resolved 346, reused 257, downloaded 0, added 0
+../..                                    | Progress: resolved 347, reused 258, downloaded 0, added 0
+../..                                    | Progress: resolved 350, reused 261, downloaded 0, added 0
+../..                                    | Progress: resolved 351, reused 262, downloaded 0, added 0
+../..                                    | Progress: resolved 357, reused 268, downloaded 0, added 0
+../..                                    | Progress: resolved 359, reused 270, downloaded 0, added 0
+../..                                    | Progress: resolved 361, reused 272, downloaded 0, added 0
+../..                                    | Progress: resolved 363, reused 274, downloaded 0, added 0
+../..                                    | Progress: resolved 366, reused 277, downloaded 0, added 0
+../..                                    | Progress: resolved 370, reused 281, downloaded 0, added 0
+../..                                    | Progress: resolved 373, reused 284, downloaded 0, added 0
+../..                                    | Progress: resolved 382, reused 293, downloaded 0, added 0
+../..                                    | Progress: resolved 390, reused 301, downloaded 0, added 0
+../..                                    | Progress: resolved 400, reused 311, downloaded 0, added 0
+../..                                    | Progress: resolved 403, reused 314, downloaded 0, added 0
+../..                                    | Progress: resolved 406, reused 317, downloaded 0, added 0
+../..                                    | Progress: resolved 408, reused 319, downloaded 0, added 0
+../..                                    | Progress: resolved 409, reused 320, downloaded 0, added 0
+../..                                    | Progress: resolved 413, reused 324, downloaded 0, added 0
+../..                                    | Progress: resolved 414, reused 325, downloaded 0, added 0
+../..                                    | Progress: resolved 415, reused 326, downloaded 0, added 0
+../..                                    | Progress: resolved 417, reused 328, downloaded 0, added 0
+../..                                    | Progress: resolved 424, reused 335, downloaded 0, added 0
+../..                                    | Progress: resolved 426, reused 337, downloaded 0, added 0
+../..                                    | Progress: resolved 431, reused 342, downloaded 0, added 0
+../..                                    | Progress: resolved 438, reused 349, downloaded 0, added 0
+../..                                    | Progress: resolved 441, reused 352, downloaded 0, added 0
+../..                                    | Progress: resolved 451, reused 362, downloaded 0, added 0
+../..                                    | Progress: resolved 458, reused 368, downloaded 0, added 0
+../..                                    | Progress: resolved 467, reused 377, downloaded 0, added 0
+../..                                    | Progress: resolved 468, reused 378, downloaded 0, added 0
+../..                                    | Progress: resolved 469, reused 379, downloaded 0, added 0
+../..                                    | Progress: resolved 479, reused 389, downloaded 0, added 0
+../..                                    | Progress: resolved 499, reused 409, downloaded 0, added 0
+../..                                    | Progress: resolved 509, reused 419, downloaded 0, added 0
+../..                                    | Progress: resolved 528, reused 423, downloaded 0, added 0
+../..                                    | Progress: resolved 540, reused 428, downloaded 0, added 0
+../..                                    | Progress: resolved 545, reused 433, downloaded 0, added 0
+../..                                    | Progress: resolved 554, reused 442, downloaded 0, added 0
+../..                                    | Progress: resolved 564, reused 452, downloaded 0, added 0
+../..                                    | Progress: resolved 565, reused 453, downloaded 0, added 0
+../..                                    | Progress: resolved 565, reused 454, downloaded 0, added 0
+../..                                    | Progress: resolved 570, reused 458, downloaded 0, added 0
+../..                                    | Progress: resolved 595, reused 469, downloaded 0, added 0
+../..                                    | Progress: resolved 606, reused 471, downloaded 0, added 0
+../..                                    | Progress: resolved 608, reused 473, downloaded 0, added 0
+../..                                    | Progress: resolved 614, reused 483, downloaded 1, added 0
+../..                                    | Progress: resolved 624, reused 493, downloaded 1, added 0
+../..                                    | Progress: resolved 664, reused 533, downloaded 1, added 0
+../..                                    | Progress: resolved 672, reused 543, downloaded 1, added 0
+../..                                    | Progress: resolved 698, reused 569, downloaded 1, added 0
+../..                                    | Progress: resolved 708, reused 579, downloaded 1, added 0
+../..                                    | Progress: resolved 711, reused 584, downloaded 1, added 0
+../..                                    | Progress: resolved 728, reused 601, downloaded 1, added 0
+../..                                    | Progress: resolved 730, reused 603, downloaded 1, added 0
+../..                                    | Progress: resolved 736, reused 609, downloaded 1, added 0
+../..                                    | Progress: resolved 746, reused 619, downloaded 1, added 0
+../..                                    | Progress: resolved 756, reused 629, downloaded 1, added 0
+../..                                    | Progress: resolved 756, reused 630, downloaded 1, added 0
+../..                                    | Progress: resolved 768, reused 641, downloaded 1, added 0
+../..                                    | Progress: resolved 768, reused 642, downloaded 1, added 0
+../..                                    | Progress: resolved 783, reused 656, downloaded 1, added 0
+../..                                    | Progress: resolved 791, reused 664, downloaded 1, added 0
+../..                                    | Progress: resolved 805, reused 678, downloaded 1, added 0
+../..                                    | Progress: resolved 819, reused 692, downloaded 1, added 0
+../..                                    | Progress: resolved 822, reused 692, downloaded 1, added 0
+../..                                    | Progress: resolved 839, reused 709, downloaded 1, added 0
+../..                                    | Progress: resolved 847, reused 718, downloaded 1, added 0
+../..                                    | Progress: resolved 847, reused 719, downloaded 1, added 0
+../..                                    | Progress: resolved 853, reused 724, downloaded 1, added 0
+../..                                    | Progress: resolved 864, reused 735, downloaded 1, added 0
+../..                                    | Progress: resolved 867, reused 738, downloaded 1, added 0
+../..                                    | Progress: resolved 877, reused 748, downloaded 1, added 0
+../..                                    | Progress: resolved 878, reused 749, downloaded 1, added 0
+../..                                    | Progress: resolved 880, reused 751, downloaded 1, added 0
+../..                                    | Progress: resolved 881, reused 752, downloaded 1, added 0
+../..                                    | Progress: resolved 883, reused 754, downloaded 1, added 0
+../..                                    | Progress: resolved 890, reused 761, downloaded 1, added 0
+../..                                    | Progress: resolved 900, reused 772, downloaded 1, added 0
+../..                                    | Progress: resolved 903, reused 776, downloaded 1, added 0
+../..                                    | Progress: resolved 906, reused 779, downloaded 1, added 0
+../..                                    | Progress: resolved 916, reused 789, downloaded 1, added 0
+../..                                    | Progress: resolved 918, reused 791, downloaded 1, added 0
+../..                                    | Progress: resolved 919, reused 792, downloaded 1, added 0
+../..                                    | Progress: resolved 920, reused 793, downloaded 1, added 0
+../..                                    | Progress: resolved 920, reused 794, downloaded 1, added 0
+../..                                    | Progress: resolved 921, reused 794, downloaded 1, added 0
+../..                                    | Progress: resolved 929, reused 802, downloaded 1, added 0
+../..                                    | Progress: resolved 932, reused 805, downloaded 1, added 0
+../..                                    | Progress: resolved 935, reused 808, downloaded 1, added 0
+../..                                    | Progress: resolved 938, reused 811, downloaded 1, added 0
+../..                                    | Progress: resolved 942, reused 816, downloaded 2, added 0
+../..                                    | Progress: resolved 945, reused 819, downloaded 2, added 0
+../..                                    | Progress: resolved 945, reused 819, downloaded 3, added 0
+../..                                    | Progress: resolved 945, reused 819, downloaded 4, added 0
+../..                                    | Progress: resolved 947, reused 821, downloaded 5, added 0
+../..                                    | Progress: resolved 949, reused 823, downloaded 5, added 0
+../..                                    | Progress: resolved 950, reused 824, downloaded 5, added 0
+../..                                    | Progress: resolved 952, reused 826, downloaded 5, added 0
+../..                                    | Progress: resolved 954, reused 828, downloaded 5, added 0
+../..                                    | Progress: resolved 957, reused 831, downloaded 5, added 0
+../..                                    | Progress: resolved 957, reused 832, downloaded 5, added 0
+../..                                    | Progress: resolved 958, reused 832, downloaded 5, added 0
+../..                                    | Progress: resolved 960, reused 834, downloaded 5, added 0
+../..                                    | Progress: resolved 963, reused 837, downloaded 5, added 0
+../..                                    | Progress: resolved 965, reused 839, downloaded 5, added 0
+../..                                    | Progress: resolved 965, reused 839, downloaded 6, added 0
+../..                                    | Progress: resolved 968, reused 842, downloaded 6, added 0
+../..                                    | Progress: resolved 970, reused 844, downloaded 6, added 0
+../..                                    | Progress: resolved 973, reused 847, downloaded 6, added 0
+../..                                    | Progress: resolved 976, reused 850, downloaded 6, added 0
+../..                                    | Progress: resolved 992, reused 866, downloaded 6, added 0
+../..                                    | Progress: resolved 996, reused 870, downloaded 6, added 0
+../..                                    | Progress: resolved 996, reused 871, downloaded 6, added 0
+../..                                    | Progress: resolved 998, reused 872, downloaded 6, added 0
+../..                                    | Progress: resolved 1000, reused 874, downloaded 6, added 0
+../..                                    | Progress: resolved 1001, reused 875, downloaded 6, added 0
+../..                                    | Progress: resolved 1003, reused 877, downloaded 6, added 0
+../..                                    | Progress: resolved 1003, reused 878, downloaded 6, added 0
+../..                                    | Progress: resolved 1010, reused 884, downloaded 6, added 0
+../..                                    | Progress: resolved 1011, reused 885, downloaded 6, added 0
+../..                                    | Progress: resolved 1012, reused 886, downloaded 6, added 0
+../..                                    | Progress: resolved 1013, reused 887, downloaded 6, added 0
+../..                                    | Progress: resolved 1014, reused 888, downloaded 6, added 0
+../..                                    | Progress: resolved 1016, reused 890, downloaded 6, added 0
+../..                                    | Progress: resolved 1019, reused 893, downloaded 6, added 0
+../..                                    | Progress: resolved 1021, reused 895, downloaded 6, added 0
+../..                                    | Progress: resolved 1021, reused 896, downloaded 6, added 0
+../..                                    | Progress: resolved 1023, reused 897, downloaded 6, added 0
+../..                                    | Progress: resolved 1029, reused 903, downloaded 6, added 0
+../..                                    | Progress: resolved 1032, reused 906, downloaded 6, added 0
+../..                                    | Progress: resolved 1036, reused 910, downloaded 6, added 0
+../..                                    | Progress: resolved 1040, reused 914, downloaded 6, added 0
+../..                                    | Progress: resolved 1041, reused 915, downloaded 6, added 0
+../..                                    | Progress: resolved 1041, reused 916, downloaded 6, added 0
+../..                                    | Progress: resolved 1047, reused 921, downloaded 6, added 0
+../..                                    | Progress: resolved 1052, reused 926, downloaded 6, added 0
+../..                                    | Progress: resolved 1062, reused 936, downloaded 6, added 0
+../..                                    | Progress: resolved 1062, reused 937, downloaded 6, added 0
+../..                                    | Progress: resolved 1072, reused 946, downloaded 6, added 0
+../..                                    | Progress: resolved 1073, reused 949, downloaded 6, added 0
+../..                                    | Progress: resolved 1079, reused 956, downloaded 6, added 0
+../..                                    | Progress: resolved 1084, reused 961, downloaded 6, added 0
+../..                                    | Progress: resolved 1097, reused 974, downloaded 6, added 0
+../..                                    | Progress: resolved 1099, reused 976, downloaded 6, added 0
+../..                                    | Progress: resolved 1100, reused 977, downloaded 6, added 0
+../..                                    | Progress: resolved 1104, reused 981, downloaded 6, added 0
+../..                                    | Progress: resolved 1106, reused 983, downloaded 6, added 0
+../..                                    | Progress: resolved 1111, reused 988, downloaded 6, added 0
+../..                                    | Progress: resolved 1118, reused 995, downloaded 6, added 0
+../..                                    | Progress: resolved 1129, reused 1006, downloaded 6, added 0
+../..                                    | Progress: resolved 1131, reused 1008, downloaded 6, added 0
+../..                                    | Progress: resolved 1136, reused 1013, downloaded 6, added 0
+../..                                    | Progress: resolved 1154, reused 1031, downloaded 6, added 0
+../..                                    | Progress: resolved 1159, reused 1036, downloaded 6, added 0
+../..                                    | Progress: resolved 1161, reused 1038, downloaded 6, added 0
+../..                                    | Progress: resolved 1164, reused 1041, downloaded 6, added 0
+../..                                    | Progress: resolved 1167, reused 1044, downloaded 6, added 0
+../..                                    | Progress: resolved 1184, reused 1061, downloaded 6, added 0
+../..                                    | Progress: resolved 1194, reused 1071, downloaded 6, added 0
+../..                                    | Progress: resolved 1197, reused 1074, downloaded 6, added 0
+../..                                    | Progress: resolved 1200, reused 1077, downloaded 6, added 0
+../..                                    | Progress: resolved 1205, reused 1082, downloaded 6, added 0
+../..                                    | Progress: resolved 1214, reused 1091, downloaded 6, added 0
+../..                                    | Progress: resolved 1215, reused 1092, downloaded 6, added 0
+../..                                    | Progress: resolved 1217, reused 1094, downloaded 6, added 0
+../..                                    | Progress: resolved 1221, reused 1098, downloaded 6, added 0
+../..                                    | Progress: resolved 1227, reused 1104, downloaded 6, added 0
+../..                                    | Progress: resolved 1227, reused 1105, downloaded 6, added 0
+../..                                    | Progress: resolved 1232, reused 1108, downloaded 6, added 0
+../..                                    | Progress: resolved 1233, reused 1109, downloaded 6, added 0
+../..                                    | Progress: resolved 1238, reused 1114, downloaded 6, added 0
+../..                                    | Progress: resolved 1241, reused 1117, downloaded 6, added 0
+../..                                    | Progress: resolved 1248, reused 1124, downloaded 6, added 0
+../..                                    | Progress: resolved 1251, reused 1127, downloaded 6, added 0
+../..                                    | Progress: resolved 1253, reused 1129, downloaded 6, added 0
+../..                                    | Progress: resolved 1255, reused 1131, downloaded 6, added 0
+../..                                    | Progress: resolved 1259, reused 1135, downloaded 6, added 0
+../..                                    | Progress: resolved 1261, reused 1137, downloaded 6, added 0
+../..                                    | Progress: resolved 1262, reused 1138, downloaded 6, added 0
+../..                                    | Progress: resolved 1262, reused 1139, downloaded 6, added 0
+../..                                    | Progress: resolved 1263, reused 1139, downloaded 6, added 0
+../..                                    | Progress: resolved 1265, reused 1141, downloaded 6, added 0
+../..                                    | Progress: resolved 1265, reused 1142, downloaded 6, added 0
+../..                                    | Progress: resolved 1268, reused 1144, downloaded 6, added 0
+../..                                    | Progress: resolved 1271, reused 1147, downloaded 6, added 0
+../..                                    | Progress: resolved 1275, reused 1151, downloaded 6, added 0
+../..                                    | Progress: resolved 1278, reused 1154, downloaded 6, added 0
+../..                                    | Progress: resolved 1281, reused 1157, downloaded 6, added 0
+../..                                    | Progress: resolved 1286, reused 1163, downloaded 6, added 0
+../..                                    | Progress: resolved 1290, reused 1167, downloaded 6, added 0
+../..                                    | Progress: resolved 1293, reused 1170, downloaded 6, added 0
+../..                                    | Progress: resolved 1297, reused 1174, downloaded 6, added 0
+../..                                    | Progress: resolved 1298, reused 1174, downloaded 6, added 0
+../..                                    | Progress: resolved 1299, reused 1174, downloaded 6, added 0
+../..                                    | Progress: resolved 1299, reused 1175, downloaded 6, added 0
+../..                                    | Progress: resolved 1300, reused 1176, downloaded 6, added 0
+ WARN  6 deprecated subdependencies found: @humanwhocodes/config-array@0.13.0, @humanwhocodes/object-schema@2.0.3, glob@7.2.3, inflight@1.0.6, node-domexception@1.0.0, rimraf@3.0.2
+../..                                    | Progress: resolved 1300, reused 1177, downloaded 6, added 0
+../..                                    |  +10 +
+../..                                    | Progress: resolved 1300, reused 1177, downloaded 6, added 1
+../..                                    | Progress: resolved 1300, reused 1177, downloaded 6, added 2
+../..                                    | Progress: resolved 1300, reused 1177, downloaded 6, added 3
+../..                                    | Progress: resolved 1300, reused 1177, downloaded 6, added 4
+../..                                    | Progress: resolved 1300, reused 1177, downloaded 6, added 5
+../..                                    | Progress: resolved 1300, reused 1177, downloaded 6, added 6
+../..                                    | Progress: resolved 1300, reused 1177, downloaded 6, added 7
+../..                                    | Progress: resolved 1300, reused 1177, downloaded 6, added 8
+../..                                    | Progress: resolved 1300, reused 1177, downloaded 6, added 9
+../..                                    | Progress: resolved 1300, reused 1177, downloaded 6, added 10, done
+ WARN  Issues with peer dependencies found
+.
+├─┬ tailwindcss 3.4.19
+│ └─┬ postcss-load-config 6.0.1
+│   └── ✕ unmet peer tsx@^4.8.1: found 3.14.0
+└─┬ vite 7.3.0
+  └── ✕ unmet peer tsx@^4.8.1: found 3.14.0
+
+apps/nova-post-pilot
+├─┬ tailwindcss 3.4.19
+│ └─┬ postcss-load-config 6.0.1
+│   └── ✕ unmet peer tsx@^4.8.1: found 3.14.0
+└─┬ vite 7.3.0
+  └── ✕ unmet peer tsx@^4.8.1: found 3.14.0
+
+apps/the-generator
+├─┬ tailwindcss 3.4.19
+│ └─┬ postcss-load-config 6.0.1
+│   └── ✕ unmet peer tsx@^4.8.1: found 3.14.0
+└─┬ vite 7.3.0
+  └── ✕ unmet peer tsx@^4.8.1: found 3.14.0
+
+apps/web-classic
+├─┬ tailwindcss 3.4.19
+│ └─┬ postcss-load-config 6.0.1
+│   └── ✕ unmet peer tsx@^4.8.1: found 3.14.0
+└─┬ vite 7.3.0
+  └── ✕ unmet peer tsx@^4.8.1: found 3.14.0
+
+packages/shared-hooks
+└─┬ vite 7.3.0
+  └── ✕ unmet peer tsx@^4.8.1: found 3.14.0
+
+Done in 9m 41.1s
+Environment variables loaded from .env
+Prisma schema loaded from prisma\schema.prisma
+
+✔ Generated Prisma Client (v6.19.0) to .\..\..\node_modules\.pnpm\@prisma+client@6.19.0_prisma@6.19.0_typescript@5.9.3\node_modules\@prisma\client in 24.09s
+

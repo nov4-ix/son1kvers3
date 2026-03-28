@@ -1,0 +1,355 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+  // Configuración para PgBouncer de Supabase
+  previewFeatures = ["postgresqlExtensions"]
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// Enums for Subscription system
+enum SubscriptionPlan {
+  FREE
+  BASIC
+  PRO
+  ENTERPRISE
+}
+
+enum SubscriptionStatus {
+  ACTIVE
+  CANCELED
+  PAST_DUE
+  UNPAID
+  SUSPENDED
+}
+
+enum GenerationStatus {
+  PENDING
+  PROCESSING
+  COMPLETED
+  FAILED
+}
+
+model Subscription {
+  id                     String             @id @default(cuid())
+  userId                 String
+  stripeCustomerId       String?            @unique
+  stripeSubscriptionId   String?            @unique
+  stripePriceId          String?
+  
+  // PayPal fields
+  paypalSubscriptionId   String?            @unique
+  paypalPlanId           String?
+  
+  // Common fields
+  paymentProvider        PaymentProvider    @default(STRIPE)
+  plan                   SubscriptionPlan   @default(FREE)
+  status                 SubscriptionStatus @default(ACTIVE)
+  
+  currentPeriodEnd       DateTime?
+  canceledAt             DateTime?
+
+  generationsUsed        Int                @default(0)
+  generationsLimit       Int                @default(10)
+  createdAt              DateTime           @default(now())
+  updatedAt              DateTime           @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([stripeCustomerId])
+  @@index([paypalSubscriptionId])
+}
+
+enum PaymentProvider {
+  STRIPE
+  PAYPAL
+}
+
+
+model User {
+  id            String   @id @default(cuid())
+  email         String   @unique
+  username      String?   @unique // Made optional to match user snippet? No, keep required but unique.
+  tier          String   @default("FREE")
+  isAdmin       Boolean  @default(false)
+  alvaeEnabled  Boolean  @default(false)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  lastLoginAt   DateTime?
+
+  // Subscription fields (Added)
+  subscriptionId      String?
+  subscriptionStatus  String?  @default("inactive")
+  subscriptionEndsAt  DateTime?
+  metadata            Json?
+
+  // Relations
+  userTier      UserTier?
+  userExtension UserExtension?
+  tokens        Token[]
+  generations   Generation[]
+
+  @@map("users")
+  @@index([tier, subscriptionStatus])
+}
+
+model UserCredits {
+  id                String   @id @default(cuid())
+  userId            String   @unique
+  user              User     @relation(fields: [userId], references: [id])
+  
+  // Credit System
+  totalCredits      Int      @default(100)
+  usedCredits       Int      @default(0)
+  bonusCredits      Int      @default(0)
+  
+  // Boost System
+  boostMinutes      Int      @default(60)
+  boostRefreshRate  Int      @default(5)
+  maxBoostCapacity  Int      @default(120)
+  lastBoostRefresh  DateTime @default(now())
+  
+  // Gamification
+  streak            Int      @default(0)
+  level             Int      @default(1)
+  xp                Int      @default(0)
+  
+  // Tracking
+  earnedBy          Json     @default("[]")
+  spentOn           Json     @default("[]")
+  
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+  
+  @@index([userId])
+  @@map("user_credits")
+}
+
+model UserTier {
+  id                   String   @id @default(cuid())
+  userId               String   @unique
+  tier                 String   @default("FREE")
+  monthlyGenerations   Int      @default(5)
+  dailyGenerations     Int      @default(2)
+  usedThisMonth        Int      @default(0)
+  usedToday            Int      @default(0)
+  maxDuration          Int      @default(60)
+  quality              String   @default("standard")
+  features             String   @default("basic_generation,community_access")
+  subscriptionStatus   String?
+  subscriptionEndDate  DateTime?
+  stripeCustomerId     String?  @unique
+  stripeSubscriptionId String?
+  monthResetAt         DateTime @default(now())
+  dayResetAt           DateTime @default(now())
+  createdAt            DateTime @default(now())
+  updatedAt            DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("user_tiers")
+}
+
+model UserExtension {
+  id            String    @id @default(cuid())
+  userId        String    @unique
+  tokenHash     String?
+  isActive      Boolean   @default(false)
+  activatedAt   DateTime?
+  deactivatedAt DateTime?
+  lastUsed      DateTime?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("user_extensions")
+}
+
+model Generation {
+  id          String   @id @default(cuid())
+  userId      String
+  prompt      String
+  style       String? // Made optional
+  genre       String? // Added
+  duration    Int      @default(60)
+  quality     String   @default("standard")
+  status      String   @default("pending")
+  generationTaskId String? @unique // Added unique
+  audioUrl    String?
+  imageUrl    String? // Added
+  error       String? // Added
+  metadata    Json?   // Changed to Json
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  nfts NFT[]
+
+  @@map("generations")
+  @@index([userId, status])
+  @@index([generationTaskId])
+}
+
+model UserGenerationStats {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  date      DateTime 
+  count     Int      @default(0)
+  monthYear String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  @@unique([userId, date])
+  @@index([userId, monthYear])
+}
+
+model NFT {
+  id           String   @id @default(cuid())
+  userId       String
+  generationId String
+  title        String
+  description  String   @default("")
+  price        Float    @default(0)
+  audioUrl     String
+  metadata     String   @default("{}")
+  status       String   @default("active")
+  soldAt       DateTime?
+  soldTo       String?
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  user       User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  generation Generation   @relation(fields: [generationId], references: [id], onDelete: Cascade)
+  purchases  NFTPurchase[]
+
+  @@map("nfts")
+}
+
+model NFTPurchase {
+  id        String   @id @default(cuid())
+  nftId     String
+  buyerId   String
+  sellerId  String
+  price     Float
+  status    String   @default("completed")
+  createdAt DateTime @default(now())
+
+  nft    NFT  @relation(fields: [nftId], references: [id], onDelete: Cascade)
+  buyer  User @relation(fields: [buyerId], references: [id], onDelete: Cascade)
+
+  @@map("nft_purchases")
+}
+
+model CollaborationRoom {
+  id          String   @id @default(cuid())
+  name        String
+  description String   @default("")
+  isPublic    Boolean  @default(false)
+  ownerId     String
+  members     String   @default("")
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  owner User @relation("RoomOwner", fields: [ownerId], references: [id], onDelete: Cascade)
+
+  @@map("collaboration_rooms")
+}
+
+model AnalyticsEvent {
+  id         String   @id @default(cuid())
+  userId     String? // Made optional
+  eventType  String  // Renamed from event? No, keeping consistent if possible. Snippet has eventType. User has event usually. I'll use eventType.
+  
+  // Handle rename from event to eventType? Or assume one needs to be aliased.
+  // Existing: event String. New: eventType String. I will add eventType and keep event? NO, cleaner to choose one.
+  // I will use `eventType String` and map it? 
+  // Let's use `eventType` as requested.
+  
+  properties String?   @default("{}") // User wants metadata Json?
+  metadata   Json? // Added
+  timestamp  DateTime @default(now())
+
+  user User? @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("analytics_events")
+  @@index([eventType, timestamp])
+  @@index([userId, timestamp])
+}
+
+model GenerationAnalytics {
+  id           String   @id @default(cuid())
+  userId       String
+  generationId String
+  prompt       String
+  style        String
+  duration     Int
+  quality      String
+  timestamp    DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("generation_analytics")
+}
+
+model RequestAnalytics {
+  id           String   @id @default(cuid())
+  userId       String?
+  endpoint     String
+  method       String
+  statusCode   Int
+  duration     Int
+  timestamp    DateTime @default(now())
+
+  user User? @relation(fields: [userId], references: [id], onDelete: SetNull)
+
+  @@map("request_analytics")
+}
+
+model ExtensionUsage {
+  id        String   @id @default(cuid())
+  userId    String
+  action    String
+  metadata  String   @default("{}")
+  timestamp DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("extension_usage")
+}
+
+model VoiceClone {
+  id            String   @id @default(cuid())
+  userId        String
+  name          String
+  description   String   @default("")
+  
+  // Storage
+  audioUrl      String
+  modelPath     String?
+  
+  // Status
+  status        String   @default("processing") // processing, ready, failed
+  processingProgress Int @default(0)
+  
+  // Features
+  expressions   String   @default("[]") // JSON array of supported expressions
+  language      String   @default("en")
+  
+  // Metadata
+  duration      Int      @default(0)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("voice_clones")
+  @@index([userId, status])
+}

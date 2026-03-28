@@ -1,0 +1,6 @@
+
+> @son1k/alvae-system@1.0.0 build C:\Users\qrrom\Downloads\Sub-Son1k-2.3\Sub-Son1k-2.3\packages\alvae-system
+> tsc && vite build
+
+src/index.ts(34,32): error TS2339: Property 'env' does not exist on type 'ImportMeta'.
+ ELIFECYCLE  Command failed with exit code 2.

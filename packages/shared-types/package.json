@@ -1,0 +1,17 @@
+{
+  "name": "@super-son1k/shared-types",
+  "version": "2.2.0",
+  "description": "Shared TypeScript definitions for Super-Son1k-2.2",
+  "main": "dist/src/index.js",
+  "types": "dist/src/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "test": "echo no tests"
+  },
+  "keywords": [],
+  "author": "Super-Son1k Team",
+  "license": "MIT"
+}

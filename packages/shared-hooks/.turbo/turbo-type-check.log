@@ -1,0 +1,31 @@
+
+> @super-son1k/shared-hooks@1.0.0 type-check C:\Users\qrrom\Downloads\Sub-Son1k-2.3\Sub-Son1k-2.3\packages\shared-hooks
+> tsc --noEmit
+
+src/useGeneration.ts(2,42): error TS2307: Cannot find module '@son1k/tiers' or its corresponding type declarations.
+src/useGeneration.ts(30,21): error TS2339: Property 'env' does not exist on type 'ImportMeta'.
+src/useGeneration.ts(111,57): error TS2339: Property 'env' does not exist on type 'ImportMeta'.
+src/useGeneration.ts(160,40): error TS2339: Property 'env' does not exist on type 'ImportMeta'.
+src/useGeneration.ts(171,40): error TS2339: Property 'env' does not exist on type 'ImportMeta'.
+src/useMusicGeneration.ts(7,58): error TS6059: File 'C:/Users/qrrom/Downloads/Sub-Son1k-2.3/Sub-Son1k-2.3/packages/shared-services/src/index.ts' is not under 'rootDir' 'C:/Users/qrrom/Downloads/Sub-Son1k-2.3/Sub-Son1k-2.3/packages/shared-hooks/src'. 'rootDir' is expected to contain all source files.
+  The file is in the program because:
+    Imported via '@super-son1k/shared-services' from file 'C:/Users/qrrom/Downloads/Sub-Son1k-2.3/Sub-Son1k-2.3/packages/shared-hooks/src/useMusicGeneration.ts'
+    Imported via '@super-son1k/shared-services' from file 'C:/Users/qrrom/Downloads/Sub-Son1k-2.3/Sub-Son1k-2.3/packages/shared-hooks/src/useUserMusic.ts'
+src/useWebSocket.ts(91,21): error TS2339: Property 'env' does not exist on type 'ImportMeta'.
+../shared-services/src/index.ts(5,67): error TS6059: File 'C:/Users/qrrom/Downloads/Sub-Son1k-2.3/Sub-Son1k-2.3/packages/shared-services/src/musicService.ts' is not under 'rootDir' 'C:/Users/qrrom/Downloads/Sub-Son1k-2.3/Sub-Son1k-2.3/packages/shared-hooks/src'. 'rootDir' is expected to contain all source files.
+  The file is in the program because:
+    Imported via './musicService' from file 'C:/Users/qrrom/Downloads/Sub-Son1k-2.3/Sub-Son1k-2.3/packages/shared-services/src/index.ts'
+    Imported via './musicService' from file 'C:/Users/qrrom/Downloads/Sub-Son1k-2.3/Sub-Son1k-2.3/packages/shared-services/src/index.ts'
+../shared-services/src/index.ts(7,28): error TS6059: File 'C:/Users/qrrom/Downloads/Sub-Son1k-2.3/Sub-Son1k-2.3/packages/shared-services/src/apiService.ts' is not under 'rootDir' 'C:/Users/qrrom/Downloads/Sub-Son1k-2.3/Sub-Son1k-2.3/packages/shared-hooks/src'. 'rootDir' is expected to contain all source files.
+  The file is in the program because:
+    Imported via './apiService' from file 'C:/Users/qrrom/Downloads/Sub-Son1k-2.3/Sub-Son1k-2.3/packages/shared-services/src/index.ts'
+    Imported via './apiService' from file 'C:/Users/qrrom/Downloads/Sub-Son1k-2.3/Sub-Son1k-2.3/packages/shared-services/src/index.ts'
+../shared-services/src/musicService.ts(12,8): error TS6059: File 'C:/Users/qrrom/Downloads/Sub-Son1k-2.3/Sub-Son1k-2.3/packages/shared-types/src/index.ts' is not under 'rootDir' 'C:/Users/qrrom/Downloads/Sub-Son1k-2.3/Sub-Son1k-2.3/packages/shared-hooks/src'. 'rootDir' is expected to contain all source files.
+  The file is in the program because:
+    Imported via '@super-son1k/shared-types' from file 'C:/Users/qrrom/Downloads/Sub-Son1k-2.3/Sub-Son1k-2.3/packages/shared-services/src/musicService.ts'
+    Imported via '@super-son1k/shared-types' from file 'C:/Users/qrrom/Downloads/Sub-Son1k-2.3/Sub-Son1k-2.3/packages/shared-services/src/index.ts'
+    Imported via '@super-son1k/shared-types' from file 'C:/Users/qrrom/Downloads/Sub-Son1k-2.3/Sub-Son1k-2.3/packages/shared-hooks/src/useMusicGeneration.ts'
+    Imported via '@super-son1k/shared-types' from file 'C:/Users/qrrom/Downloads/Sub-Son1k-2.3/Sub-Son1k-2.3/packages/shared-hooks/src/useUserMusic.ts'
+../shared-services/src/musicService.ts(20,23): error TS2339: Property 'env' does not exist on type 'ImportMeta'.
+../shared-services/src/musicService.ts(26,23): error TS2339: Property 'env' does not exist on type 'ImportMeta'.
+ ELIFECYCLE  Command failed with exit code 2.

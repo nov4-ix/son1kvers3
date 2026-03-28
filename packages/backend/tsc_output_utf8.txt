@@ -1,0 +1,84 @@
+﻿src/services/alertService.ts(165,7): error TS1128: Declaration or statement expected.
+src/services/alertService.ts(174,3): error TS1128: Declaration or statement expected.
+src/services/alertService.ts(179,3): error TS1434: Unexpected keyword or identifier.
+src/services/alertService.ts(179,35): error TS1005: ',' expected.
+src/services/alertService.ts(179,54): error TS1005: ',' expected.
+src/services/alertService.ts(179,69): error TS1005: ';' expected.
+src/services/alertService.ts(179,83): error TS1109: Expression expected.
+src/services/alertService.ts(180,19): error TS1005: ',' expected.
+src/services/alertService.ts(180,30): error TS1005: ';' expected.
+src/services/alertService.ts(187,7): error TS1128: Declaration or statement expected.
+src/services/alertService.ts(196,3): error TS1128: Declaration or statement expected.
+src/services/alertService.ts(201,3): error TS1434: Unexpected keyword or identifier.
+src/services/alertService.ts(201,50): error TS1005: ',' expected.
+src/services/alertService.ts(201,70): error TS1005: ',' expected.
+src/services/alertService.ts(201,89): error TS1005: ';' expected.
+src/services/alertService.ts(201,103): error TS1109: Expression expected.
+src/services/alertService.ts(202,24): error TS1005: ',' expected.
+src/services/alertService.ts(202,28): error TS1005: ';' expected.
+src/services/alertService.ts(210,3): error TS1128: Declaration or statement expected.
+src/services/alertService.ts(215,3): error TS1128: Declaration or statement expected.
+src/services/alertService.ts(215,29): error TS1005: ';' expected.
+src/services/alertService.ts(216,11): error TS1005: ':' expected.
+src/services/alertService.ts(216,66): error TS1005: ',' expected.
+src/services/alertService.ts(217,9): error TS1005: ',' expected.
+src/services/alertService.ts(217,20): error TS1005: ',' expected.
+src/services/alertService.ts(219,10): error TS1359: Identifier expected. 'const' is a reserved word that cannot be used here.
+src/services/alertService.ts(219,16): error TS1005: ',' expected.
+src/services/alertService.ts(219,28): error TS1005: ',' expected.
+src/services/alertService.ts(219,31): error TS1005: ',' expected.
+src/services/alertService.ts(219,35): error TS1005: ',' expected.
+src/services/alertService.ts(219,52): error TS1005: ',' expected.
+src/services/alertService.ts(219,54): error TS1136: Property assignment expected.
+src/services/alertService.ts(229,3): error TS1128: Declaration or statement expected.
+src/services/alertService.ts(234,18): error TS1005: ';' expected.
+src/services/alertService.ts(258,1): error TS1128: Declaration or statement expected.
+src/services/analyticsService.ts(429,8): error TS1128: Declaration or statement expected.
+src/services/analyticsService.ts(441,5): error TS1128: Declaration or statement expected.
+src/services/analyticsService.ts(441,7): error TS1005: 'try' expected.
+src/services/analyticsService.ts(445,3): error TS1128: Declaration or statement expected.
+src/services/analyticsService.ts(450,3): error TS1434: Unexpected keyword or identifier.
+src/services/analyticsService.ts(450,37): error TS1005: ',' expected.
+src/services/analyticsService.ts(450,55): error TS1005: ';' expected.
+src/services/analyticsService.ts(485,3): error TS1434: Unexpected keyword or identifier.
+src/services/analyticsService.ts(485,30): error TS1005: ';' expected.
+src/services/analyticsService.ts(527,3): error TS1434: Unexpected keyword or identifier.
+src/services/analyticsService.ts(527,35): error TS1005: ',' expected.
+src/services/analyticsService.ts(527,49): error TS1005: ';' expected.
+src/services/analyticsService.ts(527,63): error TS1011: An element access expression should take an argument.
+src/services/analyticsService.ts(528,9): error TS1005: ':' expected.
+src/services/analyticsService.ts(529,13): error TS1005: ':' expected.
+src/services/analyticsService.ts(529,70): error TS1005: ',' expected.
+src/services/analyticsService.ts(531,13): error TS1005: ':' expected.
+src/services/analyticsService.ts(549,9): error TS1005: ',' expected.
+src/services/analyticsService.ts(551,14): error TS1005: ':' expected.
+src/services/analyticsService.ts(551,25): error TS1005: ',' expected.
+src/services/analyticsService.ts(552,7): error TS1005: ',' expected.
+src/services/analyticsService.ts(558,3): error TS1434: Unexpected keyword or identifier.
+src/services/analyticsService.ts(558,29): error TS1005: ';' expected.
+src/services/analyticsService.ts(559,9): error TS1005: ':' expected.
+src/services/analyticsService.ts(560,13): error TS1005: ':' expected.
+src/services/analyticsService.ts(560,61): error TS1005: ',' expected.
+src/services/analyticsService.ts(562,14): error TS1005: ':' expected.
+src/services/analyticsService.ts(566,9): error TS1005: ',' expected.
+src/services/analyticsService.ts(567,7): error TS1005: ',' expected.
+src/services/analyticsService.ts(576,3): error TS1434: Unexpected keyword or identifier.
+src/services/analyticsService.ts(576,22): error TS1005: ';' expected.
+src/services/analyticsService.ts(577,9): error TS1005: ':' expected.
+src/services/analyticsService.ts(578,13): error TS1005: ',' expected.
+src/services/analyticsService.ts(578,17): error TS1005: ':' expected.
+src/services/analyticsService.ts(578,44): error TS1005: ',' expected.
+src/services/analyticsService.ts(579,14): error TS1005: ':' expected.
+src/services/analyticsService.ts(579,18): error TS1005: ',' expected.
+src/services/analyticsService.ts(580,7): error TS1005: ',' expected.
+src/services/analyticsService.ts(589,3): error TS1128: Declaration or statement expected.
+src/services/analyticsService.ts(589,30): error TS1005: ',' expected.
+src/services/analyticsService.ts(589,39): error TS1005: ';' expected.
+src/services/analyticsService.ts(589,41): error TS1434: Unexpected keyword or identifier.
+src/services/analyticsService.ts(611,3): error TS1128: Declaration or statement expected.
+src/services/analyticsService.ts(611,32): error TS1005: ',' expected.
+src/services/analyticsService.ts(611,41): error TS1005: ';' expected.
+src/services/analyticsService.ts(611,43): error TS1434: Unexpected keyword or identifier.
+src/services/analyticsService.ts(631,3): error TS1434: Unexpected keyword or identifier.
+src/services/analyticsService.ts(631,17): error TS1005: ';' expected.
+src/services/analyticsService.ts(634,1): error TS1128: Declaration or statement expected.

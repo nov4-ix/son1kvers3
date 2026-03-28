@@ -1,0 +1,163 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* SON1KVERS3 - NEXUS FUTURISM DESIGN SYSTEM */
+:root {
+  /* Nexus Colors - Identidad de Marca */
+  --nexus-cyan: #40FDAE;
+  --nexus-purple: #B858FE;
+  --nexus-blue: #00FFE7;
+
+  /* Dark Backgrounds */
+  --nexus-dark: #0A0C10;
+  --nexus-carbon: #1e2139;
+  --nexus-slate: #2a2d4a;
+
+  /* Semantic Colors */
+  --background: #0A0C10;
+  --foreground: #FFFFFF;
+  --card: rgba(30, 33, 57, 0.8);
+  --card-foreground: #FFFFFF;
+  --primary: #40FDAE;
+  --primary-foreground: #000000;
+  --secondary: #2a2d4a;
+  --secondary-foreground: #FFFFFF;
+  --muted: #6B7280;
+  --muted-foreground: #9FA6B2;
+  --accent: #B858FE;
+  --accent-foreground: #FFFFFF;
+  --destructive: #FF1744;
+  --destructive-foreground: #FFFFFF;
+  --border: rgba(64, 253, 174, 0.2);
+  --input: rgba(255, 255, 255, 0.1);
+  --ring: #40FDAE;
+  --radius: 0.75rem;
+}
+
+@layer base {
+  body {
+    @apply bg-background text-foreground;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    letter-spacing: -0.01em;
+    background: linear-gradient(135deg, #0A0C10 0%, #1e2139 100%);
+    background-attachment: fixed;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: 'Orbitron', 'Inter', sans-serif;
+    font-weight: 700;
+  }
+}
+
+@layer components {
+  .btn-nexus-primary {
+    @apply bg-gradient-to-r from-[#40FDAE] to-[#B858FE] text-black font-bold px-6 py-3 rounded-lg hover:scale-105 transition-transform shadow-[0_0_20px_rgba(64, 253, 174, 0.3)];
+  }
+
+  .btn-nexus-secondary {
+    @apply bg-[#2a2d4a] text-white border border-[#40FDAE]/30 hover:border-[#40FDAE] px-6 py-3 rounded-lg transition-all;
+  }
+
+  .nexus-card {
+    @apply bg-[#1e2139]/80 backdrop-blur-xl border border-[#40FDAE]/20 rounded-2xl p-6 transition-all hover:border-[#40FDAE]/50 hover:shadow-[0_0_30px_rgba(64, 253, 174, 0.15)];
+  }
+
+  .nexus-input {
+    @apply bg-[#0A0C10]/50 border border-white/10 text-white rounded-lg px-4 py-2 focus:border-[#40FDAE] focus:ring-2 focus:ring-[#40FDAE]/20 transition-all;
+  }
+
+  .gradient-text-nexus {
+    @apply bg-gradient-to-r from-[#40FDAE] to-[#B858FE] bg-clip-text text-transparent;
+  }
+}
+
+/* Glassmorphism */
+.glass-nexus {
+  background: rgba(30, 33, 57, 0.7);
+  backdrop-filter: blur(20px) saturate(180%);
+  border: 1px solid rgba(64, 253, 174, 0.2);
+}
+
+/* Glow Effects */
+.glow-cyan {
+  box-shadow: 0 0 20px rgba(64, 253, 174, 0.3), 0 0 40px rgba(64, 253, 174, 0.1);
+}
+
+.glow-purple {
+  box-shadow: 0 0 20px rgba(184, 88, 254, 0.3), 0 0 40px rgba(184, 88, 254, 0.1);
+}
+
+/* Animated Background */
+@keyframes gradient-shift {
+
+  0%,
+  100% {
+    background-position: 0% 50%;
+  }
+
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+.animated-bg {
+  background: linear-gradient(135deg, #0A0C10 0%, #1e2139 25%, #0A0C10 50%, #1e2139 75%, #0A0C10 100%);
+  background-size: 200% 200%;
+  animation: gradient-shift 15s ease infinite;
+}
+
+/* Floating Animation */
+@keyframes float {
+
+  0%,
+  100% {
+    transform: translateY(0px);
+  }
+
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+/* Shimmer Effect */
+@keyframes shimmer {
+  0% {
+    background-position: -1000px 0;
+  }
+
+  100% {
+    background-position: 1000px 0;
+  }
+}
+
+.shimmer {
+  background: linear-gradient(90deg, transparent, rgba(64, 253, 174, 0.1), transparent);
+  background-size: 1000px 100%;
+  animation: shimmer 2s infinite;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: #1e2139;
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, #40FDAE, #B858FE);
+  border-radius: 5px;
+}
+
+/* Selection */
+::selection {
+  background: rgba(64, 253, 174, 0.3);
+  color: white;
+}

@@ -1,0 +1,30 @@
+{
+  "name": "son1kvers3",
+  "version": "2.3.0",
+  "description": "Plataforma integral de generación musical asistida por IA con tokens autosustentables",
+  "private": true,
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "dev": "turbo run dev",
+    "build": "turbo run build",
+    "build:all": "turbo run build --filter=... --sort",
+    "test": "turbo run test",
+    "lint": "turbo run lint",
+    "db:generate": "turbo run db:generate",
+    "db:migrate": "turbo run db:migrate",
+    "db:push": "turbo run db:push",
+    "start:backend": "pnpm --filter @super-son1k/backend start",
+    "start:frontend": "pnpm --filter the-generator start",
+    "install:all": "pnpm install && pnpm db:generate"
+  },
+  "devDependencies": {
+    "turbo": "latest"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "packageManager": "pnpm@8.15.0"
+}

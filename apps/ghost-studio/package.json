@@ -1,0 +1,17 @@
+{
+  "name": "@super-son1k/ghost-studio",
+  "version": "1.0.0",
+  "description": "Ghost Studio API - Stripe webhook handler",
+  "type": "module",
+  "scripts": {
+    "dev": "echo 'Ghost Studio API - Use backend dev server'",
+    "build": "echo 'No build required for API-only'",
+    "start": "echo 'Use backend server'",
+    "type-check": "tsc --noEmit --skipLibCheck"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "typescript": "^5.3.3",
+    "@types/node": "^20.0.0"
+  }
+}

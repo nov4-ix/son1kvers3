@@ -1,0 +1,23 @@
+{
+    "name": "@son1k/pixel-companion",
+    "version": "1.0.0",
+    "description": "Pixel Companion - AI Music Assistant",
+    "main": "src/index.ts",
+    "types": "src/index.ts",
+    "scripts": {
+        "dev": "vite",
+        "build": "tsc && vite build",
+        "preview": "vite preview"
+    },
+    "dependencies": {
+        "react": "^18.2.0",
+        "react-dom": "^18.2.0",
+        "framer-motion": "^10.0.0"
+    },
+    "devDependencies": {
+        "@types/react": "^18.2.0",
+        "@types/react-dom": "^18.2.0",
+        "typescript": "^5.0.0",
+        "vite": "^5.0.0"
+    }
+}

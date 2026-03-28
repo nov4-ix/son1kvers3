@@ -1,0 +1,190 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Super-Son1k Branding Styles */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700&display=swap');
+
+:root {
+  /* Super-Son1k Color Palette */
+  --brand-primary: #00bfff;
+  --brand-secondary: #ff49c3;
+  --brand-accent: #44ff44;
+  --brand-warning: #ffff44;
+  --brand-dark: #0b0b0d;
+  --brand-darker: #0f121a;
+  --brand-light: #e7e7ea;
+  --brand-muted: #b9b9c2;
+
+  /* Gradients */
+  --brand-gradient: linear-gradient(135deg, var(--brand-primary) 0%, var(--brand-secondary) 50%, var(--brand-accent) 100%);
+  --header-gradient: linear-gradient(90deg, var(--brand-primary) 0%, var(--brand-secondary) 100%);
+  --button-gradient: linear-gradient(135deg, var(--brand-primary) 0%, var(--brand-secondary) 50%, var(--brand-accent) 100%);
+  --cyber-overlay: linear-gradient(135deg, rgba(0, 191, 255, 0.1) 0%, rgba(255, 73, 195, 0.1) 100%);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background: var(--brand-dark);
+  color: var(--brand-light);
+  overflow-x: hidden;
+}
+
+code {
+  font-family: 'JetBrains Mono', source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+/* Cyberpunk Grid Background Utility */
+.cyber-grid-bg {
+  position: relative;
+}
+
+.cyber-grid-bg::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image:
+    linear-gradient(rgba(0, 191, 255, 0.1) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 191, 255, 0.1) 1px, transparent 1px);
+  background-size: 50px 50px;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.cyber-grid-bg > * {
+  position: relative;
+  z-index: 1;
+}
+
+/* Custom Slider Styles */
+.slider::-webkit-slider-thumb {
+  appearance: none;
+  height: 16px;
+  width: 16px;
+  border-radius: 50%;
+  background: var(--brand-primary);
+  cursor: pointer;
+  box-shadow: 0 0 10px rgba(0, 191, 255, 0.5);
+  transition: all 0.2s ease;
+}
+
+.slider::-webkit-slider-thumb:hover {
+  transform: scale(1.2);
+  box-shadow: 0 0 20px rgba(0, 191, 255, 0.8);
+}
+
+.slider::-webkit-slider-track {
+  appearance: none;
+  height: 3px;
+  background: var(--brand-darker);
+  border-radius: 2px;
+}
+
+.slider::-moz-range-thumb {
+  height: 16px;
+  width: 16px;
+  border-radius: 50%;
+  background: var(--brand-primary);
+  cursor: pointer;
+  border: none;
+  box-shadow: 0 0 10px rgba(0, 191, 255, 0.5);
+  transition: all 0.2s ease;
+}
+
+.slider::-moz-range-thumb:hover {
+  transform: scale(1.2);
+  box-shadow: 0 0 20px rgba(0, 191, 255, 0.8);
+}
+
+.slider::-moz-range-track {
+  height: 3px;
+  background: var(--brand-darker);
+  border-radius: 2px;
+  border: none;
+}
+
+/* Glow Effects */
+.glow-primary {
+  box-shadow: 0 0 20px rgba(0, 191, 255, 0.3);
+}
+
+.glow-secondary {
+  box-shadow: 0 0 20px rgba(255, 73, 195, 0.3);
+}
+
+.glow-accent {
+  box-shadow: 0 0 20px rgba(68, 255, 68, 0.3);
+}
+
+/* Gradient Text */
+.gradient-text {
+  background: var(--brand-gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--brand-darker);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--brand-primary);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--brand-secondary);
+}
+
+/* Animation Classes */
+.animate-float {
+  animation: float 6s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+/* Button Hover Effects */
+.btn-brand {
+  background: var(--button-gradient);
+  transition: all 0.3s ease;
+}
+
+.btn-brand:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 30px rgba(0, 191, 255, 0.4);
+}
+
+/* Focus Styles */
+.focus-brand:focus {
+  outline: none;
+  ring: 2px;
+  ring-color: var(--brand-primary);
+  ring-opacity: 0.5;
+}

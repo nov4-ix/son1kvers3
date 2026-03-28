@@ -1,0 +1,36 @@
+src/index.ts(13,10): error TS2305: Module '"@prisma/client"' has no exported member 'PrismaClient'.
+src/index.ts(320,17): error TS2769: No overload matches this call.
+  Overload 1 of 3, '(plugin: FastifyPluginCallback<AnalyticsService, RawServerDefault, FastifyTypeProviderDefault, FastifyBaseLogger>, opts?: FastifyRegisterOptions<...>): FastifyInstance<...> & PromiseLike<...>', gave the following error.
+    Argument of type '{ prefix: string; }' is not assignable to parameter of type 'FastifyRegisterOptions<AnalyticsService>'.
+      Type '{ prefix: string; }' is not assignable to type 'RegisterOptions & AnalyticsService'.
+        Type '{ prefix: string; }' is missing the following properties from type 'AnalyticsService': prisma, trackEvent, trackGeneration, trackRequest, and 15 more.
+  Overload 2 of 3, '(plugin: FastifyPluginAsync<AnalyticsService, RawServerDefault, FastifyTypeProviderDefault, FastifyBaseLogger>, opts?: FastifyRegisterOptions<...>): FastifyInstance<...> & PromiseLike<...>', gave the following error.
+    Argument of type '(fastify: FastifyInstance<RawServerDefault, IncomingMessage, ServerResponse<IncomingMessage>, FastifyBaseLogger, FastifyTypeProviderDefault>, analyticsService: AnalyticsService) => () => Promise<...>' is not assignable to parameter of type 'FastifyPluginAsync<AnalyticsService, RawServerDefault, FastifyTypeProviderDefault, FastifyBaseLogger>'.
+      Type '() => Promise<void>' is not assignable to type 'Promise<void>'.
+  Overload 3 of 3, '(plugin: FastifyPluginCallback<AnalyticsService, RawServerDefault, FastifyTypeProviderDefault, FastifyBaseLogger> | FastifyPluginAsync<...> | Promise<...> | Promise<...>, opts?: FastifyRegisterOptions<...>): FastifyInstance<...> & PromiseLike<...>', gave the following error.
+    Argument of type '{ prefix: string; }' is not assignable to parameter of type 'FastifyRegisterOptions<AnalyticsService>'.
+      Type '{ prefix: string; }' is not assignable to type 'RegisterOptions & AnalyticsService'.
+        Type '{ prefix: string; }' is missing the following properties from type 'AnalyticsService': prisma, trackEvent, trackGeneration, trackRequest, and 15 more.
+src/queue/generation.worker.ts(9,10): error TS2305: Module '"@prisma/client"' has no exported member 'PrismaClient'.
+src/routes/collaboration.routes.ts(3,44): error TS2459: Module '"../middleware/auth.middleware"' declares 'UserTier' locally, but it is not exported.
+src/routes/content.routes.ts(2,44): error TS2459: Module '"../middleware/auth.middleware"' declares 'UserTier' locally, but it is not exported.
+src/routes/pixel-memory.routes.ts(22,17): error TS2554: Expected 2-3 arguments, but got 1.
+src/routes/pixel-memory.routes.ts(35,21): error TS2554: Expected 2-3 arguments, but got 1.
+src/routes/pixel-memory.routes.ts(103,13): error TS2345: Argument of type '{ preferences?: { defaultMood?: "calmo" | "agradecido" | "enfoque"; favoriteApp?: string; codeStyle?: "verbose" | "concise"; helpLevel?: "beginner" | "intermediate" | "expert"; }; learnings?: { ...; }; }' is not assignable to parameter of type 'Partial<Pick<PixelUserProfile, "preferences" | "learnings">>'.
+  Types of property 'preferences' are incompatible.
+    Type '{ defaultMood?: "calmo" | "agradecido" | "enfoque"; favoriteApp?: string; codeStyle?: "verbose" | "concise"; helpLevel?: "beginner" | "intermediate" | "expert"; }' is not assignable to type '{ defaultMood: "calmo" | "agradecido" | "enfoque"; favoriteApp: string; codeStyle: "verbose" | "concise"; helpLevel: "beginner" | "intermediate" | "expert"; }'.
+      Property 'defaultMood' is optional in type '{ defaultMood?: "calmo" | "agradecido" | "enfoque"; favoriteApp?: string; codeStyle?: "verbose" | "concise"; helpLevel?: "beginner" | "intermediate" | "expert"; }' but required in type '{ defaultMood: "calmo" | "agradecido" | "enfoque"; favoriteApp: string; codeStyle: "verbose" | "concise"; helpLevel: "beginner" | "intermediate" | "expert"; }'.
+src/scripts/verify-token-system.ts(2,10): error TS2305: Module '"@prisma/client"' has no exported member 'PrismaClient'.
+src/services/analyticsService.ts(6,10): error TS2305: Module '"@prisma/client"' has no exported member 'PrismaClient'.
+src/services/collaborationService.ts(6,10): error TS2305: Module '"@prisma/client"' has no exported member 'PrismaClient'.
+src/services/musicGenerationService.ts(132,60): error TS2339: Property 'NEURAL_ENGINE_POLLING_URL' does not exist on type '{ DATABASE_URL: string; NODE_ENV: "development" | "production" | "test"; PORT: string; LOG_LEVEL: "error" | "warn" | "info" | "debug"; REDIS_URL?: string; REDIS_HOST?: string; REDIS_PORT?: string; ... 23 more ...; HOST?: string; }'.
+src/services/musicGenerationService.ts(213,60): error TS2339: Property 'NEURAL_ENGINE_POLLING_URL' does not exist on type '{ DATABASE_URL: string; NODE_ENV: "development" | "production" | "test"; PORT: string; LOG_LEVEL: "error" | "warn" | "info" | "debug"; REDIS_URL?: string; REDIS_HOST?: string; REDIS_PORT?: string; ... 23 more ...; HOST?: string; }'.
+src/services/musicGenerationService.ts(283,51): error TS2339: Property 'NEURAL_ENGINE_API_URL' does not exist on type '{ DATABASE_URL: string; NODE_ENV: "development" | "production" | "test"; PORT: string; LOG_LEVEL: "error" | "warn" | "info" | "debug"; REDIS_URL?: string; REDIS_HOST?: string; REDIS_PORT?: string; ... 23 more ...; HOST?: string; }'.
+src/services/nova-ai.service.ts(327,17): error TS2339: Property 'platform' does not exist on type 'GeneratedContent'.
+src/services/pixel-memory.service.ts(2,30): error TS2307: Cannot find module '../../../apps/web-classic/src/lib/pixelAI' or its corresponding type declarations.
+src/services/supabaseAuth.ts(2,10): error TS2305: Module '"@prisma/client"' has no exported member 'PrismaClient'.
+src/services/tokenManager.ts(7,10): error TS2305: Module '"@prisma/client"' has no exported member 'PrismaClient'.
+src/services/tokenPoolService.ts(6,10): error TS2305: Module '"@prisma/client"' has no exported member 'PrismaClient'.
+src/services/userExtensionService.ts(6,10): error TS2305: Module '"@prisma/client"' has no exported member 'PrismaClient'.
+src/services/viral-hooks.service.ts(2,10): error TS2724: '"./profile-analyzer.service"' has no exported member named 'profileAnalyzer'. Did you mean 'ProfileAnalyzer'?
+src/services/viral-hooks.service.ts(22,46): error TS2339: Property 'getTrendingTopics' does not exist on type 'TrendingService'.

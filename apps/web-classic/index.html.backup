@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <script type="module" src="/@vite/client"></script>
+
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SON1KVERS3 · Ctrl + Alt = Humanity</title>
+  <meta name="description" content="Son1kVers3 - Ecosistema artístico-tecnológico que une música, inteligencia artificial y narrativa cyberpunk lírica.">
+  <link rel="stylesheet" href="/src/style.css?v=20250125-BETA-FIXED">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Orbitron:wght@400;700;900&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  
+  <!-- Top Auth Bar -->
+  <div class="top-auth-bar">
+    <div class="container">
+      <div class="top-auth-links">
+        <a href="#" class="auth-link" onclick="openAuthModal('register'); return false;">Registro</a>
+        <span class="divider">|</span>
+        <a href="#" class="auth-link" onclick="openAuthModal('login'); return false;">Iniciar Sesión</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Logo fijo de fondo -->
+  <div class="fixed-logo-bg"></div>
+  
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="container">
+      <div class="hero-content">
+        <div class="logo-symbol">
+          <img src="/son1k-logo.png" alt="SON1KVERS3 Logo" class="son1k-logo-img" />
+        </div>
+        <h1 class="title glitch-text">[Son1kvers3]</h1>
+        <p class="slogan">Ctrl + Alt = Humanity</p>
+        <p class="subtitle">Lo imperfecto también es sagrado</p>
+          <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
+            <button class="cta-button" onclick="window.open('/CODEX_MAESTRO-2.1_ATLAS_PRIMARY_FIXED.html', '_blank')">
+              <span>Entrar al Códex</span>
+              <span class="arrow">→</span>
+            </button>
+            <button class="cta-button secondary" onclick="window.open('http://localhost:3004', '_blank')">
+              <span>The Generator</span>
+              <span class="arrow">→</span>
+            </button>
+          </div>
+      </div>
+      <div class="hero-bg-lines"></div>
+    </div>
+  </section>
+
+  <!-- Filosofía Section -->
+  <section class="filosofia">
+    <div class="container">
+      <div class="filosofia-content">
+        <p class="filosofia-text fade-in">
+          [Son1kVers3] es la resistencia sonora que une lo humano y lo digital.
+        </p>
+        <blockquote class="filosofia-quote fade-in">
+          <div class="quote-symbol">❝</div>
+          <p>Cada glitch es una cicatriz. Cada nota, una rebelión.</p>
+          <div class="quote-line"></div>
+        </blockquote>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- News Section -->
+  <section class="news-section">
+    <div class="container">
+      <h2 class="section-title fade-in">NOTICIAS</h2>
+      <div class="news-grid">
+        <article class="news-card">
+          <span class="news-date">25 ENE 2025</span>
+          <h3>Beta Pública Lanzada</h3>
+          <p>SON1KVERS3 abre sus puertas al mundo. El ecosistema cyberpunk musical está ahora disponible.</p>
+          <a href="#" class="news-link">Leer más →</a>
+        </article>
+        <article class="news-card">
+          <span class="news-date">24 ENE 2025</span>
+          <h3>The Generator Update</h3>
+          <p>Nueva integraciónual backend completa. Generación musical más rápida y estable.</p>
+          <a href="#" class="news-link">Leer más →</a>
+        </article>
+        <article class="news-card">
+          <span class="news-date">23 ENE 2025</span>
+          <h3>Top 10 Semanal</h3>
+          <p>Descubre las tracks más populares de esta semana. ¡Vota por tus favoritos!</p>
+          <a href="#" class="news-link">Leer más →</a>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- El Santuario Banner -->
+  <section class="santuario-banner">
+    <div class="container">
+      <div class="banner-content">
+        <h2>EL SANTUARIO</h2>
+        <p class="coming-soon">PRÓXIMAMENTE...</p>
+        <p class="banner-desc">Espacio colaborativo de creación donde los artistas se reúnen para crear juntos.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- Pricing Section -->
+  <section class="pricing">
+    <div class="container">
+      <h2 class="section-title fade-in">TIERS & PRICING</h2>
+      <div class="pricing-grid">
+        <!-- FREE Tier -->
+        <div class="pricing-card">
+          <h3 class="tier-name">FREE</h3>
+          <div class="tier-price">$0<span class="period">/month</span></div>
+          <ul class="tier-features">
+            <li>5 generaciones al mes</li>
+            <li>2 generaciones al día</li>
+            <li>Duración máxima: 60s</li>
+            <li>Calidad estándar</li>
+            <li>Acceso a comunidad</li>
+          </ul>
+          <button class="tier-btn">Comenzar Gratis</button>
+        </div>
+
+        <!-- PRO Tier -->
+        <div class="pricing-card featured">
+          <h3 class="tier-name">PRO</h3>
+          <div class="tier-price">$29<span class="period">/month</span></div>
+          <ul class="tier-features">
+            <li>50 generaciones al mes</li>
+            <li>5 generaciones al día</li>
+            <li>Duración máxima: 120s</li>
+            <li>Calidad premium</li>
+            <li>Acceso prioritario</li>
+            <li>Soporte prioritario</li>
+          </ul>
+          <button class="tier-btn featured">Actualizar a PRO</button>
+        </div>
+
+        <!-- PREMIUM Tier -->
+        <div class="pricing-card">
+          <h3 class="tier-name">PREMIUM</h3>
+          <div class="tier-price">$99<span class="period">/month</span></div>
+          <ul class="tier-features">
+            <li>200 generaciones al mes</li>
+            <li>Generaciones ilimitadas/día</li>
+            <li>Duración máxima: 300s</li>
+            <li>Calidad ultra</li>
+            <li>Acceso exclusivo</li>
+            <li>NFT marketplace</li>
+            <li>API access</li>
+          </ul>
+          <button class="tier-btn">Actualizar a PREMIUM</button>
+        </div>
+
+        <!-- ENTERPRISE Tier -->
+        <div class="pricing-card">
+          <h3 class="tier-name">ENTERPRISE</h3>
+          <div class="tier-price">Custom<span class="period">/month</span></div>
+          <ul class="tier-features">
+            <li>Generaciones ilimitadas</li>
+            <li>Control total de duración</li>
+            <li>Calidad personalizada</li>
+            <li>White-label</li>
+            <li>Dedicated support</li>
+            <li>SLA garantizado</li>
+          </ul>
+          <button class="tier-btn">Contactar Ventas</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- Top 10 Player Section -->
+  <section class="top10-section">
+    <div class="container">
+      <h2 class="section-title fade-in">TOP 10 DE LA SEMANA</h2>
+      <div class="top10-player fade-in">
+        <div class="player-header">
+          <div class="player-header-content">
+            <div>
+              <span class="badge">HOT 🔥</span>
+              <span class="player-title">TOP 10 DE LA SEMANA</span>
+            </div>
+          </div>
+          <span class="week">Semana del 20-26 Ene 2025</span>
+        </div>
+        <div class="track-list">
+          <div class="track-item" data-rank="1">
+            <span class="rank">#1</span>
+            <div class="track-info">
+              <span class="track-name">Cyber Dreams</span>
+              <span class="track-artist">@neural_frequency</span>
+            </div>
+            <span class="track-plays">125K</span>
+          </div>
+          <div class="track-item" data-rank="2">
+            <span class="rank">#2</span>
+            <div class="track-info">
+              <span class="track-name">Glitch Salvation</span>
+              <span class="track-artist">@quantum_beats</span>
+            </div>
+            <span class="track-plays">98K</span>
+          </div>
+          <div class="track-item" data-rank="3">
+            <span class="rank">#3</span>
+            <div class="track-info">
+              <span class="track-name">Digital Rain</span>
+              <span class="track-artist">@synth_master</span>
+            </div>
+            <span class="track-plays">87K</span>
+          </div>
+          <div class="track-item" data-rank="4">
+            <span class="rank">#4</span>
+            <div class="track-info">
+              <span class="track-name">Neon Nights</span>
+              <span class="track-artist">@cyber_vibes</span>
+            </div>
+            <span class="track-plays">76K</span>
+          </div>
+          <div class="track-item" data-rank="5">
+            <span class="rank">#5</span>
+            <div class="track-info">
+              <span class="track-name">Resistance Theme</span>
+              <span class="track-artist">@son1k_original</span>
+            </div>
+            <span class="track-plays">65K</span>
+          </div>
+          <div class="track-item" data-rank="6">
+            <span class="rank">#6</span>
+            <div class="track-info">
+              <span class="track-name">Pixel Symphony</span>
+              <span class="track-artist">@retro_future</span>
+            </div>
+            <span class="track-plays">54K</span>
+          </div>
+          <div class="track-item" data-rank="7">
+            <span class="rank">#7</span>
+            <div class="track-info">
+              <span class="track-name">Binary Love</span>
+              <span class="track-artist">@ai_generated</span>
+            </div>
+            <span class="track-plays">43K</span>
+          </div>
+          <div class="track-item" data-rank="8">
+            <span class="rank">#8</span>
+            <div class="track-info">
+              <span class="track-name">Hack the Planet</span>
+              <span class="track-artist">@matrix_sounds</span>
+            </div>
+            <span class="track-plays">38K</span>
+          </div>
+          <div class="track-item" data-rank="9">
+            <span class="rank">#9</span>
+            <div class="track-info">
+              <span class="track-name">Virtual Reality</span>
+              <span class="track-artist">@vibe_check</span>
+            </div>
+            <span class="track-plays">32K</span>
+          </div>
+          <div class="track-item" data-rank="10">
+            <span class="rank">#10</span>
+            <div class="track-info">
+              <span class="track-name">Code Red</span>
+              <span class="track-artist">@emergency_mode</span>
+            </div>
+            <span class="track-plays">28K</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- Ecosistema Section -->
+  <section class="ecosistema">
+    <div class="container">
+      <h2 class="section-title fade-in">ECOSISTEMA</h2>
+
+      <!-- Arturia Console Interface -->
+      <div class="arturia-console-container fade-in">
+        <div class="arturia-console">
+          <img src="/arturia-console.jpg" alt="Arturia Console" class="console-image" />
+          
+          <!-- Interactive Buttons Overlay -->
+          <div class="console-buttons">
+            <!-- Ghost Studio Button -->
+            <button class="console-btn ghost-btn" onclick="openTool('ghost-studio')" title="Ghost Studio">
+              <div class="btn-glow"></div>
+            </button>
+            
+            <!-- Archive Button -->
+            <button class="console-btn archive-btn" onclick="openTool('archivo')" title="El Archivo">
+              <div class="btn-glow"></div>
+            </button>
+            
+            <!-- The Generator Button (Main Power) -->
+            <button class="console-btn power-btn" onclick="window.open('http://localhost:3002', '_blank')" title="The Generator">
+              <div class="btn-glow"></div>
+            </button>
+            
+            <!-- Nova Post Pilot Button -->
+            <button class="console-btn sanctuary-btn" onclick="openTool('nova-post')" title="Nova Post Pilot">
+              <div class="btn-glow"></div>
+            </button>
+            
+            <!-- Clone Station Button -->
+            <button class="console-btn terminal-btn" onclick="openTool('clone-station')" title="Clone Station">
+              <div class="btn-glow"></div>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tool Descriptions -->
+      <div class="tool-descriptions">
+        <div class="tool-desc" data-tool="ghost-studio">
+          <h3>GHOST STUDIO</h3>
+          <p>Creación musical con Inteligencia Artificial</p>
+        </div>
+        <div class="tool-desc" data-tool="archivo">
+          <h3>EL ARCHIVO</h3>
+          <p>Memoria viva de los artistas</p>
+        </div>
+        <div class="tool-desc active" data-tool="main">
+          <h3>[SON1KVERS3]</h3>
+          <p>Ecosistema artístico-tecnológico cyberpunk</p>
+        </div>
+        <div class="tool-desc" data-tool="santuario">
+          <h3>EL SANTUARIO</h3>
+          <p>Espacio colaborativo de creación</p>
+        </div>
+        <div class="tool-desc" data-tool="terminal">
+          <h3>LA TERMINAL</h3>
+          <p>Escenario digital de la Resistencia</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-content">
+        <p class="footer-text">© [Son1kVers3] 2025 · Archivo Central · PX-COM // PROTOCOL-ALPHA.01</p>
+        <div class="footer-symbol">
+          <img src="/alvae-logo.svg" alt="ALVAE Logo" class="alvae-logo-img" />
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Auth Modal -->
+  <div id="authModal" class="auth-modal" style="display: none;">
+    <div class="auth-modal-content">
+      <span class="auth-close">&times;</span>
+      <h2>ACCESO AL ECOSISTEMA</h2>
+      <p class="auth-subtitle">Inicia sesión para acceder a todas las herramientas</p>
+      
+      <div class="auth-tabs">
+        <button class="auth-tab active" data-tab="login">Iniciar Sesión</button>
+        <button class="auth-tab" data-tab="register">Registrarse</button>
+      </div>
+
+      <div id="loginTab" class="auth-tab-content active">
+        <form id="loginForm" class="auth-form">
+          <input type="email" placeholder="Email" required>
+          <input type="password" placeholder="Contraseña" required>
+          <button type="submit" class="auth-submit">ENTRAR</button>
+        </form>
+        <div class="auth-divider">
+          <span>O continúa con</span>
+        </div>
+        <button class="auth-google" onclick="handleGoogleSignIn()">
+          <span>🔐</span> Google
+        </button>
+      </div>
+
+      <div id="registerTab" class="auth-tab-content">
+        <form id="registerForm" class="auth-form">
+          <input type="text" placeholder="Usuario" required>
+          <input type="email" placeholder="Email" required>
+          <input type="password" placeholder="Contraseña" required>
+          <button type="submit" class="auth-submit">REGISTRARSE</button>
+        </form>
+        <div class="auth-divider">
+          <span>O registrate con</span>
+        </div>
+        <button class="auth-google" onclick="handleGoogleSignIn()">
+          <span>🔐</span> Google
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Initialize the page
+    console.log('🎵 SON1KVERS3 - CTRL + ALT = Humanity');
+
+    // Google OAuth Sign In
+    function handleGoogleSignIn() {
+      const backendUrl = 'http://localhost:3001';
+      
+      // Redirect to backend OAuth endpoint
+      window.open(`${backendUrl}/api/auth/google`, 'SignIn', 'width=500,height=600');
+      
+      // Listen for authentication result
+      window.addEventListener('message', (event) => {
+        if (event.origin === backendUrl && event.data.type === 'auth_success') {
+          localStorage.setItem('token', event.data.token);
+          localStorage.setItem('user', JSON.stringify(event.data.user));
+          location.reload();
+        }
+      });
+    }
+
+    // Check if user is authenticated
+    function checkAuth() {
+      const token = localStorage.getItem('token');
+      const authBtn = document.querySelector('.auth-btn');
+      
+      if (token && authBtn) {
+        const user = JSON.parse(localStorage.getItem('user') || '{}');
+        authBtn.innerHTML = `<span>👤 ${user.username || 'Usuario'}</span>`;
+        authBtn.onclick = () => {
+          localStorage.removeItem('token');
+          localStorage.removeItem('user');
+          location.reload();
+        };
+        authBtn.style.background = 'linear-gradient(45deg, var(--accent-green), var(--accent-cyan))';
+      }
+    }
+
+    // Run on page load
+    checkAuth();
+
+    // Auth Modal Functions
+    function openAuthModal(tabName = 'login') {
+      const modal = document.getElementById('authModal');
+      if (modal) {
+        modal.classList.add('active');
+        // Switch to the specified tab
+        if (tabName === 'register') {
+          document.querySelectorAll('.auth-tab').forEach(t => {
+            if (t.dataset.tab === 'register') {
+              t.click();
+            }
+          });
+        }
+      }
+    }
+
+    function closeAuthModal() {
+      const modal = document.getElementById('authModal');
+      if (modal) {
+        modal.classList.remove('active');
+      }
+    }
+
+    // Tab switching
+    document.querySelectorAll('.auth-tab').forEach(tab => {
+      tab.addEventListener('click', () => {
+        const tabName = tab.dataset.tab;
+        document.querySelectorAll('.auth-tab').forEach(t => t.classList.remove('active'));
+        document.querySelectorAll('.auth-tab-content').forEach(t => t.classList.remove('active'));
+        tab.classList.add('active');
+        document.getElementById(tabName + 'Tab').classList.add('active');
+      });
+    });
+
+    // Close modal handlers
+    document.querySelector('.auth-close')?.addEventListener('click', closeAuthModal);
+    document.getElementById('authModal')?.addEventListener('click', (e) => {
+      if (e.target.id === 'authModal') closeAuthModal();
+    });
+
+    // Form submissions
+    document.getElementById('loginForm')?.addEventListener('submit', (e) => {
+      e.preventDefault();
+      alert('Funcionalidad de login en desarrollo');
+    });
+
+    document.getElementById('registerForm')?.addEventListener('submit', (e) => {
+      e.preventDefault();
+      alert('Funcionalidad de registro en desarrollo');
+    });
+
+    // Open tool with authentication check
+    function openTool(toolName) {
+      const toolUrls = {
+        'ghost-studio': 'http://localhost:3002',
+        'archivo': 'http://localhost:3003',
+        'generator': 'http://localhost:3004',
+        'nova-post': 'http://localhost:3005',
+        'clone-station': 'http://localhost:3006'
+      };
+
+      const requiresAuth = ['generator', 'nova-post']; // Tools that need authentication
+      const token = localStorage.getItem('token');
+
+      if (requiresAuth.includes(toolName) && !token) {
+        alert('🔐 Debes iniciar sesión para usar esta herramienta');
+        handleGoogleSignIn();
+        return;
+      }
+
+      window.open(toolUrls[toolName], '_blank');
+    }
+  </script>
+</body>
+</html>

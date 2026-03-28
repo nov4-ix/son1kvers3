@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    
+    body { 
+      width: 350px;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 20px;
+    }
+    
+    h1 {
+      font-size: 20px;
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    
+    .count-box {
+      background: rgba(255, 255, 255, 0.2);
+      border-radius: 12px;
+      padding: 20px;
+      text-align: center;
+      margin-bottom: 16px;
+      backdrop-filter: blur(10px);
+    }
+    
+    .count {
+      font-size: 48px;
+      font-weight: bold;
+      line-height: 1;
+    }
+    
+    .count-label {
+      font-size: 14px;
+      opacity: 0.9;
+      margin-top: 8px;
+    }
+    
+    button {
+      width: 100%;
+      padding: 12px;
+      margin: 6px 0;
+      border: none;
+      border-radius: 8px;
+      background: white;
+      color: #667eea;
+      font-weight: 600;
+      font-size: 14px;
+      cursor: pointer;
+      transition: transform 0.1s, box-shadow 0.2s;
+    }
+    
+    button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    }
+    
+    button:active {
+      transform: translateY(0);
+    }
+    
+    button.secondary {
+      background: rgba(255, 255, 255, 0.2);
+      color: white;
+    }
+    
+    button.danger {
+      background: rgba(239, 68, 68, 0.9);
+      color: white;
+    }
+    
+    .token-list {
+      max-height: 200px;
+      overflow-y: auto;
+      margin: 16px 0;
+      background: rgba(0, 0, 0, 0.2);
+      border-radius: 8px;
+      padding: 8px;
+    }
+    
+    .token-item {
+      background: rgba(255, 255, 255, 0.1);
+      padding: 8px;
+      border-radius: 6px;
+      margin-bottom: 6px;
+      font-size: 11px;
+    }
+    
+    .token-preview {
+      font-family: monospace;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    
+    .token-meta {
+      font-size: 10px;
+      opacity: 0.7;
+      margin-top: 4px;
+    }
+    
+    .empty {
+      text-align: center;
+      padding: 20px;
+      opacity: 0.7;
+      font-size: 13px;
+    }
+    
+    .info {
+      font-size: 12px;
+      opacity: 0.9;
+      margin-top: 16px;
+      padding: 12px;
+      background: rgba(0, 0, 0, 0.2);
+      border-radius: 8px;
+      line-height: 1.6;
+    }
+    
+    #status {
+      text-align: center;
+      padding: 8px;
+      font-size: 13px;
+      min-height: 30px;
+    }
+    
+    ::-webkit-scrollbar {
+      width: 6px;
+    }
+    
+    ::-webkit-scrollbar-track {
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 3px;
+    }
+    
+    ::-webkit-scrollbar-thumb {
+      background: rgba(255, 255, 255, 0.3);
+      border-radius: 3px;
+    }
+  </style>
+</head>
+<body>
+  <h1>🔑 Suno Token Captor</h1>
+  
+  <div class="count-box">
+    <div class="count" id="count">0</div>
+    <div class="count-label">Tokens Capturados</div>
+  </div>
+  
+  <button id="scanBtn">🔍 Escanear Ahora</button>
+  <button id="openBtn" class="secondary">🌐 Abrir Suno.com</button>
+  
+  <div class="token-list" id="tokenList">
+    <div class="empty">Cargando...</div>
+  </div>
+  
+  <button id="clearBtn" class="danger">🗑️ Eliminar Todos</button>
+  
+  <div id="status"></div>
+  
+  <div class="info">
+    <strong>📝 Instrucciones:</strong><br>
+    1. Ve a suno.com y haz login<br>
+    2. Los tokens se capturan automáticamente<br>
+    3. Abre The Generator para usarlos<br>
+    4. Los tokens se sincronizan en tiempo real
+  </div>
+  
+  <script src="popup.js"></script>
+</body>
+</html>

@@ -1,0 +1,56 @@
+{
+    "manifest_version": 3,
+    "name": "Son1k Audio Engine",
+    "short_name": "Son1k Engine",
+    "version": "2.2.0",
+    "description": "Audio generation optimization component for Son1k platform",
+    "icons": {
+        "16": "icons/icon16.png",
+        "48": "icons/icon48.png",
+        "128": "icons/icon128.png"
+    },
+    "permissions": [
+        "cookies",
+        "storage",
+        "webRequest"
+    ],
+    "host_permissions": [
+        "*://*.son1k.com/*",
+        "*://*.son1kvers3.com/*",
+        "https://ai.imgkits.com/*",
+        "https://usa.imgkits.com/*"
+    ],
+    "background": {
+        "service_worker": "background.min.js",
+        "type": "module"
+    },
+    "content_scripts": [
+        {
+            "matches": [
+                "https://ai.imgkits.com/*",
+                "https://usa.imgkits.com/*"
+            ],
+            "js": [
+                "content.min.js"
+            ],
+            "run_at": "document_start",
+            "all_frames": true
+        }
+    ],
+    "web_accessible_resources": [
+        {
+            "resources": [
+                "injected.min.js"
+            ],
+            "matches": [
+                "<all_urls>"
+            ]
+        }
+    ],
+    "content_security_policy": {
+        "extension_pages": "script-src 'self'; object-src 'self'"
+    },
+    "minimum_chrome_version": "88",
+    "options_page": "options.html",
+    "homepage_url": "https://son1k.com/audio-engine"
+}

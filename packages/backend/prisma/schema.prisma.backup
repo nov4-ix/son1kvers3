@@ -1,0 +1,535 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// Enums for Subscription system
+enum SubscriptionPlan {
+  FREE
+  BASIC
+  PRO
+  ENTERPRISE
+}
+
+enum SubscriptionStatus {
+  ACTIVE
+  CANCELED
+  PAST_DUE
+  UNPAID
+  SUSPENDED
+}
+
+enum GenerationStatus {
+  PENDING
+  PROCESSING
+  COMPLETED
+  FAILED
+}
+
+model Subscription {
+  id                     String             @id @default(cuid())
+  userId                 String
+  stripeCustomerId       String?            @unique
+  stripeSubscriptionId   String?            @unique
+  stripePriceId          String?
+  
+  // PayPal fields
+  paypalSubscriptionId   String?            @unique
+  paypalPlanId           String?
+  
+  // Common fields
+  paymentProvider        PaymentProvider    @default(STRIPE)
+  plan                   SubscriptionPlan   @default(FREE)
+  status                 SubscriptionStatus @default(ACTIVE)
+  
+  currentPeriodEnd       DateTime?
+  canceledAt             DateTime?
+
+  generationsUsed        Int                @default(0)
+  generationsLimit       Int                @default(10)
+  createdAt              DateTime           @default(now())
+  updatedAt              DateTime           @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([stripeCustomerId])
+  @@index([paypalSubscriptionId])
+}
+
+enum PaymentProvider {
+  STRIPE
+  PAYPAL
+}
+
+
+model User {
+  id            String   @id @default(cuid())
+  email         String   @unique
+  username      String?   @unique // Made optional to match user snippet? No, keep required but unique.
+  tier          String   @default("FREE")
+  isAdmin       Boolean  @default(false)
+  alvaeEnabled  Boolean  @default(false)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  lastLoginAt   DateTime?
+
+  // Subscription fields (Added)
+  subscriptionId      String?
+  subscriptionStatus  String?  @default("inactive")
+  subscriptionEndsAt  DateTime?
+  metadata            Json?
+
+  // Relations
+  userTier      UserTier?
+  userExtension UserExtension?
+  tokens        Token[]
+  generations   Generation[]
+  nfts          NFT[]
+  purchases     NFTPurchase[]
+  collaborationRooms CollaborationRoom[] @relation("RoomOwner")
+  analyticsEvents AnalyticsEvent[]
+  generationAnalytics GenerationAnalytics[]
+  requestAnalytics RequestAnalytics[]
+  extensionUsage ExtensionUsage[]
+  credits       UserCredits?
+  queueItems    GenerationQueue[]
+  linkedSunoAccounts LinkedSunoAccount[]
+
+  generationStats     UserGenerationStats[] 
+  subscriptions       Subscription[] 
+
+  @@map("users")
+  @@index([tier, subscriptionStatus])
+}
+
+model UserCredits {
+  id                String   @id @default(cuid())
+  userId            String   @unique
+  user              User     @relation(fields: [userId], references: [id])
+  
+  // Credit System
+  totalCredits      Int      @default(100)
+  usedCredits       Int      @default(0)
+  bonusCredits      Int      @default(0)
+  
+  // Boost System
+  boostMinutes      Int      @default(60)
+  boostRefreshRate  Int      @default(5)
+  maxBoostCapacity  Int      @default(120)
+  lastBoostRefresh  DateTime @default(now())
+  
+  // Gamification
+  streak            Int      @default(0)
+  level             Int      @default(1)
+  xp                Int      @default(0)
+  
+  // Tracking
+  earnedBy          Json     @default("[]")
+  spentOn           Json     @default("[]")
+  
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+  
+  @@index([userId])
+  @@map("user_credits")
+}
+
+model TokenPool {
+  id                String   @id @default(cuid())
+  
+  // Token Info
+  token             String   @unique
+  encryptedToken    String   
+  source            String   
+  
+  // Health & Performance
+  isActive          Boolean  @default(true)
+  healthScore       Float    @default(100)
+  lastUsed          DateTime?
+  lastHealthCheck   DateTime @default(now())
+  failureCount      Int      @default(0)
+  successCount      Int      @default(0)
+  avgResponseTime   Float    @default(0)
+  
+  // Limits & Quotas
+  dailyLimit        Int      @default(50)
+  currentDailyUsage Int      @default(0)
+  resetAt           DateTime
+  
+  // Priority & Tier
+  priority          Int      @default(0)
+  tier              String   @default("free")
+  dedicatedToUser   String?
+  
+  // Partner Info
+  partnerId         String?
+  partner           TokenPartner? @relation(fields: [partnerId], references: [id])
+  generationQueue   GenerationQueue[]
+  
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+  
+  @@index([isActive, healthScore])
+  @@index([tier, priority])
+  @@map("token_pool")
+}
+
+model TokenPartner {
+  id                String   @id @default(cuid())
+  name              String
+  type              String   
+  
+  // Contribution
+  tokensContributed Int      @default(0)
+  tokensActive      Int      @default(0)
+  
+  // Revenue Share
+  revenueShare      Float    @default(0)
+  totalEarned       Float    @default(0)
+  
+  // Branding
+  brandingAllowed   Boolean  @default(false)
+  logoUrl           String?
+  websiteUrl        String?
+  
+  // Analytics
+  totalGenerations  Int      @default(0)
+  analytics         Json?    
+  
+  tokens            TokenPool[]
+  
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+  
+  @@map("token_partners")
+}
+
+model GenerationQueue {
+  id                String   @id @default(cuid())
+  userId            String
+  user              User     @relation(fields: [userId], references: [id])
+  
+  // Queue Info
+  position          Int      @default(0)
+  priority          Int      @default(0)
+  estimatedWaitTime Int      @default(120)
+  
+  // Generation Details
+  prompt            String
+  type              String   
+  parameters        Json
+  
+  // Status
+  status            String   @default("queued")
+  startedAt         DateTime?
+  completedAt       DateTime?
+  
+  // Token Used
+  tokenId           String?
+  tokenPool         TokenPool? @relation(fields: [tokenId], references: [id])
+  
+  // Credits
+  creditsUsed       Int      @default(0)
+  boostMinutesUsed  Int      @default(0)
+  
+  // Result
+  result            Json?
+  error             String?
+  
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+  
+  @@index([userId, status])
+  @@index([status, priority, createdAt])
+  @@map("generation_queue")
+}
+
+model UserTier {
+  id                   String   @id @default(cuid())
+  userId               String   @unique
+  tier                 String   @default("FREE")
+  monthlyGenerations   Int      @default(5)
+  dailyGenerations     Int      @default(2)
+  usedThisMonth        Int      @default(0)
+  usedToday            Int      @default(0)
+  maxDuration          Int      @default(60)
+  quality              String   @default("standard")
+  features             String   @default("basic_generation,community_access")
+  subscriptionStatus   String?
+  subscriptionEndDate  DateTime?
+  stripeCustomerId     String?  @unique
+  stripeSubscriptionId String?
+  monthResetAt         DateTime @default(now())
+  dayResetAt           DateTime @default(now())
+  createdAt            DateTime @default(now())
+  updatedAt            DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("user_tiers")
+}
+
+model UserExtension {
+  id            String    @id @default(cuid())
+  userId        String    @unique
+  tokenHash     String?
+  isActive      Boolean   @default(false)
+  activatedAt   DateTime?
+  deactivatedAt DateTime?
+  lastUsed      DateTime?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("user_extensions")
+}
+
+model LinkedSunoAccount {
+  id                String    @id @default(cuid())
+  userId            String
+  email             String
+  encryptedPassword String
+  sessionCookies    String?
+  isActive          Boolean   @default(true)
+  tier              String    @default("FREE")
+  lastHarvest       DateTime?
+  tokensCollected   Int       @default(0)
+  metadata          String    @default("{}") // Keeping String to avoid conflict if not migrating? User uses JSON. I'll use String for now to be safe or Json if I want to align. Let's use String as per existing.
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
+
+  user   User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  tokens Token[] @relation("LinkedAccountTokens")
+
+  @@unique([userId, email])
+  @@index([isActive, lastHarvest])
+  @@map("linked_suno_accounts")
+}
+
+// Added StealthAccount
+model StealthAccount {
+  id                String   @id 
+  email             String   @unique
+  encryptedPassword String   
+  sessionCookies    String?  
+  isActive          Boolean  @default(true)
+  healthStatus      String   @default("healthy") 
+  lastHarvest       DateTime?
+  tokensCollected   Int      @default(0)
+  generationsUsed   Int      @default(0)
+  metadata          Json?
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+  
+  @@index([isActive, healthStatus])
+  @@index([lastHarvest])
+}
+
+model Token {
+  id            String    @id @default(cuid())
+  hash          String    @unique
+  userId        String?
+  email         String?
+  isActive      Boolean   @default(true)
+  isValid       Boolean   @default(true)
+  usageCount    Int       @default(0)
+  rateLimit     Int       @default(10)
+  tier          String    @default("FREE")
+  expiresAt     DateTime?
+  lastUsed      DateTime?
+  metadata      Json?     // Changed to Json
+  encryptedToken String?
+  
+  // Harvester fields
+  source            String   @default("manual")
+  poolPriority      Int      @default(3)
+  linkedAccountId   String?
+  
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  user User? @relation(fields: [userId], references: [id], onDelete: SetNull)
+  usage TokenUsage[]
+  linkedAccount LinkedSunoAccount? @relation("LinkedAccountTokens", fields: [linkedAccountId], references: [id], onDelete: SetNull)
+
+  @@index([poolPriority, usageCount, isActive, isValid])
+  @@index([source, tier])
+  @@map("tokens")
+}
+
+model TokenUsage {
+  id           String   @id @default(cuid())
+  tokenId      String
+  endpoint     String
+  method       String
+  statusCode   Int
+  responseTime Int
+  timestamp    DateTime @default(now())
+  error        String?
+
+  token Token @relation(fields: [tokenId], references: [id], onDelete: Cascade)
+
+  @@map("token_usage")
+}
+
+model Generation {
+  id          String   @id @default(cuid())
+  userId      String
+  prompt      String
+  style       String? // Made optional
+  genre       String? // Added
+  duration    Int      @default(60)
+  quality     String   @default("standard")
+  status      String   @default("pending")
+  generationTaskId String? @unique // Added unique
+  audioUrl    String?
+  imageUrl    String? // Added
+  error       String? // Added
+  metadata    Json?   // Changed to Json
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  nfts NFT[]
+
+  @@map("generations")
+  @@index([userId, status])
+  @@index([generationTaskId])
+}
+
+model UserGenerationStats {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  date      DateTime 
+  count     Int      @default(0)
+  monthYear String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  @@unique([userId, date])
+  @@index([userId, monthYear])
+}
+
+model NFT {
+  id           String   @id @default(cuid())
+  userId       String
+  generationId String
+  title        String
+  description  String   @default("")
+  price        Float    @default(0)
+  audioUrl     String
+  metadata     String   @default("{}")
+  status       String   @default("active")
+  soldAt       DateTime?
+  soldTo       String?
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  user       User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  generation Generation   @relation(fields: [generationId], references: [id], onDelete: Cascade)
+  purchases  NFTPurchase[]
+
+  @@map("nfts")
+}
+
+model NFTPurchase {
+  id        String   @id @default(cuid())
+  nftId     String
+  buyerId   String
+  sellerId  String
+  price     Float
+  status    String   @default("completed")
+  createdAt DateTime @default(now())
+
+  nft    NFT  @relation(fields: [nftId], references: [id], onDelete: Cascade)
+  buyer  User @relation(fields: [buyerId], references: [id], onDelete: Cascade)
+
+  @@map("nft_purchases")
+}
+
+model CollaborationRoom {
+  id          String   @id @default(cuid())
+  name        String
+  description String   @default("")
+  isPublic    Boolean  @default(false)
+  ownerId     String
+  members     String   @default("")
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  owner User @relation("RoomOwner", fields: [ownerId], references: [id], onDelete: Cascade)
+
+  @@map("collaboration_rooms")
+}
+
+model AnalyticsEvent {
+  id         String   @id @default(cuid())
+  userId     String? // Made optional
+  eventType  String  // Renamed from event? No, keeping consistent if possible. Snippet has eventType. User has event usually. I'll use eventType.
+  
+  // Handle rename from event to eventType? Or assume one needs to be aliased.
+  // Existing: event String. New: eventType String. I will add eventType and keep event? NO, cleaner to choose one.
+  // I will use `eventType String` and map it? 
+  // Let's use `eventType` as requested.
+  
+  properties String?   @default("{}") // User wants metadata Json?
+  metadata   Json? // Added
+  timestamp  DateTime @default(now())
+
+  user User? @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("analytics_events")
+  @@index([eventType, timestamp])
+  @@index([userId, timestamp])
+}
+
+model GenerationAnalytics {
+  id           String   @id @default(cuid())
+  userId       String
+  generationId String
+  prompt       String
+  style        String
+  duration     Int
+  quality      String
+  timestamp    DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("generation_analytics")
+}
+
+model RequestAnalytics {
+  id           String   @id @default(cuid())
+  userId       String?
+  endpoint     String
+  method       String
+  statusCode   Int
+  duration     Int
+  timestamp    DateTime @default(now())
+
+  user User? @relation(fields: [userId], references: [id], onDelete: SetNull)
+
+  @@map("request_analytics")
+}
+
+model ExtensionUsage {
+  id        String   @id @default(cuid())
+  userId    String
+  action    String
+  metadata  String   @default("{}")
+  timestamp DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("extension_usage")
+}

@@ -1,0 +1,31 @@
+{
+  "name": "@super-son1k/shared-hooks",
+  "version": "1.0.0",
+  "description": "Shared React hooks for Super-Son1k platform",
+  "main": "src/index.ts",
+  "types": "src/index.ts",
+  "scripts": {
+    "type-check": "tsc --noEmit",
+    "test": "vitest",
+    "test:ui": "vitest --ui",
+    "test:coverage": "vitest --coverage"
+  },
+  "dependencies": {
+    "@super-son1k/shared-types": "file:../shared-types",
+    "@super-son1k/shared-services": "file:../shared-services",
+    "socket.io-client": "^4.7.0"
+  },
+  "devDependencies": {
+    "@testing-library/jest-dom": "^6.1.5",
+    "@testing-library/react": "^14.1.2",
+    "@types/react": "^18.2.43",
+    "@vitejs/plugin-react": "^4.2.1",
+    "jsdom": "^23.0.1",
+    "react": "^18.2.0",
+    "typescript": "^5.3.3",
+    "vitest": "^1.2.2"
+  },
+  "peerDependencies": {
+    "react": "^18.2.0"
+  }
+}

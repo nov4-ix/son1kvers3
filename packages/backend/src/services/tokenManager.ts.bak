@@ -1,0 +1,173 @@
+    }
+
+  /**
+   * Health check method for external services
+   */
+  async healthCheck(): Promise < boolean > {
+  try {
+    // Check database connection
+    await this.prisma.$queryRaw`SELECT 1`;
+
+    // Check Redis connection
+    if(this.redis) {
+  await this.redis.ping();
+}
+
+// Check if we have active tokens
+const activeTokens = await this.prisma.token.count({
+  where: { isActive: true, isValid: true }
+});
+
+return activeTokens > 0;
+    } catch (error) {
+  console.error('Token manager health check failed:', error);
+  return false;
+}
+  }
+
+  /**
+   * Get token pool statistics
+   */
+  async getPoolStats(): Promise < TokenPoolStats > {
+  try {
+    const totalTokens = await this.prisma.token.count();
+    const activeTokens = await this.prisma.token.count({
+      where: { isActive: true }
+    });
+    const healthyTokens = await this.prisma.token.count({
+      where: { isActive: true, isValid: true }
+    });
+
+    // Calculate average response time
+    const recentUsage = await this.prisma.tokenUsage.findMany({
+      where: {
+        timestamp: {
+          gte: new Date(Date.now() - 24 * 60 * 60 * 1000) // Last 24 hours
+        }
+      },
+      orderBy: { timestamp: 'desc' },
+      take: 1000
+    });
+
+    const averageResponseTime = recentUsage.length > 0
+      ? recentUsage.reduce((sum, usage) => sum + usage.responseTime, 0) / recentUsage.length
+      : 0;
+
+    const totalRequests = recentUsage.length;
+    const successRate = totalRequests > 0
+      ? (recentUsage.filter(usage => usage.statusCode >= 200 && usage.statusCode < 300).length / totalRequests) * 100
+      : 100;
+
+    return {
+      totalTokens,
+      activeTokens,
+      healthyTokens,
+      averageResponseTime,
+      totalRequests,
+      successRate
+    };
+  } catch(error) {
+    console.error('Failed to get pool stats:', error);
+    throw ErrorFactory.fromUnknown(error, 'Failed to get token pool statistics');
+  }
+}
+
+  /**
+   * Remove token from pool
+   */
+  async removeToken(tokenId: string): Promise < boolean > {
+  try {
+    // Update database
+    await this.prisma.token.update({
+      where: { id: tokenId },
+      data: { isActive: false }
+    });
+
+    // Remove from cache
+    this.tokens.delete(tokenId);
+    this.rateLimiters.delete(tokenId);
+
+    // Remove from Redis
+    if(this.redis) {
+  await this.redis.del(`token:${tokenId}:original`);
+}
+
+this.emit('tokenRemoved', { tokenId });
+
+return true;
+    } catch (error) {
+  this.emit('tokenError', { error, operation: 'removeToken', tokenId });
+  return false;
+}
+  }
+
+  /**
+   * Cleanup expired tokens
+   */
+  private async cleanupExpiredTokens() {
+  try {
+    const expiredTokens = await this.prisma.token.findMany({
+      where: {
+        expiresAt: {
+          lt: new Date()
+        },
+        isActive: true
+      }
+    });
+
+    for (const token of expiredTokens) {
+      await this.removeToken(token.id);
+    }
+
+    if (expiredTokens.length > 0) {
+      console.log(`Cleaned up ${expiredTokens.length} expired tokens`);
+    }
+  } catch (error) {
+    console.error('Token cleanup failed:', error);
+  }
+}
+
+  /**
+   * Handle token added event
+   */
+  private handleTokenAdded(data: { tokenId: string; tier: string; userId?: string }) {
+  console.log(`Token added: ${data.tokenId} (Tier: ${data.tier}, User: ${data.userId || 'System'})`);
+}
+
+  /**
+   * Handle token removed event
+   */
+  private handleTokenRemoved(data: { tokenId: string }) {
+  console.log(`Token removed: ${data.tokenId}`);
+}
+
+  /**
+   * Handle token error event
+   */
+  private handleTokenError(data: { error: any; operation: string; tokenId?: string; userId?: string }) {
+  console.error(`Token error in ${data.operation}:`, {
+    tokenId: data.tokenId,
+    userId: data.userId,
+    error: sanitizeForLogging(data.error)
+  });
+}
+
+  /**
+   * Close token manager and cleanup resources
+   */
+  async close() {
+  if (this.healthCheckInterval) {
+    clearInterval(this.healthCheckInterval);
+  }
+
+  if (this.cleanupInterval) {
+    clearInterval(this.cleanupInterval);
+  }
+
+  if (this.redis) {
+    await this.redis.quit();
+  }
+
+  await this.prisma.$disconnect();
+}
+}

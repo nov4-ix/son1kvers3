@@ -1,0 +1,13 @@
+
+> @super-son1k/shared-ui@1.0.0 type-check C:\Users\qrrom\Downloads\Sub-Son1k-2.3\Sub-Son1k-2.3\packages\shared-ui
+> tsc --noEmit
+
+src/components/MusicList.tsx(9,30): error TS2307: Cannot find module '@super-son1k/shared-hooks' or its corresponding type declarations.
+src/components/MusicList.tsx(11,33): error TS2307: Cannot find module '@super-son1k/shared-types' or its corresponding type declarations.
+src/components/MusicList.tsx(45,30): error TS7006: Parameter 't' implicitly has an 'any' type.
+src/components/MusicList.tsx(95,21): error TS7006: Parameter 'track' implicitly has an 'any' type.
+src/components/TrackItem.tsx(9,33): error TS2307: Cannot find module '@super-son1k/shared-types' or its corresponding type declarations.
+src/components/VirtualizedMusicList.tsx(9,30): error TS2307: Cannot find module '@super-son1k/shared-hooks' or its corresponding type declarations.
+src/components/VirtualizedMusicList.tsx(12,33): error TS2307: Cannot find module '@super-son1k/shared-types' or its corresponding type declarations.
+src/examples/MusicListExample.tsx(7,33): error TS2307: Cannot find module '@super-son1k/shared-types' or its corresponding type declarations.
+ ELIFECYCLE  Command failed with exit code 2.

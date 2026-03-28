@@ -1,0 +1,146 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+    font-feature-settings: "rlig" 1, "calt" 1;
+  }
+}
+
+@layer components {
+  .btn {
+    @apply inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none ring-offset-background;
+  }
+
+  .btn-primary {
+    @apply bg-primary text-primary-foreground hover:bg-primary/90;
+  }
+
+  .btn-secondary {
+    @apply bg-secondary text-secondary-foreground hover:bg-secondary/80;
+  }
+
+  .btn-ghost {
+    @apply hover:bg-accent hover:text-accent-foreground;
+  }
+
+  .btn-sm {
+    @apply h-9 px-3;
+  }
+
+  .btn-md {
+    @apply h-10 py-2 px-4;
+  }
+
+  .btn-lg {
+    @apply h-11 px-8;
+  }
+
+  .card {
+    @apply rounded-lg border bg-card text-card-foreground shadow-sm;
+  }
+
+  .input {
+    @apply flex h-10 w-full rounded-md border border-input bg-transparent px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50;
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+}
+
+/* Xentric Corp - Corporate Grayscale Theme */
+:root {
+  --background: #FFFFFF;
+  --foreground: #1A1A1A;
+  --card: #F5F5F5;
+  --card-foreground: #1A1A1A;
+  --popover: #FFFFFF;
+  --popover-foreground: #1A1A1A;
+  --primary: #2A2A2A;
+  --primary-foreground: #FFFFFF;
+  --secondary: #6B6B6B;
+  --secondary-foreground: #FFFFFF;
+  --muted: #E5E5E5;
+  --muted-foreground: #737373;
+  --accent: #404040;
+  --accent-foreground: #FFFFFF;
+  --destructive: #DC2626;
+  --destructive-foreground: #FFFFFF;
+  --border: #D4D4D4;
+  --input: #E5E5E5;
+  --ring: #404040;
+  --radius: 0.25rem;
+}
+
+/* Corporate Professional Styles */
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  letter-spacing: -0.01em;
+}
+
+/* Clean Corporate Header */
+.corporate-header {
+  background: linear-gradient(135deg, #2A2A2A 0%, #1A1A1A 100%);
+  border-bottom: 1px solid #D4D4D4;
+}
+
+/* Subtle Corporate Shadows */
+.corporate-shadow {
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1), 0 1px 2px rgba(0, 0, 0, 0.06);
+}
+
+.corporate-shadow-lg {
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+/* Professional Hover States */
+.corporate-hover {
+  transition: all 0.2s ease-in-out;
+}
+
+.corporate-hover:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+/* Static Logo - No Animations */
+.static-logo {
+  font-family: 'Inter', sans-serif;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  color: #FFFFFF;
+  transition: opacity 0.2s ease;
+}
+
+.static-logo:hover {
+  opacity: 0.85;
+}
+
+/* Minimal Grid Background */
+.minimal-grid {
+  background-image:
+    linear-gradient(rgba(212, 212, 212, 0.15) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(212, 212, 212, 0.15) 1px, transparent 1px);
+  background-size: 40px 40px;
+}
+
+/* Professional Card Styles */
+.professional-card {
+  background: white;
+  border: 1px solid #E5E5E5;
+  border-radius: 0.5rem;
+  transition: border-color 0.2s ease;
+}
+
+.professional-card:hover {
+  border-color: #B8B8B8;
+}

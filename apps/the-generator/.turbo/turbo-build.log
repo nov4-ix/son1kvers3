@@ -1,0 +1,24 @@
+
+> @super-son1k/the-generator@1.0.0 build C:\Users\qrrom\Downloads\Sub-Son1k-2.3\Sub-Son1k-2.3\apps\the-generator
+> vite build
+
+[36mvite v7.3.0 [32mbuilding client environment for production...[36m[39m
+transforming...
+[32m✓[39m 1945 modules transformed.
+[31m✗[39m Build failed in 1m 35s
+[31merror during build:
+[31m[vite]: Rollup failed to resolve import "@paypal/react-paypal-js" from "C:/Users/qrrom/Downloads/Sub-Son1k-2.3/Sub-Son1k-2.3/apps/the-generator/src/components/SmartPaymentSelector.tsx".
+This is most likely unintended because it can break your application at runtime.
+If you do want to externalize this module explicitly add it to
+`build.rollupOptions.external`[31m
+    at viteLog (file:///C:/Users/qrrom/Downloads/Sub-Son1k-2.3/Sub-Son1k-2.3/node_modules/.pnpm/vite@7.3.0_@types+node@20.19.27_tsx@3.14.0/node_modules/vite/dist/node/chunks/config.js:33634:57)
+    at file:///C:/Users/qrrom/Downloads/Sub-Son1k-2.3/Sub-Son1k-2.3/node_modules/.pnpm/vite@7.3.0_@types+node@20.19.27_tsx@3.14.0/node_modules/vite/dist/node/chunks/config.js:33668:73
+    at onwarn (file:///C:/Users/qrrom/Downloads/Sub-Son1k-2.3/Sub-Son1k-2.3/node_modules/.pnpm/@vitejs+plugin-react@4.7.0_vite@7.3.0/node_modules/@vitejs/plugin-react/dist/index.js:90:7)
+    at file:///C:/Users/qrrom/Downloads/Sub-Son1k-2.3/Sub-Son1k-2.3/node_modules/.pnpm/vite@7.3.0_@types+node@20.19.27_tsx@3.14.0/node_modules/vite/dist/node/chunks/config.js:33668:28
+    at onRollupLog (file:///C:/Users/qrrom/Downloads/Sub-Son1k-2.3/Sub-Son1k-2.3/node_modules/.pnpm/vite@7.3.0_@types+node@20.19.27_tsx@3.14.0/node_modules/vite/dist/node/chunks/config.js:33663:63)
+    at onLog (file:///C:/Users/qrrom/Downloads/Sub-Son1k-2.3/Sub-Son1k-2.3/node_modules/.pnpm/vite@7.3.0_@types+node@20.19.27_tsx@3.14.0/node_modules/vite/dist/node/chunks/config.js:33466:4)
+    at file:///C:/Users/qrrom/Downloads/Sub-Son1k-2.3/Sub-Son1k-2.3/node_modules/.pnpm/rollup@4.53.5/node_modules/rollup/dist/es/shared/node-entry.js:21004:32
+    at Object.logger [as onLog] (file:///C:/Users/qrrom/Downloads/Sub-Son1k-2.3/Sub-Son1k-2.3/node_modules/.pnpm/rollup@4.53.5/node_modules/rollup/dist/es/shared/node-entry.js:22891:9)
+    at ModuleLoader.handleInvalidResolvedId (file:///C:/Users/qrrom/Downloads/Sub-Son1k-2.3/Sub-Son1k-2.3/node_modules/.pnpm/rollup@4.53.5/node_modules/rollup/dist/es/shared/node-entry.js:21635:26)
+    at file:///C:/Users/qrrom/Downloads/Sub-Son1k-2.3/Sub-Son1k-2.3/node_modules/.pnpm/rollup@4.53.5/node_modules/rollup/dist/es/shared/node-entry.js:21593:26[39m
+ ELIFECYCLE  Command failed with exit code 1.

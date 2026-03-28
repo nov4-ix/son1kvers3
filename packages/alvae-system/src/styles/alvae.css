@@ -1,0 +1,73 @@
+/* ALVAE System Animations */
+
+@keyframes gradient-rotate {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+@keyframes orbit {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes orbit-reverse {
+  0% {
+    transform: rotate(360deg);
+  }
+  100% {
+    transform: rotate(0deg);
+  }
+}
+
+@keyframes pulse-slow {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.8;
+  }
+}
+
+.animate-gradient-rotate {
+  background-size: 200% 200%;
+  animation: gradient-rotate 3s ease infinite;
+}
+
+.animate-orbit {
+  animation: orbit 4s linear infinite;
+}
+
+.animate-orbit-reverse {
+  animation: orbit-reverse 4s linear infinite;
+}
+
+.animate-pulse-slow {
+  animation: pulse-slow 2s ease-in-out infinite;
+}
+
+/* ALVAE Glow effects */
+.alvae-glow-gold {
+  box-shadow: 0 0 20px rgba(255, 215, 0, 0.5),
+              0 0 40px rgba(255, 215, 0, 0.3);
+}
+
+.alvae-glow-cyan {
+  box-shadow: 0 0 20px rgba(0, 255, 231, 0.5),
+              0 0 40px rgba(0, 255, 231, 0.3);
+}
+
+.alvae-glow-magenta {
+  box-shadow: 0 0 20px rgba(184, 77, 255, 0.5),
+              0 0 40px rgba(184, 77, 255, 0.3);
+}

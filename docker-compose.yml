@@ -1,0 +1,236 @@
+# ═══════════════════════════════════════════════════════════════════════
+# SON1KVERS3 - Docker Compose
+# Version 4.0.0
+# Universe Master — Lo imperfecto también es sagrado ◯⚡
+# ═══════════════════════════════════════════════════════════════════════
+
+services:
+  # ═══════════════════════════════════════════════════════════════════════
+  # 🎵 MUSIC LAB - Motor de IA (Python)
+  # HeartMuLa + HAM - Generación musical con IA
+  # ═══════════════════════════════════════════════════════════════════════
+  music-lab:
+    build:
+      context: ./packages/music-lab
+      dockerfile: Dockerfile
+    container_name: son1k-music-lab
+    ports:
+      - "8001:8001"
+    environment:
+      - CUDA_VISIBLE_DEVICES=0
+      - MUSIC_LAB_MODE=production
+      - OUTPUT_DIR=/outputs
+    volumes:
+      - ./packages/music-lab:/app
+      - musiclab_outputs:/outputs
+      - musiclab_models:/models
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8001/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    networks:
+      - son1k-network
+
+  # ═══════════════════════════════════════════════════════════════════════
+  # 🔧 BACKEND API - Fastify + TypeScript
+  # API principal con WebSocket, Auth, Metrics
+  # ═══════════════════════════════════════════════════════════════════════
+  backend:
+    build:
+      context: .
+      dockerfile: packages/backend/Dockerfile
+    container_name: son1k-backend
+    ports:
+      - "3001:3001"
+    environment:
+      - NODE_ENV=production
+      - DATABASE_URL=${DATABASE_URL:-postgresql://postgres:postgres@postgres:5432/son1k}
+      - REDIS_URL=${REDIS_URL:-redis://redis:6379}
+      - MUSIC_LAB_URL=http://music-lab:8001
+      - ENABLE_MUSIC_LAB=true
+      - ENABLE_SUNO_FALLBACK=false
+      - JWT_SECRET=${JWT_SECRET:-change-this-in-production}
+      - GROQ_API_KEY=${GROQ_API_KEY}
+      - BARK_ENABLED=${BARK_ENABLED:-false}
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_started
+      music-lab:
+        condition: service_healthy
+    restart: unless-stopped
+    networks:
+      - son1k-network
+
+  # ═══════════════════════════════════════════════════════════════════════
+  # 🎨 FRONTEND - React + Vite
+  # The Generator - Interfaz principal
+  # ═══════════════════════════════════════════════════════════════════════
+  frontend:
+    build:
+      context: .
+      dockerfile: apps/the-generator/Dockerfile
+    container_name: son1k-frontend
+    ports:
+      - "5173:5173"
+    environment:
+      - VITE_API_URL=http://localhost:3001
+      - VITE_MUSIC_LAB_URL=http://localhost:8001
+    depends_on:
+      - backend
+    restart: unless-stopped
+    networks:
+      - son1k-network
+
+  # ═══════════════════════════════════════════════════════════════════════
+  # 🖥️ GHOST STUDIO - Editor de Stems
+  # Post-producción profesional
+  # ═══════════════════════════════════════════════════════════════════════
+  ghost-studio:
+    build:
+      context: .
+      dockerfile: apps/ghost-studio/Dockerfile
+    container_name: son1k-ghost-studio
+    ports:
+      - "5174:5173"
+    environment:
+      - VITE_API_URL=http://localhost:3001
+    depends_on:
+      - backend
+    restart: unless-stopped
+    networks:
+      - son1k-network
+
+  # ═══════════════════════════════════════════════════════════════════════
+  # 📱 NOVA POST PILOT - Automatización Social
+  # Distribución automática de contenido
+  # ═══════════════════════════════════════════════════════════════════════
+  nova-post-pilot:
+    build:
+      context: .
+      dockerfile: apps/nova-post-pilot/Dockerfile
+    container_name: son1k-nova-post-pilot
+    ports:
+      - "5175:5173"
+    environment:
+      - VITE_API_URL=http://localhost:3001
+      - TELEGRAM_BOT_TOKEN=${TELEGRAM_BOT_TOKEN}
+    depends_on:
+      - backend
+    restart: unless-stopped
+    networks:
+      - son1k-network
+
+  # ═══════════════════════════════════════════════════════════════════════
+  # 🗄️ POSTGRES DATABASE
+  # Base de datos principal
+  # ═══════════════════════════════════════════════════════════════════════
+  postgres:
+    image: postgres:15-alpine
+    container_name: son1k-postgres
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=son1k
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - son1k-network
+
+  # ═══════════════════════════════════════════════════════════════════════
+  # ⚡ REDIS - Caching & Queue
+  # Cache y cola de mensajes
+  # ═══════════════════════════════════════════════════════════════════════
+  redis:
+    image: redis:7-alpine
+    container_name: son1k-redis
+    command: redis-server --appendonly yes --maxmemory 256mb --maxmemory-policy allkeys-lru
+    volumes:
+      - redis_data:/data
+    restart: unless-stopped
+    networks:
+      - son1k-network
+
+  # ═══════════════════════════════════════════════════════════════════════
+  # 📊 PROMETHEUS - Monitoreo
+  # Métricas del sistema
+  # ═══════════════════════════════════════════════════════════════════════
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: son1k-prometheus
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./configs/prometheus.yml:/etc/prometheus/prometheus.yml
+      - prometheus_data:/prometheus
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+    restart: unless-stopped
+    networks:
+      - son1k-network
+
+  # ═══════════════════════════════════════════════════════════════════════
+  # 🌐 NGINX - Reverse Proxy
+  # Orquestación de servicios
+  # ═══════════════════════════════════════════════════════════════════════
+  nginx:
+    image: nginx:alpine
+    container_name: son1k-nginx
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./configs/nginx.conf:/etc/nginx/nginx.conf:ro
+    depends_on:
+      - backend
+      - frontend
+      - music-lab
+    restart: unless-stopped
+    networks:
+      - son1k-network
+
+# ═══════════════════════════════════════════════════════════════════════
+# VOLUMES
+# ═══════════════════════════════════════════════════════════════════════
+volumes:
+  musiclab_outputs:
+  musiclab_models:
+  postgres_data:
+  redis_data:
+  prometheus_data:
+
+# ═══════════════════════════════════════════════════════════════════════
+# NETWORKS
+# ═══════════════════════════════════════════════════════════════════════
+networks:
+  son1k-network:
+    driver: bridge
+
+# ═══════════════════════════════════════════════════════════════════════
+# NOTAS DE USO
+# ═══════════════════════════════════════════════════════════════════════
+#
+# 🚀 Inicio rápido:
+#   docker-compose up -d
+#
+# 📊 Ver logs:
+#   docker-compose logs -f
+#
+# 🔧 Escalar servicios:
+#   docker-compose up -d --scale backend=3
+#
+# 🧹 Limpiar:
+#   docker-compose down -v
+#
+# ◯⚡ SON1KVERS3 — Lo imperfecto también es sagrado
+# ═══════════════════════════════════════════════════════════════════════
